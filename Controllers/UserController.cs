@@ -28,9 +28,10 @@ namespace GleamBoutiqueProject.Controllers
         }
 
 
-        public IActionResult AddUser()
+        public IActionResult Checkout()
         {
-            return View();
+            User newUser = new User();
+            return View(newUser);
         }
         public IActionResult UserSign(User myUser)
         {
@@ -49,9 +50,9 @@ namespace GleamBoutiqueProject.Controllers
 
                     int rowsAffected = command.ExecuteNonQuery();
                     if (rowsAffected > 0)
-                        return View("UserPage", myUser);
+                        return View("index", myUser);
                     else
-                        return View("AddStudent", myUser);
+                        return View("SignInUp", myUser);
                 }
                 connection.Close();
             }
