@@ -27,12 +27,12 @@ namespace GleamBoutiqueProject.Controllers
             return View();
         }
 
-
-        public IActionResult Checkout()
+        public IActionResult SignInUp()
         {
             User newUser = new User();
             return View(newUser);
         }
+
         public IActionResult UserSign(User myUser)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

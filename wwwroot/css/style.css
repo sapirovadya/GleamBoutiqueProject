@@ -290,12 +290,12 @@ a {
 
     .btn.btn-secondary {
         color: #2f2f2f;
-        background: #f9bf29;
+        background: #6b5646;
         border-color: #f9bf29;
     }
 
         .btn.btn-secondary:hover {
-            background: #f8b810;
+            background: #6b5646;
             border-color: #f8b810;
         }
 
@@ -1041,3 +1041,9 @@ textarea {
         border-radius: 50%;
         background: rgba(59, 93, 80, 0.2);
     }
+
+.img-fluid.product-thumbnail {
+    border-radius: 20px; /* Adds rounded corners */
+}
+
+
