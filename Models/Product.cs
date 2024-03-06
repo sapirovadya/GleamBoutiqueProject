@@ -11,7 +11,7 @@ namespace GleamBoutiqueProject.Models
         [Key]
         [Required(ErrorMessage = "Catalog number is required ")]
         [RegularExpression("^#200[a-zA-Z]{0,3}$", ErrorMessage = "Catalog number must start with #200")]
-        public int Pid { get; set; }
+        public string Pid { get; set; }
 
         [Required(ErrorMessage = "Product name is required")]
         [StringLength(12, MinimumLength = 2, ErrorMessage = "Product name must be between 2-12 letters")]
@@ -32,19 +32,13 @@ namespace GleamBoutiqueProject.Models
         [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Category name should contain only letters")]
         public string category { get; set; }
 
-        [Required(ErrorMessage = "Release Date is required")]
-        public DateTime Release_Date { get; set; }
+        
+        
 
         [Required(ErrorMessage = "Product Matrial is required")]
         public string Matrial { get; set; }
         public int Sale_price { get; set; }
         public int karat { get; set; }
-        public int ProImage { get; set; }
-
-
-
+        public string ProImage { get; set; }
     }
-
-
-
 }

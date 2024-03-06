@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model GleamBoutiqueProject.ViewModel.ProductViewModel
+
+<h1> our product list</h1>
+<table>
+    <tr>
+        <th> Pid</th>
+        <th> PName</th>
+        <th> OriginPrice</th>
+        <th> Amount</th>
+        <th> Notify_Count</th>
+    </tr>
+
+    @foreach (Product pro in Model.productsList)
+    {
+        <tr>
+            <td> @pro.Pid</td>
+            <td> @pro.PName</td>
+            <td> @pro.OriginPrice</td>
+            <td> @pro.Amount</td>
+            <td> @pro.Notify_Count</td>
+        </tr>
+    }
+</table>

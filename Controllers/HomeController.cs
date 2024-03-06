@@ -28,10 +28,10 @@ namespace GleamBoutiqueProject.Controllers
         //    return View();
         //}
 
-        public IActionResult shop()
-        {
-            return View();
-        }
+        
+        
+        
+        
 
         [Route("")]
         public IActionResult HomePage()
