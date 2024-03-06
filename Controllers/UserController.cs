@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
- using GleamBoutiqueProject.Models;
+using GleamBoutiqueProject.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
