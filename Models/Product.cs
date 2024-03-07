@@ -36,7 +36,7 @@ namespace GleamBoutiqueProject.Models
         
 
         [Required(ErrorMessage = "Product Matrial is required")]
-        public string Matrial { get; set; }
+        public string Material { get; set; }
         public int Sale_price { get; set; }
         public int karat { get; set; }
         public string ProImage { get; set; }

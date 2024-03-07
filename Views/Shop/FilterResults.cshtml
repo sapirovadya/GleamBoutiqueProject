@@ -1,0 +1,39 @@
+﻿<form action="/products/filter" method="GET">
+    <fieldset>
+        <legend>Category:</legend>
+        <input type="checkbox" id="necklace" name="category" value="necklace">
+        <label for="necklace">Necklaces</label><br>
+
+        <input type="checkbox" id="bracelet" name="category" value="bracelet">
+        <label for="bracelet">Bracelets</label><br>
+
+        <input type="checkbox" id="earrings" name="category" value="earrings">
+        <label for="earrings">Earrings</label><br>
+
+        <input type="checkbox" id="ring" name="category" value="ring">
+        <label for="ring">Rings</label><br>
+    </fieldset><br>
+
+    <fieldset>
+        <legend>Material:</legend>
+        <input type="checkbox" id="gold" name="material" value="gold">
+        <label for="gold">Gold</label><br>
+
+        <input type="checkbox" id="silver" name="material" value="silver">
+        <label for="silver">Silver</label><br>
+    </fieldset><br>
+
+    <fieldset>
+        <legend>Karat:</legend>
+        <input type="checkbox" id="karat14" name="karat" value="14">
+        <label for="karat14">14 karat</label><br>
+
+        <input type="checkbox" id="karat18" name="karat" value="18">
+        <label for="karat18">18 karat</label><br>
+    </fieldset><br>
+
+    <label for="salePrice">On Sale:</label>
+    <input type="checkbox" id="salePrice" name="salePrice" value="1">
+
+    <button type="submit">Filter</button>
+</form>

@@ -10,5 +10,6 @@ namespace GleamBoutiqueProject.ViewModel
     {
         public Product product { get; set; }
         public List<Product> productsList { get; set; }
+        public List<Product> cartProducts { get; set; }
     }
 }
