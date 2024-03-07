@@ -32,9 +32,6 @@ namespace GleamBoutiqueProject.Models
         [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Category name should contain only letters")]
         public string category { get; set; }
 
-        
-        
-
         [Required(ErrorMessage = "Product Matrial is required")]
         public string Matrial { get; set; }
         public int Sale_price { get; set; }

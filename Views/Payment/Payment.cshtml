@@ -1,4 +1,6 @@
 ﻿
+@model GleamBoutiqueProject.Models.Payment
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,7 +17,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-    <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+
+
+    @{
+        ViewData["Title"] = "Payment";
+    }
+
 </head>
 
 <body>
@@ -184,83 +191,58 @@
                                     </tbody>
                                 </table>
 
-                                <!--
-                                <div class="border p-3 mb-3" id="creditCard">
-                                    <h3 class="h6 mb-0">
-                                        <a class="d-block" data-bs-toggle="collapse" href="#collapsecreditcard" role="button" aria-expanded="false" aria-controls="collapsecreditcard">
-                                            Credit Card Payment
-                                        </a>
-                                    </h3>
-                                    <!--The textbox of credit card payments
-                                    <div class="form-group">
-                                        <label for="creditCardNumber" class="text-black">Credit Card Number</label>
-                                        <input type="text" class="form-control" id="creditCardNumber" name="creditCardNumber">
+                                <form action="MakePayment" method="post">
+                                    <div class="border p-3 mb-5">
+                                        <h3 class="h6 mb-0">
+                                            <a class="d-block" data-bs-toggle="collapse" href="#collapsecreditcard" role="button" aria-expanded="false" aria-controls="collapsecreditcard" id="creditCardLink">
+                                                Credit Card Payment
+                                            </a>
+                                        </h3>
+                                        <!--The textbox of credit card payments -->
+                                        <div class="form-group">
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.CreditCardNumber)</div>
+                                            <label for="creditCardNumber" class="text-black">Credit Card Number:<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="creditCardNumber" name="CreditCardNumber" placeholder="0000 0000 0000 0000" value="@Model.CreditCardNumber" />
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.ExpiryDate)</div>
+                                            <label for="ExpiryDate" class="text-black">Expiry Date:<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="ExpiryDate" name="ExpiryDate" placeholder="MM/YY" value="@Model.ExpiryDate" />
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.CVV)</div>
+                                            <label for="SecurityNumber" class="text-black">CVV:<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SecurityNumber" name="CVV" placeholder="000" value="@Model.CVV" />
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.ID)</div>
+                                            <label for="IdOwner" class="text-black">ID:<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="IdOwner" name="ID" placeholder="000000000" value="@Model.ID" />
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.FullName)</div>
+                                            <label for="NameOwner" class="text-black">Full Name:<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="NameOwner" name="FullName" value="@Model.FullName" />
+                                        </div>
+
                                     </div>
 
-                                    <div class="collapse" id="collapsecreditcard">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                    <div class="border p-3 mb-5">
+                                        <h3 class="h6 mb-0">
+                                            <a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal" id="paypalLink">
+                                                Paypal
+                                            </a>
+                                        </h3>
+
+                                        <div class="collapse" id="collapsepaypal">
+                                            <div class="py-2">
+                                                <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="border p-3 mb-5" id="paypalDetails">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                                    <div class="collapse" id="collapsepaypal">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
+                                    <div class="input-group-append text-center">
+                                        <input class="btn btn-black btn-sm" type="submit" value="Place Order" />
                                     </div>
-                                </div>
-                                        -->
-
-                                <div class="border p-3 mb-5" id="creditCard">
-                                    <h3 class="h6 mb-0">
-                                        <a class="d-block" data-bs-toggle="collapse" href="#collapsecreditcard" role="button" aria-expanded="false" aria-controls="collapsecreditcard" id="creditCardLink">
-                                            Credit Card Payment
-                                        </a>
-                                    </h3>
-                                    <!--The textbox of credit card payments -->
-                                    <div class="form-group">
-                                        <label for="creditCardNumber" class="text-black">Credit Card Number:<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="creditCardNumber" name="creditCardNumber">
-                                        <label for="ExpiryDate" class="text-black">Expiry Date:<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="ExpiryDate" name="ExpiryDate">
-                                        <label for="SecurityNumber" class="text-black">CVV:<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="SecurityNumber" name="SecurityNumber">
-                                    </div>
+                                   <!-- <div class="form-group">
+                                        <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+                                    </div>  -->
+                                </form>
 
 
-                                    <!--
-                                    <div class="collapse" id="collapsecreditcard">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                        -->
-                                </div>
 
-                                <div class="border p-3 mb-5" id="paypalDetails">
-                                    <h3 class="h6 mb-0">
-                                        <a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal" id="paypalLink">
-                                            PayPal
-                                        </a>
-                                    </h3>
-
-                                    <!--The herf of Paypal payments -->
-
-                                    <div class="collapse" id="collapsepaypal">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
-                                </div>
 
                             </div>
                         </div>
@@ -417,7 +399,13 @@
         const expiryDateTextbox = document.getElementById('ExpiryDate');
         const SecurityNumberLabel = document.querySelector('label[for="SecurityNumber"]');
         const SecurityNumberTextbox = document.getElementById('SecurityNumber');
-        
+        const IdOwnerLabel = document.querySelector('label[for="IdOwner"]');
+        const IdOwnerTextbox = document.getElementById('IdOwner');
+        const NameOwnerLabel = document.querySelector('label[for="NameOwner"]');
+        const NameOwnerTextbox = document.getElementById('NameOwner');
+
+
+
 
         // Hide the credit card details textbox and its label by default
         creditCardLabel.style.display = 'none';
@@ -426,7 +414,10 @@
         expiryDateTextbox.style.display = 'none';
         SecurityNumberLabel.style.display = 'none';
         SecurityNumberTextbox.style.display = 'none';
-
+        IdOwnerLabel.style.display = 'none';
+        IdOwnerTextbox.style.display = 'none';
+        NameOwnerLabel.style.display = 'none';
+        NameOwnerTextbox.style.display = 'none';
 
 
         // Add event listener to the credit card link
@@ -436,8 +427,13 @@
             creditCardTextbox.style.display = 'block';
             expiryDateLabel.style.display = 'block';
             expiryDateTextbox.style.display = 'block';
+            SecurityNumberLabel.style.display = 'block';
             SecurityNumberTextbox.style.display = 'block';
-            SecurityNumberTextbox.style.display = 'block';
+            IdOwnerLabel.style.display = 'block';
+            IdOwnerTextbox.style.display = 'block';
+            NameOwnerLabel.style.display = 'block';
+            NameOwnerTextbox.style.display = 'block';
+
         });
 
         // Get reference to the PayPal link
@@ -452,6 +448,11 @@
             expiryDateTextbox.style.display = 'none';
             SecurityNumberLabel.style.display = 'none';
             SecurityNumberTextbox.style.display = 'none';
+            IdOwnerLabel.style.display = 'none';
+            IdOwnerTextbox.style.display = 'none';
+            NameOwnerLabel.style.display = 'none';
+            NameOwnerTextbox.style.display = 'none';
+
         });
     </script>
 
