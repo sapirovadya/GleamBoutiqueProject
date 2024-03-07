@@ -20,11 +20,11 @@ namespace GleamBoutiqueProject.Models
 
         [Key]
         [Required(ErrorMessage = "Email is required")]
-        [RegularExpression(@"^\w+([-+.']\w+)@\w+([-.]\w+)\.\w+([-.]\w+)*$", ErrorMessage = "Invalid email address")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
 
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "Password is required")]
         [StringLength(25, MinimumLength = 6, ErrorMessage = "Password must be between 6-25 letters")]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]*$", ErrorMessage = "Password must contain at least one lowercase letter, one uppercase letter, and one digit")]
         public string Password { get; set; }

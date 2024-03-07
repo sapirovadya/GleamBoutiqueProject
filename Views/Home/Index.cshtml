@@ -5,6 +5,8 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+@model GleamBoutiqueProject.Models.User
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -32,9 +34,9 @@
 
         <div class="container">
             <!--<a class="navbar-brand" href="index.html">GleamBoutique<span>.</span></a>-->
-           
+
             <a href="index.html"><img src="images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
-        
+
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -53,7 +55,8 @@
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
+
+                    <li><a class="nav-link" href="/User/SignIn"><img src="/images/user.svg"></a></li>
                     <li><a class="nav-link" href="cart.html"><img src="images/cart.svg"></a></li>
                 </ul>
             </div>
@@ -62,11 +65,21 @@
     </nav>
     <!-- End Header/Navigation -->
     <!-- Start Hero Section -->
+
     <div class="hero">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-lg-5">
                     <div class="intro-excerpt">
+                        @if (!string.IsNullOrEmpty(Model.FirstName) && !string.IsNullOrEmpty(Model.LastName))
+                        {
+                            <h2>Hello @Model.FirstName @Model.LastName</h2>
+                        }
+                        else
+                        {
+                            <h2>Hello Guest</h2>
+                        }
+
                         <h1 style="color: #6b5646; margin-bottom: 0; font-size: 55px; ">Gleam Boutique</h1>
                         <h3 style="color: #6b5646; margin-top: 0; margin-bottom: 20px; "><span class="d-block">Homemade Jewelry</span></h3>
 

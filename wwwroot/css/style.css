@@ -855,12 +855,6 @@ a {
     border-radius: 10px !important;
 }
 
-.footer-section .sofa-img {
-    position: absolute;
-    top: -200px;
-    z-index: 1;
-    right: 0;
-}
 
     .footer-section .sofa-img img {
         max-width: 380px;
@@ -884,7 +878,7 @@ a {
     font-size: 32px;
     font-weight: 500;
     text-decoration: none;
-    color: #3b5d50;
+    color: #000000
 }
 
 .footer-section .custom-social li {
@@ -904,12 +898,12 @@ a {
     }
 
         .footer-section .custom-social li a:hover {
-            background: #3b5d50;
+            background: #000000;
             color: #ffffff;
         }
 
 .footer-section .border-top {
-    border-color: #dce5e4;
+    border-color: #e6ddc5;
 }
 
     .footer-section .border-top.copyright {
@@ -918,6 +912,7 @@ a {
 
 .untree_co-section {
     padding: 7rem 0;
+   
 }
 
 .form-control {
