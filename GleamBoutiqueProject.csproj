@@ -10,5 +10,15 @@
 
   <ItemGroup>
     <Content Remove="Views\User\SignInUp.cshtml" />
+    <Content Remove="Views\Home\ManagerIndex.cshtml" />
+    <Content Remove="Views\Manager\AddProduct.cshtml" />
+    <Content Remove="ViewModel\RemoveProductViewModel.cshtml" />
+    <Content Remove="Views\Managers\RemoveProducts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\Managers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Managers\" />
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace GleamBoutiqueProject.Models
     {
         [Key]
         [Required(ErrorMessage = "Catalog number is required ")]
-        [RegularExpression("^#200[a-zA-Z]{0,3}$", ErrorMessage = "Catalog number must start with #200")]
+        //[RegularExpression("^#200[a-zA-Z]{0,2}$", ErrorMessage = "Catalog number must start with #200")]
         public string Pid { get; set; }
 
         [Required(ErrorMessage = "Product name is required")]
@@ -36,6 +36,5 @@ namespace GleamBoutiqueProject.Models
         public string Material { get; set; }
         public int Sale_price { get; set; }
         public int karat { get; set; }
-        public string ProImage { get; set; }
     }
 }

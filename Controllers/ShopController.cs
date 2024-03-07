@@ -32,7 +32,7 @@ namespace GleamBoutiqueProject.Controllers
         }
 
         public IActionResult Shop()
-        {            
+        {
             ProductViewModel proViewModel = new ProductViewModel();
             proViewModel.productsList = new List<Product>();
             proViewModel.cartProducts = new List<Product>();
@@ -68,7 +68,7 @@ namespace GleamBoutiqueProject.Controllers
                 }
                 connection.Close();
             }
-            return View("shop" , proViewModel);
+            return View("shop", proViewModel);
         }
 
 
@@ -358,8 +358,22 @@ namespace GleamBoutiqueProject.Controllers
                     // Adding parameters for categories
                     for (int i = 0; i < categories.Count; i++)
                     {
+<<<<<<< HEAD
                         command.Parameters.AddWithValue($"@category{i}", categories[i]);
                     }
+=======
+                        Product newProduct = new Product();
+                        newProduct.Pid = reader.GetString(0);
+                        newProduct.PName = reader.GetString(1);
+                        newProduct.OriginPrice = reader.GetInt32(2);
+                        newProduct.Amount = reader.GetInt32(3);
+                        newProduct.Notify_Count = reader.GetInt32(4);
+                        newProduct.category = reader.GetString(5);
+                        newProduct.Material = reader.GetString(6);
+                        newProduct.Sale_price = reader.GetInt32(7);
+                        newProduct.karat = reader.GetInt32(8);
+                        //newProduct.ProImage = reader.GetString(9);
+>>>>>>> May
 
                     for (int i = 0; i < materials.Count; i++)
                     {

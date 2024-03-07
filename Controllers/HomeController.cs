@@ -52,7 +52,11 @@ namespace GleamBoutiqueProject.Controllers
             return View("index", NewUser);
         }
 
-        
+        public IActionResult ManagerHome(User NewUser)
+        {
+            return View(NewUser);
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
