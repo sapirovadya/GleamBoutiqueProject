@@ -47,9 +47,9 @@
             <div class="collapse navbar-collapse" id="navbarsFurni">
                 <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item ">
-                        <a class="nav-link" href="../Home/HomePage">Home</a>
+                        <a class="nav-link" href="Home/HomePage">Home</a>
                     </li>
-                    <li class="active"><a class="nav-link" href="../Shop/Shop">Shop</a></li>
+                    <li class="active"><a class="nav-link" href="shop.html">Shop</a></li>
                     <li><a class="nav-link" href="about.html">About us</a></li>
                     <li><a class="nav-link" href="services.html">Services</a></li>
                     <li><a class="nav-link" href="blog.html">Blog</a></li>
@@ -58,7 +58,8 @@
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li><a class="nav-link" href="#"><img src="/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="/images/cart.svg"></a></li>
+                    <li><a class="nav-link" href="#" id="goBackButton"><img src="images/back.png"></a></li>
+
                 </ul>
             </div>
         </div>
@@ -217,6 +218,19 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
+
+    <script>document.addEventListener("DOMContentLoaded", function () {
+            // Get reference to the go back button
+            var goBackButton = document.getElementById("goBackButton");
+
+            // Add event listener for click event
+            goBackButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default anchor tag behavior
+
+                // Navigate back in the browser's history
+                window.history.back();
+            });
+        });</script>
 </body>
 
 </html>

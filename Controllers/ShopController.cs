@@ -32,7 +32,7 @@ namespace GleamBoutiqueProject.Controllers
         }
 
         public IActionResult Shop()
-        {            
+        {
             ProductViewModel proViewModel = new ProductViewModel();
             proViewModel.productsList = new List<Product>();
 
@@ -55,7 +55,7 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Amount = reader.GetInt32(3);
                         newProduct.Notify_Count = reader.GetInt32(4);
                         newProduct.category = reader.GetString(5);
-                        newProduct.Matrial = reader.GetString(6);
+                        newProduct.Material = reader.GetString(6);
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
                         //newProduct.ProImage = reader.GetString(9);
@@ -66,7 +66,7 @@ namespace GleamBoutiqueProject.Controllers
                 }
                 connection.Close();
             }
-            return View("shop" , proViewModel);
+            return View("shop", proViewModel);
         }
 
 
@@ -93,7 +93,7 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Amount = reader.GetInt32(3);
                         newProduct.Notify_Count = reader.GetInt32(4);
                         newProduct.category = reader.GetString(5);
-                        newProduct.Matrial = reader.GetString(6);
+                        newProduct.Material = reader.GetString(6);
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
                         //newProduct.ProImage = reader.GetString(9);

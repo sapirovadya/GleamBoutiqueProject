@@ -99,10 +99,16 @@ namespace GleamBoutiqueProject.Controllers
                             string password = reader.GetString(3);
                             if ((email == myUser.Email) && (password == myUser.Password))
                             {
-                                // Authentication successful
-
-                                connection.Close();// Redirect to the home page or perform other actions
-                                return RedirectToAction("Index", "Home", myUser);
+                                if (myUser.Email == "sapir@gmail.com" && myUser.Password == "s1234")
+                                {
+                                    connection.Close();
+                                    return RedirectToAction("ManagerHome", "Home",myUser);
+                                }
+                                else
+                                {
+                                    connection.Close();
+                                    return RedirectToAction("Index", "Home", myUser);
+                                }
                             }
                             else
                             {

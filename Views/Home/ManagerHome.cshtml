@@ -19,10 +19,10 @@
     <meta name="keywords" content="bootstrap, bootstrap4" />
 
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="css/tiny-slider.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/tiny-slider.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     <title>GleamBoutique</title>
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
 </head>
@@ -35,7 +35,7 @@
         <div class="container">
             <!--<a class="navbar-brand" href="index.html">GleamBoutique<span>.</span></a>-->
 
-            <a href="Home/HomePage"><img src="images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
+            <a href="index.html"><img src="images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
 
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,16 +48,16 @@
                         <a class="nav-link" href="/Home/HomePage">Home</a>
                     </li>
                     <li><a class="nav-link" href="/Shop/Shop">Shop</a></li>
-                    <li><a class="nav-link" href="about.html">About us</a></li>
-                    <li><a class="nav-link" href="services.html">Services</a></li>
-                    <li><a class="nav-link" href="blog.html">Blog</a></li>
-                    <li><a class="nav-link" href="contact.html">Contact us</a></li>
+                    <li><a class="nav-link" href="/Managers/AddProducts">Add Product</a></li>
+                    <li><a class="nav-link" href="/Managers/RemoveProductsS">Remove Product</a></li>
+                    <li><a class="nav-link" href="blog.html">Inventory</a></li>
+                    <li><a class="nav-link" href="contact.html">Edit Product</a></li>
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 
                     <li><a class="nav-link" href="/User/SignIn"><img src="/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="images/cart.svg"></a></li>
+                    <li><a class="nav-link" href="cart.html"><img src="/images/cart.svg"></a></li>
                 </ul>
             </div>
         </div>
@@ -71,14 +71,7 @@
             <div class="row justify-content-between">
                 <div class="col-lg-5">
                     <div class="intro-excerpt">
-                        @if (!string.IsNullOrEmpty(Model.FirstName) && !string.IsNullOrEmpty(Model.LastName))
-                        {
-                            <h2>Hello @Model.FirstName @Model.LastName</h2>
-                        }
-                        else
-                        {
-                            <h2>Hello Guest</h2>
-                        }
+                        <h2>Hello Manager</h2>
 
                         <h1 style="color: #6b5646; margin-bottom: 0; font-size: 55px; ">Gleam Boutique</h1>
                         <h3 style="color: #6b5646; margin-top: 0; margin-bottom: 20px; "><span class="d-block">Homemade Jewelry</span></h3>
