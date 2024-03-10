@@ -1,4 +1,10 @@
-﻿<!-- /*
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!-- /*
 * Bootstrap 5
 * Template Name: Furni
 * Template Author: Untree.co
@@ -6,7 +12,8 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 
-@model GleamBoutiqueProject.Models.Product
+@model GleamBoutiqueProject.ViewModel.RemoveProductViewModel
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,7 +34,7 @@
     <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
 
     @{
-    ViewData["Title"] = "Add product";
+        ViewData["Title"] = "Add product";
     }
 </head>
 
@@ -71,14 +78,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="intro-excerpt center">
-                        <h1>Add Product</h1>
+                        <h1>Edit Product</h1>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <form action="AddToData" method="post">
+    <form method="post" asp-action="ProductsDitailsS">
         <div class="untree_co-section">
             <div class="container">
                 <div class="row justify-content-center">
@@ -87,71 +94,41 @@
                         <div class="p-3 p-lg-5 border bg-white">
                             <div class="form-group row">
                                 <div class="col-md-9">
-                                    <div>
-                                        <!--//<div style="color:red;">@Html.ValidationMessageFor(x=>x.Pid)</div>-->
+                                    <table>
+                                        <tr>
+                                            <th>Catalog Number</th>
+                                            <th>Product Name</th>
+                                            <th>Original Price</th>
+                                            <th>Amount</th>
+                                            <th>Notify</th>
+                                            <th>Category</th>
+                                            <th>Material</th>
+                                            <th>Sale Price</th>
+                                            <th>Karat</th>
+                                        </tr>
+                                        @foreach (Product pro in Model.ProductsList)
+                                        {
+                                            <tr>
+                                                <td><a href="@Url.Action("ProductsDetailsS", "Managers", new { id = pro.Pid })">@pro.Pid</a></td>
+                                                <td>@pro.Pid</td>
+                                                <td>@pro.PName</td>
+                                                <td>@pro.OriginPrice</td>
+                                                <td>@pro.Amount</td>
+                                                <td>@pro.Notify_Count</td>
+                                                <td>@pro.category</td>
+                                                <td>@pro.Material</td>
+                                                <td>@pro.Sale_price</td>
+                                                <td>@pro.karat</td>
+                                            </tr>
+                                        }
+                                    </table>
 
-                                        <label for="Catalogy_number" class="text-black">Catalogy Number:</label>
-                                        <input type="text" class="form-control" name="Pid" value="@Model.Pid">
-                                        <span class="text-danger">@Html.ValidationMessageFor(x => x.Pid)</span>
-                                    </div>
-                                    <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.PName)</div>
-                                        <label for="PName" class="text-black">Product Name: <span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" name="PName" value="@Model.PName">
-                                    </div>
-                                    <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.OriginPrice)</div>
-                                        <label for="OriginPrice" class="text-black">Price: </label>
-                                        <input type="text" class="form-control" name="OriginPrice" value="@Model.OriginPrice">
-                                    </div>
-                                    <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.Amount)</div>
-                                        <label for="Amount" class="text-black">Units in Stock: <span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" name="Amount" value="@Model.Amount">
-                                    </div>
-                                    <div>
-                                        <label for="category" class="text-black">Category:</label>
-                                        <select name="category" class="form-control">
-                                            <option value="ring">Ring</option>
-                                            <option value="necklace">Necklace</option>
-                                            <option value="earrings">Earrings</option>
-                                            <option value="bracelet">Bracelet</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="Material" class="text-black">Material:</label>
-                                        <select id="materialSelect" name="Material" class="form-control">
-                                            <option value="gold">Gold</option>
-                                            <option value="silver">Silver</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <div style="color:red">@Html.ValidationMessageFor(x => x.Sale_price)</div>
-                                        <label for="Sale_price" class="text-black">Price after discount:<span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" name="Sale_price" value="@Model.Sale_price" />
-                                    </div>
-
-
-                                    <div id="karatSelect">
-                                        <label id="karatSelect" for="karat" class="text-black">Karat:</label>
-                                        <select id="karatSelect" name="karat" class="form-control">
-                                            <option value="14">14</option>
-                                            <option value="18">18</option>
-                                        </select>
-                                    </div>
 
                                 </div>
-                            </div>
-                            </br>
-                            <div class="input-group-append text-center">
-                                <input class="btn btn-black btn-sm" type="submit" value="Add" />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </form>
 
 
@@ -249,38 +226,24 @@
         }</script>
 
     <script>document.addEventListener("DOMContentLoaded", function () {
-            // Get reference to the go back button
-            var goBackButton = document.getElementById("goBackButton");
+            // Get all the rows with the class "product-row"
+            var productRows = document.querySelectorAll(".product-row");
 
-            // Add event listener for click event
-            goBackButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent default anchor tag behavior
+            // Add click event listener to each row
+            productRows.forEach(function (row) {
+                row.addEventListener("click", function () {
+                    // Get the product ID from the data attribute
+                    var productId = row.getAttribute("data-product-id");
 
-                // Navigate back in the browser's history
-                window.history.back();
-            });
-        });</script>
+                    // Construct the URL for the new page with the product ID as a query parameter
+                    var url = "/Products/Details?productId=" + productId;
 
-    <script>document.addEventListener("DOMContentLoaded", function () {
-            // Get references to the material and carat select elements
-            var materialSelect = document.getElementById("materialSelect");
-            var karatSelect = document.getElementById("karatSelect");
-
-            // Initially hide the carat select
-            karatSelect.style.display = "none";
-
-            // Add event listener to the material select
-            materialSelect.addEventListener("change", function () {
-                // Check if the selected material is gold
-                if (materialSelect.value === "gold") {
-                    // Show the carat select if the material is gold
-                    karatSelect.style.display = "block";
-                } else {
-                    // Hide the carat select if the material is not gold
-                    karatSelect.style.display = "none";
-                }
+                    // Redirect the user to the new page
+                    window.location.href = url;
+                });
             });
         });</script>
 </body>
 
 </html>
+

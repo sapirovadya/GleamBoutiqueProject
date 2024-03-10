@@ -47,18 +47,19 @@
             <div class="collapse navbar-collapse" id="navbarsFurni">
                 <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item ">
-                        <a class="nav-link" href="/Home/ManagerHome">Home</a>
+                        <a class="nav-link" href="../Home/ManagerHome">Home</a>
+
                     </li>
-                    <li><a class="nav-link" href="Shop/Shop">Shop</a></li>
-                    <li><a class="nav-link" href="about.html">About us</a></li>
-                    <li><a class="nav-link" href="services.html">Services</a></li>
-                    <li><a class="nav-link" href="blog.html">Blog</a></li>
-                    <li><a class="nav-link" href="contact.html">Contact us</a></li>
+                    <li><a class="nav-link" href="../Shop/Shop">Shop</a></li>
+                    <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
+                    <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
+                    <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
+                    <li><a class="nav-link" href="../Managers/ProductLists">Edit Product</a></li>
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
-                    <li><a class="nav-link" href="#" id="goBackButton"><img src="images/back.png"></a></li>
+                    <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png"></a></li>
                 </ul>
             </div>
         </div>
@@ -71,7 +72,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="intro-excerpt center">
-                        <h1>Add Product</h1>
+                        <h1>Remove Product</h1>
                     </div>
                 </div>
             </div>
@@ -116,14 +117,14 @@
                                             </tr>
                                         }
                                     </table>
-                            <div class="input-group-append text-center">
-                                <input class="btn btn-black btn-sm" type="submit" value="Delete Selected Products" />
+                                    <div class="input-group-append text-center">
+                                        <input class="btn btn-black btn-sm" type="submit" value="Delete Selected Products" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </form>
 
 
@@ -216,6 +217,10 @@
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
 
+    <script>function goBack() {
+            window.history.back();
+        }</script>
+
     <script>document.addEventListener("DOMContentLoaded", function () {
             // Get reference to the go back button
             var goBackButton = document.getElementById("goBackButton");
@@ -252,38 +257,4 @@
 </body>
 
 </html>
-
-
-@*<form method="post" asp-action="DeleteProducts">
-        <table>
-            <tr>
-                <th>Checkbox</th>
-                <th>Catalog Number</th>
-                <th>Product Name</th>
-                <th>Original Price</th>
-                <th>Amount</th>
-                <th>Notify</th>
-                <th>Category</th>
-                <th>Material</th>
-                <th>Sale Price</th>
-                <th>Karat</th>
-            </tr>
-            @foreach (Product pro in Model.ProductsList)
-            {
-                <tr>
-                    <td><input type="checkbox" name="selectedProducts" value="@pro.Pid" /></td>
-                    <td>@pro.Pid</td>
-                    <td>@pro.PName</td>
-                    <td>@pro.OriginPrice</td>
-                    <td>@pro.Amount</td>
-                    <td>@pro.Notify_Count</td>
-                    <td>@pro.category</td>
-                    <td>@pro.Material</td>
-                    <td>@pro.Sale_price</td>
-                    <td>@pro.karat</td>
-                </tr>
-            }
-        </table>
-        <input type="submit" value="Delete Selected Products" />
-    </form>*@
 

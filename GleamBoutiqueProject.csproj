@@ -14,6 +14,7 @@
     <Content Remove="Views\Manager\AddProduct.cshtml" />
     <Content Remove="ViewModel\RemoveProductViewModel.cshtml" />
     <Content Remove="Views\Managers\RemoveProducts.cshtml" />
+    <Content Remove="appsettings.Development.json" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Managers\" />

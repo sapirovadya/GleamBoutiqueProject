@@ -1,4 +1,10 @@
-﻿<!-- /*
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!-- /*
 * Bootstrap 5
 * Template Name: Furni
 * Template Author: Untree.co
@@ -27,7 +33,7 @@
     <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
 
     @{
-    ViewData["Title"] = "Add product";
+        ViewData["Title"] = "Add product";
     }
 </head>
 
@@ -71,14 +77,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="intro-excerpt center">
-                        <h1>Add Product</h1>
+                        <h1>Edit Product</h1>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <form action="AddToData" method="post">
+    <form asp-controller="Managers" asp-action="EditPro" method="post">
         <div class="untree_co-section">
             <div class="container">
                 <div class="row justify-content-center">
@@ -88,66 +94,49 @@
                             <div class="form-group row">
                                 <div class="col-md-9">
                                     <div>
-                                        <!--//<div style="color:red;">@Html.ValidationMessageFor(x=>x.Pid)</div>-->
-
-                                        <label for="Catalogy_number" class="text-black">Catalogy Number:</label>
-                                        <input type="text" class="form-control" name="Pid" value="@Model.Pid">
-                                        <span class="text-danger">@Html.ValidationMessageFor(x => x.Pid)</span>
+                                        <label for="Pid">Product ID:</label>
+                                        <input type="text" id="Pid" name="Pid" value="@Model.Pid" readonly />
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.PName)</div>
-                                        <label for="PName" class="text-black">Product Name: <span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" name="PName" value="@Model.PName">
+                                        <label for="PName">Product Name:</label>
+                                        <input type="text" id="PName" name="PName" value="@Model.PName" />
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.OriginPrice)</div>
-                                        <label for="OriginPrice" class="text-black">Price: </label>
-                                        <input type="text" class="form-control" name="OriginPrice" value="@Model.OriginPrice">
+                                        <label for="OriginPrice">Original Price:</label>
+                                        <input type="text" id="OriginPrice" name="OriginPrice" value="@Model.OriginPrice" />
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.Amount)</div>
-                                        <label for="Amount" class="text-black">Units in Stock: <span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" name="Amount" value="@Model.Amount">
+                                        <label for="Amount">Amount:</label>
+                                        <input type="text" id="Amount" name="Amount" value="@Model.Amount" />
                                     </div>
                                     <div>
-                                        <label for="category" class="text-black">Category:</label>
-                                        <select name="category" class="form-control">
-                                            <option value="ring">Ring</option>
-                                            <option value="necklace">Necklace</option>
-                                            <option value="earrings">Earrings</option>
-                                            <option value="bracelet">Bracelet</option>
-                                        </select>
+                                        <label for="Notify_Count">Notify Count:</label>
+                                        <input type="text" id="Notify_Count" name="Notify_Count" value="@Model.Notify_Count" readonly />
                                     </div>
                                     <div>
-                                        <label for="Material" class="text-black">Material:</label>
-                                        <select id="materialSelect" name="Material" class="form-control">
-                                            <option value="gold">Gold</option>
-                                            <option value="silver">Silver</option>
-                                        </select>
+                                        <label for="category">Category:</label>
+                                        <input type="text" id="category" name="category" value="@Model.category" />
                                     </div>
-
                                     <div>
-                                        <div style="color:red">@Html.ValidationMessageFor(x => x.Sale_price)</div>
-                                        <label for="Sale_price" class="text-black">Price after discount:<span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" name="Sale_price" value="@Model.Sale_price" />
+                                        <label for="Material">Material:</label>
+                                        <input type="text" id="Material" name="Material" value="@Model.Material" />
                                     </div>
-
-
-                                    <div id="karatSelect">
-                                        <label id="karatSelect" for="karat" class="text-black">Karat:</label>
-                                        <select id="karatSelect" name="karat" class="form-control">
-                                            <option value="14">14</option>
-                                            <option value="18">18</option>
-                                        </select>
+                                    <div>
+                                        <label for="Sale_price">Sale Price:</label>
+                                        <input type="text" id="Sale_price" name="Sale_price" value="@Model.Sale_price" />
+                                    </div>
+                                    <div>
+                                        <label for="karat">Karat:</label>
+                                        <input type="text" id="karat" name="karat" value="@Model.karat" />
+                                    </div>
+                                    <div class="input-group-append text-center">
+                                        <input class="btn btn-black btn-sm" type="submit" value="Add" />
                                     </div>
 
                                 </div>
                             </div>
-                            </br>
-                            <div class="input-group-append text-center">
-                                <input class="btn btn-black btn-sm" type="submit" value="Add" />
-                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -248,39 +237,6 @@
             window.history.back();
         }</script>
 
-    <script>document.addEventListener("DOMContentLoaded", function () {
-            // Get reference to the go back button
-            var goBackButton = document.getElementById("goBackButton");
-
-            // Add event listener for click event
-            goBackButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent default anchor tag behavior
-
-                // Navigate back in the browser's history
-                window.history.back();
-            });
-        });</script>
-
-    <script>document.addEventListener("DOMContentLoaded", function () {
-            // Get references to the material and carat select elements
-            var materialSelect = document.getElementById("materialSelect");
-            var karatSelect = document.getElementById("karatSelect");
-
-            // Initially hide the carat select
-            karatSelect.style.display = "none";
-
-            // Add event listener to the material select
-            materialSelect.addEventListener("change", function () {
-                // Check if the selected material is gold
-                if (materialSelect.value === "gold") {
-                    // Show the carat select if the material is gold
-                    karatSelect.style.display = "block";
-                } else {
-                    // Hide the carat select if the material is not gold
-                    karatSelect.style.display = "none";
-                }
-            });
-        });</script>
 </body>
 
 </html>
