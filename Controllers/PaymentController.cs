@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using GleamBoutiqueProject.Models;
+using GleamBoutiqueProject.ViewModel;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -85,6 +86,8 @@ namespace GleamBoutiqueProject.Controllers
             }
 
         }
+
     }
+
 }
 

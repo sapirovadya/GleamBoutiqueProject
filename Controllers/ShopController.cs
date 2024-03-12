@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using GleamBoutiqueProject.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -144,11 +146,8 @@ namespace GleamBoutiqueProject.Controllers
                             proViewModel.productsList.Add(newProduct);
                         }
                     }
-                    
                 }
-                connection.Close();
             }
-
             return View("shop", proViewModel);
         }
 
@@ -234,6 +233,7 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult ProductDetails(string id)
         {
+            string userEmail = HttpContext.Session.GetString("Email");
             Product product = null;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -272,8 +272,19 @@ namespace GleamBoutiqueProject.Controllers
                 return NotFound();
             }
 
+            ViewBag.UserEmail = userEmail;
             return View("ProductDetails", product);
         }
 
+
+
+
+
     }
+
+
 }
+
+
+
+
