@@ -30,6 +30,9 @@
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
@@ -66,7 +69,7 @@
     </nav>
     <!-- End Header/Navigation -->
     <!-- Start Hero Section -->
-    <div class="hero">
+    <div class="hero" style="padding-bottom: 10px; padding-top: 10px;">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-lg-5">
@@ -83,6 +86,21 @@
     <!-- End Hero Section -->
 
     <div class="container mt-5">
+        <div class="row">
+
+            <!-- Search form -->
+            <div class="col-md-12 mb-3">
+                <div class="col-md-12 mb-3">
+                    <form action="SearchProduct" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="searchKeyword" placeholder="Enter the product name or part of it" aria-label="Search" aria-describedby="button-search">
+                            <button class="btn btn-outline-primary" type="submit" id="button-search">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-3">
                 <!-- Filter form here -->
@@ -116,38 +134,45 @@
 
                     <button type="submit" class="btn btn-primary mt-3">Filter</button>
                 </form>
-
             </div>
-            <div class="col-md-9">
-                <div class="row">
-                    @foreach (Product pro in Model.productsList)
-                    {
-                        <!-- Display all products -->
-                        <div class="col-12 col-md-4 col-lg-3 mb-5">
-                            <a class="product-item" href="#">
-                                <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
-                                <h3 class="product-title">@pro.PName</h3>
-                                <strong class="product-price">@(pro.OriginPrice)₪</strong>
 
-                                <span class="icon-cross">
-                                    <img src="/images/cross.svg" class="img-fluid" />
-                                </span>
-                            </a>
+
+            <div class="col-md-9">
+                <div class="untree_co-section product-section before-footer-section">
+                    <div class="container">
+                        <div class="row">
+                            @foreach (Product pro in Model.productsList)
+                            {
+                                <!-- Display all products -->
+                                <div class="col-12 col-md-4 col-lg-3 mb-5">
+                                    <a class="product-item" href="#">
+                                        <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
+                                        <h3 class="product-title">@pro.PName</h3>
+
+                                        @if (pro.Sale_price != 0)
+                                        {
+                                            <del class="text-muted">@pro.OriginPrice ₪</del><br />
+                                            <strong class="text-danger">@pro.Sale_price ₪</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>@pro.OriginPrice ₪</strong>
+                                        }
+
+                                    <span class="icon-cross">
+                                        <img src="/images/cross.svg" class="img-fluid" onclick="addToCart('@pro.Pid')" />
+                                    </span>
+                                    </a>
+                                </div>
+                                <!-- End display -->
+                            }
                         </div>
-                        <!-- End display -->
-                    }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="untree_co-section product-section before-footer-section">
-        <div class="container">
-            <div class="row">
-                <!-- Product display loop -->
-            </div>
-        </div>
-    </div>
 
 
     <div class="row g-5 mb-5">
@@ -228,6 +253,26 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
+
+    <script>
+        function addToCart(pid) {
+            $.ajax({
+                url: '/Shop/AddToCart',
+                type: 'POST',
+                data: { pid: pid },
+                success: function (result) {
+                    // Handle success response
+                    console.log('Product added to cart');
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.error('Failed to add product to cart');
+                }
+            });
+        }
+    </script>
+
+
 </body>
 
 </html>
