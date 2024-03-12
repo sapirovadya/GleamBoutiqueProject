@@ -58,35 +58,3 @@ namespace GleamBoutiqueProject.Models
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

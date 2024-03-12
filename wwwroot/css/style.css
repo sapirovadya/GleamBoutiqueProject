@@ -1052,4 +1052,17 @@ textarea {
         color: #3b71ca !important;
     }
 
+.my-custom-spacing {
+    margin-top: 20px;
+}
 
+.btn-pink {
+    background-color: #ff69b4; /* Light pink background */
+    color: white; /* White text */
+    border-color: #ff69b4; /* Pink border to match background */
+}
+
+    .btn-pink:hover {
+        background-color: #ff8ec7; /* A slightly lighter or darker pink for hover */
+        border-color: #ff8ec7;
+    }
