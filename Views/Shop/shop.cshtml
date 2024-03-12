@@ -120,22 +120,23 @@
             </div>
             <div class="col-md-9">
                 <div class="row">
-                    @foreach (Product pro in Model.productsList)
+                    @foreach (var pro in Model.productsList)
                     {
-                        <!-- Display all products -->
                         <div class="col-12 col-md-4 col-lg-3 mb-5">
-                            <a class="product-item" href="#">
+                            <!-- Update href to call ProductDetails action, passing product Pid. Open in a new window -->
+                            <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
                                 <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
                                 <h3 class="product-title">@pro.PName</h3>
-                                <strong class="product-price">@(pro.OriginPrice)₪</strong>
+                                <strong class="product-price">@pro.OriginPrice₪</strong>
 
                                 <span class="icon-cross">
                                     <img src="/images/cross.svg" class="img-fluid" />
                                 </span>
+
                             </a>
                         </div>
-                        <!-- End display -->
                     }
+
                 </div>
             </div>
         </div>

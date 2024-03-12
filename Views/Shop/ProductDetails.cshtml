@@ -1,0 +1,245 @@
+﻿@model GleamBoutiqueProject.Models.Product
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.PName</title>
+    <!-- External CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/css/tiny-slider.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Furni<span>.</span></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsFurni">
+                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../Home/HomePage">Home</a>
+                    </li>
+                    <li class="active"><a class="nav-link" href="../Shop/Shop">Shop</a></li>
+                    <li><a class="nav-link" href="about.html">About us</a></li>
+                    <li><a class="nav-link" href="services.html">Services</a></li>
+                    <li><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li><a class="nav-link" href="contact.html">Contact us</a></li>
+                </ul>
+
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    <li><a class="nav-link" href="#"><img src="/images/user.svg"></a></li>
+                    <li><a class="nav-link" href="cart.html"><img src="/images/cart.svg"></a></li>
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+
+
+  
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row gx-5">
+                <aside class="col-lg-6">
+                    <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                        <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
+                            <img style="max-width: 60%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src= "/images/@(Model.PName).jpg"/>
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-center mb-3">
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp" class="item-thumb">
+                            <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp" class="item-thumb">
+                            <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp" class="item-thumb">
+                            <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp" class="item-thumb">
+                            <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" class="item-thumb">
+                            <img width="60" height="60" class="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" />
+                        </a>
+                    </div>
+                    <!-- thumbs-wrap.// -->
+                    <!-- gallery-wrap .end// -->
+                </aside>
+                <main class="col-lg-6">
+                    <div class="ps-lg-3">
+                        <h4 class="title text-dark">
+                            <h1>@Model.PName</h1>
+                            <p></p>
+                            <p></p>
+                        </h4>
+                        <div class="d-flex flex-row my-3">
+                            <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>@Model.Amount</span>
+                            <span class="text-success ms-2">Available in stock</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <span class="h5">
+                                <p>
+                                    Price:@if (@Model.Sale_price != 0)
+                                    {
+                                     <strong class="text-danger">@Model.Sale_price ₪</strong>
+                                    <del class="text-muted">@Model.OriginPrice ₪</del><br />
+                                    <strong class="text-danger">@Model.Sale_price ₪</strong> }
+                                    else
+                                    {
+                                    <strong>@Model.OriginPrice ₪</strong>}
+                                </p>
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+                            <dt class="col-3">Category:</dt>
+                            <dd class="col-9">@Model.category</dd>
+
+                            <dt class="col-3">Material:</dt>
+                            <dd class="col-9">@Model.Material</dd>
+
+                            <dt class="col-3">Karat:</dt>
+                            <dd class="col-9">@Model.karat</dd>
+
+                        </div>
+
+                        <hr />
+
+                        <div class="row mb-4">
+                            <div class="col-md-4 col-6 mb-3">
+                                <label class="mb-2 d-block">Quantity</label>
+                                <div class="input-group mb-3" style="width: 170px;">
+                                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-minus" data-mdb-ripple-color="dark">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" class="form-control text-center border border-secondary" placeholder="1" aria-label="Example text with button addon"
+                                           aria-describedby="button-addon1" id="quantity-input" data-stock="@Model.Amount" />
+                                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-plus" data-mdb-ripple-color="dark">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
+                        <a href="#" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+                        <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="row g-5 mb-5">
+        <div class="col-lg-4">
+            <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Furni<span>.</span></a></div>
+            <p class="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant</p>
+
+            <ul class="list-unstyled custom-social">
+                <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+                <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+            </ul>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="row links-wrap">
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Knowledge base</a></li>
+                        <li><a href="#">Live chat</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">Jobs</a></li>
+                        <li><a href="#">Our team</a></li>
+                        <li><a href="#">Leadership</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">Nordic Chair</a></li>
+                        <li><a href="#">Kruzo Aero</a></li>
+                        <li><a href="#">Ergonomic Chair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="border-top copyright">
+        <div class="row pt-4">
+            <div class="col-lg-6">
+                <p class="mb-2 text-center text-lg-start">
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a>  Distributed By <a href="https://themewagon.com">ThemeWagon</a> <!-- License information: https://untree.co/license/ -->
+                </p>
+            </div>
+
+            <div class="col-lg-6 text-center text-lg-end">
+                <ul class="list-unstyled d-inline-flex ms-auto">
+                    <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/tiny-slider.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+        document.getElementById('button-minus').addEventListener('click', function () {
+            var input = document.getElementById('quantity-input');
+            var currentValue = parseInt(input.value) || 1; // Default to 1 if parsing fails
+            if (currentValue > 1) { // Ensure quantity does not go below 1
+                input.value = currentValue - 1;
+            }
+        });
+
+        document.getElementById('button-plus').addEventListener('click', function () {
+            var input = document.getElementById('quantity-input');
+            var currentValue = parseInt(input.value) || 1; // Default to 1 if parsing fails
+            var maxStock = parseInt(input.getAttribute('data-stock')); // Retrieve the max stock from the data attribute
+
+            if (currentValue < maxStock) { // Ensure quantity does not exceed available stock
+                input.value = currentValue + 1;
+            }
+        });
+    </script>
+
+</body>
+</html>
