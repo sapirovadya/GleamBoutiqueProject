@@ -1,4 +1,5 @@
 ﻿using GleamBoutiqueProject.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -26,34 +28,26 @@ namespace GleamBoutiqueProject.Controllers
         }
 
 
-
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
-
-
-
-
-
-
         [Route("")]
-        public IActionResult HomePage(User NewUser) {
-            //User MyUser = NewUser;
-            if (NewUser == null)
+        public IActionResult HomePage(User NewUser)
+        {
+            if (NewUser.Email != null)
             {
+                // Set session variable with user's name
+                string name = HttpContext.Session.GetString("UserName");
+                ViewData["Message"] = $"Hello {name}!";
                 return View("index");
             }
+            ViewData["Message"] = $"Hello Guest!";
+
             return View("index", NewUser);
         }
 
         public IActionResult ManagerHome(User NewUser)
+
         {
+            string name = HttpContext.Session.GetString("ManageUser");
+            ViewData["Message"] = $"Hello {name}!";
             return View(NewUser);
         }
 

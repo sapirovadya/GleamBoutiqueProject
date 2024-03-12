@@ -21,6 +21,12 @@ namespace GleamBoutiqueProject
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+
                 });
+
+
     }
+
 }
+
+

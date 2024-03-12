@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,8 +144,11 @@ namespace GleamBoutiqueProject.Controllers
                             proViewModel.productsList.Add(newProduct);
                         }
                     }
+                    
                 }
+                connection.Close();
             }
+
             return View("shop", proViewModel);
         }
 

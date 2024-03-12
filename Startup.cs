@@ -23,6 +23,14 @@ namespace GleamBoutiqueProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // Add session services
+            services.AddDistributedMemoryCache(); // Required for session state
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(3600); // Session timeout of 1 hour
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,13 +43,15 @@ namespace GleamBoutiqueProject
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseSession(); // Add session middleware
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

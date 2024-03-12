@@ -7,6 +7,7 @@ using GleamBoutiqueProject.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -101,11 +102,14 @@ namespace GleamBoutiqueProject.Controllers
                             {
                                 if (myUser.Email == "sapir@gmail.com" && myUser.Password == "s1234")
                                 {
+                                    HttpContext.Session.SetString("ManageUser", reader.GetString(0));
                                     connection.Close();
-                                    return RedirectToAction("ManagerHome", "Home",myUser);
+                                    return RedirectToAction("ManagerHome", "Home");
                                 }
                                 else
                                 {
+                                    HttpContext.Session.SetString("UserName", reader.GetString(0));
+
                                     connection.Close();
                                     return RedirectToAction("Index", "Home", myUser);
                                 }
