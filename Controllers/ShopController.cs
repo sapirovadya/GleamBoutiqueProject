@@ -145,7 +145,9 @@ namespace GleamBoutiqueProject.Controllers
                         }
                     }
                 }
+                connection.Close();
             }
+
             return View("shop", proViewModel);
         }
 
