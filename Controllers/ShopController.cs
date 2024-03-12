@@ -192,7 +192,6 @@ namespace GleamBoutiqueProject.Controllers
             return View("shop", proViewModel);
         }
 
-
         public IActionResult AddToCart(string proid, int amount, int stock)
         {
             string userEmail = HttpContext.Session.GetString("Email");
@@ -227,7 +226,7 @@ namespace GleamBoutiqueProject.Controllers
                     }
                     else // Product not found in the cart
                     {
-                        if (stock > 0)  
+                        if (stock > 0)
                         {
                             // Insert new cart item
                             string insertQuery = "INSERT INTO Cart (Proid, proAmount, UserEmail) VALUES (@Proid, @proAmount, @UserEmail)";
@@ -248,6 +247,61 @@ namespace GleamBoutiqueProject.Controllers
 
             return RedirectToAction("Shop", "Index"); // Assuming "Shop" is the action and "Index" is the controller
         }
+        //public IActionResult AddToCart(string proid, int amount, int stock)
+        //{
+        //    string userEmail = HttpContext.Session.GetString("Email");
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        // Check if the product is already in the cart for the user
+        //        string selectQuery = "SELECT proAmount FROM Cart WHERE userEmail = @UserEmail AND Proid = @proid";
+        //        using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+        //        {
+        //            selectCommand.Parameters.AddWithValue("@UserEmail", userEmail);
+        //            selectCommand.Parameters.AddWithValue("@proid", proid);
+
+        //            object result = selectCommand.ExecuteScalar();
+
+        //            if (result != null) // Product found in the cart
+        //            {
+        //                int currentAmount = Convert.ToInt32(result);
+        //                int newAmount = Math.Min(stock, currentAmount + amount);
+
+        //                // Update the cart item
+        //                string updateQuery = "UPDATE Cart SET proAmount = @NewAmount WHERE UserEmail = @userEmail AND Proid = @proid";
+        //                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+        //                {
+        //                    updateCommand.Parameters.AddWithValue("@NewAmount", newAmount);
+        //                    updateCommand.Parameters.AddWithValue("@UserEmail", userEmail); // Ensure the parameter name matches the case used here
+        //                    updateCommand.Parameters.AddWithValue("@Proid", proid);
+        //                    updateCommand.ExecuteNonQuery();
+        //                }
+        //            }
+        //            else // Product not found in the cart
+        //            {
+        //                if (stock > 0)  
+        //                {
+        //                    // Insert new cart item
+        //                    string insertQuery = "INSERT INTO Cart (Proid, proAmount, UserEmail) VALUES (@Proid, @proAmount, @UserEmail)";
+        //                    using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
+        //                    {
+        //                        insertCommand.Parameters.AddWithValue("@Proid", proid);
+        //                        insertCommand.Parameters.AddWithValue("@proAmount", amount);
+        //                        insertCommand.Parameters.AddWithValue("@UserEmail", userEmail);
+        //                        insertCommand.ExecuteNonQuery();
+        //                    }
+        //                }
+        //                else //not in the stock
+        //                    return Json(new { errorMessage = "Sorry, the product is out of stock." });
+        //            }
+        //        }
+        //        connection.Close();
+        //    }
+
+        //    return RedirectToAction("Shop", "Index"); // Assuming "Shop" is the action and "Index" is the controller
+        //}
 
 
 
@@ -308,6 +362,49 @@ namespace GleamBoutiqueProject.Controllers
             }
 
             return cartItems;
+        }
+
+        public IActionResult ProductDetails(string id)
+        {
+            Product product = null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery = "SELECT * FROM Product WHERE Pid = @Pid";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    // Parameterize the query to prevent SQL injection
+                    command.Parameters.AddWithValue("@Pid", id);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read()) // Assuming Pid is unique and there's only one product per Pid
+                    {
+                        product = new Product();
+                        product.Pid = reader.GetString(0);
+                        product.PName = reader.GetString(1);
+                        product.OriginPrice = reader.GetInt32(2);
+                        product.Amount = reader.GetInt32(3);
+                        product.Notify_Count = reader.GetInt32(4);
+                        product.category = reader.GetString(5);
+                        product.Material = reader.GetString(6);
+                        product.Sale_price = reader.GetInt32(7);
+                        product.karat = reader.GetInt32(8);
+                        // product.ProImage = reader.GetString(9); // Uncomment and handle if you're using product images
+                    }
+                    reader.Close();
+                }
+                connection.Close();
+            }
+
+            // Handle the case where no product is found
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View("ProductDetails", product);
         }
     }
 }
