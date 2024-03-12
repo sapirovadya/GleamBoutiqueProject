@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,7 +15,6 @@
     <Content Remove="Views\Manager\AddProduct.cshtml" />
     <Content Remove="ViewModel\RemoveProductViewModel.cshtml" />
     <Content Remove="Views\Managers\RemoveProducts.cshtml" />
-    <Content Remove="appsettings.Development.json" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Managers\" />
