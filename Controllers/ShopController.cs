@@ -48,7 +48,7 @@ namespace GleamBoutiqueProject.Controllers
                 {
                     //Read from the SQL table
                     SqlDataReader reader = command.ExecuteReader();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Product newProduct = new Product();
                         newProduct.Pid = reader.GetString(0);

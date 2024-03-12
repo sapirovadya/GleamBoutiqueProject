@@ -1,8 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
+@{ }
 
 <!-- /*
 * Bootstrap 5
@@ -33,9 +32,7 @@
     <title>GleamBoutique</title>
     <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
 
-    @{
-        ViewData["Title"] = "Add product";
-    }
+    @{ ViewData["Title"] = "Add product"; }
 </head>
 
 <body>
@@ -108,18 +105,17 @@
                                         </tr>
                                         @foreach (Product pro in Model.ProductsList)
                                         {
-                                            <tr>
-                                                <td><a href="@Url.Action("ProductsDetailsS", "Managers", new { id = pro.Pid })">@pro.Pid</a></td>
-                                                <td>@pro.PName</td>
-                                                <td>@pro.OriginPrice</td>
-                                                <td>@pro.Amount</td>
-                                                <td>@pro.Notify_Count</td>
-                                                <td>@pro.category</td>
-                                                <td>@pro.Material</td>
-                                                <td>@pro.Sale_price</td>
-                                                <td>@pro.karat</td>
-                                            </tr>
-                                        }
+                            <tr>
+                                <td><a href="@Url.Action("ProductsDetailsS", "Managers", new { id = pro.Pid })">@pro.Pid</a></td>
+                                <td>@pro.PName</td>
+                                <td>@pro.OriginPrice</td>
+                                <td>@pro.Amount</td>
+                                <td>@pro.Notify_Count</td>
+                                <td>@pro.category</td>
+                                <td>@pro.Material</td>
+                                <td>@pro.Sale_price</td>
+                                <td>@pro.karat</td>
+                            </tr>}
                                     </table>
 
 
@@ -220,11 +216,13 @@
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
 
-    <script>function goBack() {
+    <script>
+    function goBack() {
             window.history.back();
         }</script>
 
-    <script>document.addEventListener("DOMContentLoaded", function () {
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
             // Get all the rows with the class "product-row"
             var productRows = document.querySelectorAll(".product-row");
 

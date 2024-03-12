@@ -26,9 +26,7 @@
     <title>GleamBoutique</title>
     <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
 
-    @{
-    ViewData["Title"] = "Add product";
-    }
+    @{ ViewData["Title"] = "Add product"; }
 </head>
 
 <body>
@@ -244,11 +242,13 @@
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
 
-    <script>function goBack() {
+    <script>
+    function goBack() {
             window.history.back();
         }</script>
 
-    <script>document.addEventListener("DOMContentLoaded", function () {
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
             // Get reference to the go back button
             var goBackButton = document.getElementById("goBackButton");
 
@@ -261,7 +261,8 @@
             });
         });</script>
 
-    <script>document.addEventListener("DOMContentLoaded", function () {
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
             // Get references to the material and carat select elements
             var materialSelect = document.getElementById("materialSelect");
             var karatSelect = document.getElementById("karatSelect");

@@ -139,7 +139,7 @@ namespace GleamBoutiqueProject.Controllers
                 }
             }
 
-            return RedirectToAction("ManagerHome","Home");
+            return RedirectToAction("ManagerHome", "Home");
         }
 
         public IActionResult InventoryCheck()
