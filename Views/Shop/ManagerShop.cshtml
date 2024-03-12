@@ -58,7 +58,7 @@
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li><a class="nav-link" href="#"><img src="/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="#" id="goBackButton"><img src="images/back.png"></a></li>
+                    <li><a class="nav-link" href="#" id="goBackButton"><img src="/images/back.png"></a></li>
 
                 </ul>
             </div>
@@ -91,19 +91,19 @@
 
                 @foreach (Product pro in Model.productsList)
                 {
-                <!-- Display all products -->
-                <div class="col-12 col-md-4 col-lg-3 mb-5">
-                    <a class="product-item" href="#">
-                        <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">@pro.PName</h3>
-                        <strong class="product-price">@(pro.OriginPrice)₪</strong>
+                    <!-- Display all products -->
+                    <div class="col-12 col-md-4 col-lg-3 mb-5">
+                        <a class="product-item" href="#">
+                            <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
+                            <h3 class="product-title">@pro.PName</h3>
+                            <strong class="product-price">@(pro.OriginPrice)₪</strong>
 
-                        <span class="icon-cross">
-                            <img src="/images/cross.svg" class="img-fluid">
-                        </span>
-                    </a>
-                </div>
-                <!-- End display -->
+                            <span class="icon-cross">
+                                <img src="/images/cross.svg" class="img-fluid">
+                            </span>
+                        </a>
+                    </div>
+                    <!-- End display -->
                 }
 
             </div>
@@ -214,12 +214,12 @@
     </footer>
     <!-- End Footer Section -->
 
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/custom.js"></script>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script>
-
-    <script>document.addEventListener("DOMContentLoaded", function () {
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
             // Get reference to the go back button
             var goBackButton = document.getElementById("goBackButton");
 

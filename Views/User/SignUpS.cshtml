@@ -55,8 +55,8 @@
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="images/cart.svg"></a></li>
+                    <li><a class="nav-link" href="#"><img src="/images/user.svg"></a></li>
+                    <li><a class="nav-link" href="cart.html"><img src="/images/cart.svg"></a></li>
                 </ul>
             </div>
         </div>
@@ -89,26 +89,26 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x=>x.FirstName)</div>
+                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.FirstName)</div>
 
                                         <label for="c_fname" class="text-black">First Name <span class="text-danger"></span></label>
                                         <input type="text" class="form-control" name="FirstName" value="@Model.FirstName" title="First Name">
 
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x=>x.LastName)</div>
+                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.LastName)</div>
                                         <label for="c_lname" class="text-black">Last Name <span class="text-danger"></span></label>
                                         <input type="text" class="form-control" name="LastName" value="@Model.LastName">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x=>x.Email)</div>
+                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.Email)</div>
                                         <label for="c_companyname" class="text-black">Email</label>
                                         <input type="text" class="form-control" name="Email" value="@Model.Email">
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x=>x.Password)</div>
+                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.Password)</div>
                                         <label for="c_address" class="text-black">Password<span class="text-danger"></span></label>
                                         <input type="password" class="form-control" name="Password" value="@Model.Password">
                                     </div>
@@ -210,10 +210,10 @@
     </footer>
     <!-- End Footer Section -->
 
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/custom.js"></script>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script>
 </body>
 
 </html>

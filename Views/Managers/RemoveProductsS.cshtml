@@ -25,7 +25,7 @@
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <title>GleamBoutique</title>
-    <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
 
     @{ ViewData["Title"] = "Add product"; }
 </head>
@@ -101,18 +101,19 @@
                                         </tr>
                                         @foreach (Product pro in Model.ProductsList)
                                         {
-                            <tr>
-                                <td><input type="checkbox" name="selectedProducts" value="@pro.Pid" /></td>
-                                <td>@pro.Pid</td>
-                                <td>@pro.PName</td>
-                                <td>@pro.OriginPrice</td>
-                                <td>@pro.Amount</td>
-                                <td>@pro.Notify_Count</td>
-                                <td>@pro.category</td>
-                                <td>@pro.Material</td>
-                                <td>@pro.Sale_price</td>
-                                <td>@pro.karat</td>
-                            </tr>}
+                                            <tr>
+                                                <td><input type="checkbox" name="selectedProducts" value="@pro.Pid" /></td>
+                                                <td>@pro.Pid</td>
+                                                <td>@pro.PName</td>
+                                                <td>@pro.OriginPrice</td>
+                                                <td>@pro.Amount</td>
+                                                <td>@pro.Notify_Count</td>
+                                                <td>@pro.category</td>
+                                                <td>@pro.Material</td>
+                                                <td>@pro.Sale_price</td>
+                                                <td>@pro.karat</td>
+                                            </tr>
+}
                                     </table>
                                     <div class="input-group-append text-center">
                                         <input class="btn btn-black btn-sm" type="submit" value="Delete Selected Products" />
@@ -210,17 +211,17 @@
     <!-- End Footer Section -->
 
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/custom.js"></script>
 
     <script>
-    function goBack() {
+        function goBack() {
             window.history.back();
         }</script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             // Get reference to the go back button
             var goBackButton = document.getElementById("goBackButton");
 
@@ -234,7 +235,7 @@
         });</script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             // Get references to the material and carat select elements
             var materialSelect = document.getElementById("materialSelect");
             var karatSelect = document.getElementById("karatSelect");

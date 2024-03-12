@@ -30,7 +30,7 @@
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <title>GleamBoutique</title>
-    <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
 
     @{ ViewData["Title"] = "Add product"; }
 </head>
@@ -91,9 +91,9 @@
                         <div class="p-3 p-lg-5 border bg-white">
                             @if (TempData["ErrorMessage"] != null)
                             {
-                <div class="alert alert-danger" role="alert">
-                    @TempData["ErrorMessage"]
-                </div>}
+                                <div class="alert alert-danger" role="alert">
+                                    @TempData["ErrorMessage"]
+                                </div>}
 
                             <div class="form-group row">
                                 <div class="col-md-9">
@@ -113,18 +113,19 @@
                                         </tr>
                                         @foreach (Product pro in Model.ProductsList)
                                         {
-                            <tr>
-                                <td><input type="text" name="selectedProducts[@pro.Pid]" value="0" size="3" /></td>
-                                <td>@pro.Pid</td>
-                                <td>@pro.PName</td>
-                                <td>@pro.OriginPrice</td>
-                                <td>@pro.Amount</td>
-                                <td>@pro.Notify_Count</td>
-                                <td>@pro.category</td>
-                                <td>@pro.Material</td>
-                                <td>@pro.Sale_price</td>
-                                <td>@pro.karat</td>
-                            </tr>}
+                                            <tr>
+                                                <td><input type="text" name="selectedProducts[@pro.Pid]" value="0" size="3" /></td>
+                                                <td>@pro.Pid</td>
+                                                <td>@pro.PName</td>
+                                                <td>@pro.OriginPrice</td>
+                                                <td>@pro.Amount</td>
+                                                <td>@pro.Notify_Count</td>
+                                                <td>@pro.category</td>
+                                                <td>@pro.Material</td>
+                                                <td>@pro.Sale_price</td>
+                                                <td>@pro.karat</td>
+                                            </tr>
+}
                                     </table>
                                     <div class="input-group-append text-center">
                                         <input class="btn btn-black btn-sm" type="submit" value="Stock order" />
@@ -222,17 +223,17 @@
     <!-- End Footer Section -->
 
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/custom.js"></script>
 
     <script>
-    function goBack() {
+        function goBack() {
             window.history.back();
         }</script>
 
     <script>
-    function validateForm() {
+        function validateForm() {
             var inputs = document.querySelectorAll('input[type="text"]');
             var isValid = true;
 

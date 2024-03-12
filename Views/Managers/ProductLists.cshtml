@@ -30,7 +30,7 @@
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <title>GleamBoutique</title>
-    <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
 
     @{ ViewData["Title"] = "Add product"; }
 </head>
@@ -105,17 +105,18 @@
                                         </tr>
                                         @foreach (Product pro in Model.ProductsList)
                                         {
-                            <tr>
-                                <td><a href="@Url.Action("ProductsDetailsS", "Managers", new { id = pro.Pid })">@pro.Pid</a></td>
-                                <td>@pro.PName</td>
-                                <td>@pro.OriginPrice</td>
-                                <td>@pro.Amount</td>
-                                <td>@pro.Notify_Count</td>
-                                <td>@pro.category</td>
-                                <td>@pro.Material</td>
-                                <td>@pro.Sale_price</td>
-                                <td>@pro.karat</td>
-                            </tr>}
+                                            <tr>
+                                                <td><a href="@Url.Action("ProductsDetailsS", "Managers", new { id = pro.Pid })">@pro.Pid</a></td>
+                                                <td>@pro.PName</td>
+                                                <td>@pro.OriginPrice</td>
+                                                <td>@pro.Amount</td>
+                                                <td>@pro.Notify_Count</td>
+                                                <td>@pro.category</td>
+                                                <td>@pro.Material</td>
+                                                <td>@pro.Sale_price</td>
+                                                <td>@pro.karat</td>
+                                            </tr>
+}
                                     </table>
 
 
@@ -212,17 +213,17 @@
     <!-- End Footer Section -->
 
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/custom.js"></script>
 
     <script>
-    function goBack() {
+        function goBack() {
             window.history.back();
         }</script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             // Get all the rows with the class "product-row"
             var productRows = document.querySelectorAll(".product-row");
 

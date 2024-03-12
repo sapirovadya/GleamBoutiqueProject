@@ -499,8 +499,9 @@ a {
 
             .we-help-section .imgs-grid .grid img {
                 border-radius: 20px;
-                max-width: 100%;
+                max-width: 50px !important; /* Set the maximum width of the images */
             }
+
 
             .we-help-section .imgs-grid .grid.grid-1 {
                 -ms-grid-column: 1;
@@ -1050,4 +1051,5 @@ textarea {
     .icon-hover:hover i {
         color: #3b71ca !important;
     }
+
 
