@@ -109,7 +109,8 @@ namespace GleamBoutiqueProject.Controllers
                                 else
                                 {
                                     HttpContext.Session.SetString("UserName", reader.GetString(0));
-                                    HttpContext.Session.SetString("Email", reader.GetString(2)); 
+                                    HttpContext.Session.SetString("Email", reader.GetString(2));
+
                                     connection.Close();
                                     return RedirectToAction("Index", "Home", myUser);
                                 }

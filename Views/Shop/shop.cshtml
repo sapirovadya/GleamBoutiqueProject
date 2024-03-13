@@ -5,6 +5,7 @@
 }
 
 @model GleamBoutiqueProject.ViewModel.ProductViewModel
+@using Microsoft.AspNetCore.Http
 
 <!-- /*
 * Bootstrap 5
@@ -32,7 +33,44 @@
     <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.addToCartButton').click(function () {
+                var proid = $(this).data('proid');
+                var amount = $(this).data('amount');
+                var stock = $(this).data('stock');
 
+                // Check if stock is zero
+                if (stock <= 0) {
+                    alert('Sorry, the product is out of stock.');
+                    return; // Stop execution if out of stock
+                }
+
+                // Proceed to add the product to the cart
+                addToCart(proid, amount, stock);
+            });
+
+            function addToCart(proid, amount, stock) {
+                $.ajax({
+                    url: '/Shop/AddToCart',
+                    type: 'POST',
+                    data: { proid: proid, amount: amount, stock: stock },
+                    success: function (result) {
+                        // Handle success response
+                        console.log('Product added to cart');
+                        // Optionally, redirect or update the UI as needed
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.error('Failed to add product to cart');
+                        // Check if the error message is related to stock availability
+                        if (xhr.responseJSON && xhr.responseJSON.errorMessage) {
+                            alert(xhr.responseJSON.errorMessage); // Display error message to the user
+                        }
+                    }
+                });
+            }
+        });</script>
 </head>
 
 <body>
@@ -61,7 +99,7 @@
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li><a class="nav-link" href="#"><img src="/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="/images/cart.svg"></a></li>
+                    <li><a class="nav-link" href="../Shop/Cart"><img src="/images/cart.svg"></a></li>
                 </ul>
             </div>
         </div>
@@ -145,7 +183,7 @@
                             {
                                 <!-- Display all products -->
                                 <div class="col-12 col-md-4 col-lg-3 mb-5">
-                                    <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
+                                    <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
                                         <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
                                         <h3 class="product-title">@pro.PName</h3>
 
@@ -158,11 +196,13 @@
                                         {
                                             <strong>@pro.OriginPrice ₪</strong>
                                         }
+                                        <div id="errorMessageContainer" style="display: none;" class="alert alert-danger" role="alert"></div>
 
-                                    <span class="icon-cross">
-                                        <img src="/images/cross.svg" class="img-fluid" onclick="addToCart('@pro.Pid')" />
-                                    </span>
+                                        <span class="icon-cross">
+                                            <img src="/images/cross.svg" class="img-fluid addToCartButton" data-proid="@pro.Pid" data-amount="1" data-stock="@pro.Amount" />
+                                        </span>
                                     </a>
+
                                 </div>
                                 <!-- End display -->
                             }
@@ -253,24 +293,6 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
-
-    <script>
-        function addToCart(pid) {
-            $.ajax({
-                url: '/Shop/AddToCart',
-                type: 'POST',
-                data: { pid: pid },
-                success: function (result) {
-                    // Handle success response
-                    console.log('Product added to cart');
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response
-                    console.error('Failed to add product to cart');
-                }
-            });
-        }
-    </script>
 
 
 </body>
