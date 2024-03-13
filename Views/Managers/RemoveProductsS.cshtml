@@ -48,7 +48,7 @@
                         <a class="nav-link" href="../Home/ManagerHome">Home</a>
 
                     </li>
-                    <li><a class="nav-link" href="../Shop/Shop">Shop</a></li>
+                    <li><a class="nav-link" href="../Managers/ManagerShop">Shop</a></li>
                     <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
                     <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
                     <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
@@ -56,7 +56,11 @@
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
+                    <li>
+                        <a href="/User/Logout">
+                            <img src="~/images/LogOut.png" alt="Logout" style="width: 24px; height: 24px;">
+                        </a>
+                    </li>
                     <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png"></a></li>
                 </ul>
             </div>
@@ -113,7 +117,7 @@
                                                 <td>@pro.Sale_price</td>
                                                 <td>@pro.karat</td>
                                             </tr>
-}
+                                        }
                                     </table>
                                     <div class="input-group-append text-center">
                                         <input class="btn btn-black btn-sm" type="submit" value="Delete Selected Products" />
@@ -125,85 +129,26 @@
                 </div>
     </form>
 
-
-
-
-
-
-    <!-- Start Footer Section -->
     <footer class="footer-section">
         <div class="container relative">
 
+
             <div class="row g-5 mb-5">
                 <div class="col-lg-4">
-                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">GleamBoutique<span>.</span></a></div>
-                    <p class="mb-4">Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.</p>
+                    <div class="mb-4 footer-logo-wrap"><a href="../Home/HomePage" class="footer-logo">GleamBoutique<span>.</span></a></div>
+                    <p class="mb-4">
+                        Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
+                    </p>
 
                     <ul class="list-unstyled custom-social">
                         <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
                     </ul>
                 </div>
 
-                <div class="col-lg-8">
-                    <div class="row links-wrap">
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact us</a></li>
-                            </ul>
-                        </div>
 
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Support</a></li>
-                                <li><a href="#">Knowledge base</a></li>
-                                <li><a href="#">Live chat</a></li>
-                            </ul>
-                        </div>
 
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Jobs</a></li>
-                                <li><a href="#">Our team</a></li>
-                                <li><a href="#">Leadership</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Nordic Chair</a></li>
-                                <li><a href="#">Kruzo Aero</a></li>
-                                <li><a href="#">Ergonomic Chair</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="border-top copyright">
-                <div class="row pt-4">
-                    <div class="col-lg-6">
-                        <p class="mb-2 text-center text-lg-start">
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a> Distributed By <a hreff="https://themewagon.com">ThemeWagon</a>  <!-- License information: https://untree.co/license/ -->
-                        </p>
-                    </div>
-
-                    <div class="col-lg-6 text-center text-lg-end">
-                        <ul class="list-unstyled d-inline-flex ms-auto">
-                            <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </div>
-
-                </div>
             </div>
 
         </div>
@@ -215,13 +160,11 @@
     <script src="/js/tiny-slider.js"></script>
     <script src="/js/custom.js"></script>
 
-    <script>
-        function goBack() {
+    <script>function goBack() {
             window.history.back();
         }</script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+    <script>document.addEventListener("DOMContentLoaded", function () {
             // Get reference to the go back button
             var goBackButton = document.getElementById("goBackButton");
 
@@ -234,8 +177,7 @@
             });
         });</script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+    <script>document.addEventListener("DOMContentLoaded", function () {
             // Get references to the material and carat select elements
             var materialSelect = document.getElementById("materialSelect");
             var karatSelect = document.getElementById("karatSelect");

@@ -1,0 +1,304 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model GleamBoutiqueProject.ViewModel.ProductViewModel
+@using Microsoft.AspNetCore.Http
+
+<!-- /*
+* Bootstrap 5
+* Template Name: Furni
+* Template Author: Untree.co
+* Template URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.png">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <!-- Bootstrap CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/css/tiny-slider.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>$(document).ready(function () {
+            $('.addToCartButton').click(function () {
+                var proid = $(this).data('proid');
+                var amount = $(this).data('amount');
+                var stock = $(this).data('stock');
+
+                // Check if stock is zero
+                if (stock <= 0) {
+                    alert('Sorry, the product is out of stock.');
+                    return; // Stop execution if out of stock
+                }
+
+                // Proceed to add the product to the cart
+                addToCart(proid, amount, stock);
+            });
+
+            function addToCart(proid, amount, stock) {
+                $.ajax({
+                    url: '/Shop/AddToCart',
+                    type: 'POST',
+                    data: { proid: proid, amount: amount, stock: stock },
+                    success: function (result) {
+                        // Handle success response
+                        console.log('Product added to cart');
+                        // Optionally, redirect or update the UI as needed
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.error('Failed to add product to cart');
+                        // Check if the error message is related to stock availability
+                        if (xhr.responseJSON && xhr.responseJSON.errorMessage) {
+                            alert(xhr.responseJSON.errorMessage); // Display error message to the user
+                        }
+                    }
+                });
+            }
+        });</script>
+</head>
+
+<body>
+
+    <!-- Start Header/Navigation -->
+    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Furni<span>.</span></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsFurni">
+                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../Home/ManagerHome">Home</a>
+
+                    </li>
+                    <li><a class="nav-link" href="../Managers/ManagerShop">Shop</a></li>
+                    <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
+                    <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
+                    <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
+                    <li><a class="nav-link" href="../Managers/ProductLists">Edit Product</a></li>
+                </ul>
+
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    <li>
+                        <a href="/User/Logout">
+                            <img src="~/images/LogOut.png" alt="Logout" style="width: 24px; height: 24px;">
+                        </a>
+                    </li>
+                    <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png" style="width: 24px; height: 24px;"></a></li>
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+    <!-- End Header/Navigation -->
+    <!-- Start Hero Section -->
+    <div class="hero" style="padding-bottom: 10px; padding-top: 10px;">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-5">
+                    <div class="intro-excerpt">
+                        <h1>Shop</h1>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Hero Section -->
+
+    <div class="container mt-5">
+        <div class="row">
+
+            <!-- Search form -->
+            <div class="col-md-12 mb-3">
+                <div class="col-md-12 mb-3">
+                    <form action="SearchProduct" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="searchKeyword" placeholder="Enter the product name or part of it" aria-label="Search" aria-describedby="button-search">
+                            <button class="btn btn-outline-primary" type="submit" id="button-search">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Filter form here -->
+                <form action="FilterResults" method="GET">
+                    <label for="category">Category:</label><br>
+                    <input type="checkbox" id="necklace" name="categories" value="necklace">
+                    <label for="necklace">Necklaces</label><br>
+                    <input type="checkbox" id="bracelet" name="categories" value="bracelet">
+                    <label for="bracelet">Bracelets</label><br>
+                    <input type="checkbox" id="earrings" name="categories" value="earrings">
+                    <label for="earrings">Earrings</label><br>
+                    <input type="checkbox" id="ring" name="categories" value="ring">
+                    <label for="ring">Rings</label><br>
+
+                    <label for="material">Material:</label><br>
+                    <input type="checkbox" id="gold" name="materials" value="gold">
+                    <label for="gold">Gold</label><br>
+                    <input type="checkbox" id="silver" name="materials" value="silver">
+                    <label for="silver">Silver</label><br>
+
+                    <!-- Assuming only one karat value can be selected; otherwise, adjust similarly -->
+                    <label for="karat">Karat:</label><br>
+                    <input type="checkbox" id="karat14" name="karats" value="14">
+                    <label for="karat14">14</label><br>
+                    <input type="checkbox" id="karat18" name="karats" value="18">
+                    <label for="karat18">18</label><br>
+
+                    <!-- Assuming salePrice is a boolean indicating if the item is on sale -->
+                    <label for="salePrice">On Sale:</label><br>
+                    <input type="checkbox" id="salePrice" name="salePrice" value="1"><br>
+
+                    <button type="submit" class="btn btn-primary mt-3">Filter</button>
+                </form>
+            </div>
+
+
+            <div class="col-md-9">
+                <div class="untree_co-section product-section before-footer-section">
+                    <div class="container">
+                        <div class="row">
+                            @foreach (Product pro in Model.productsList)
+                            {
+                                <!-- Display all products -->
+                                <div class="col-12 col-md-4 col-lg-3 mb-5">
+                                    <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
+                                        <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
+                                        <h3 class="product-title">@pro.PName</h3>
+
+                                        @if (pro.Sale_price != 0)
+                                        {
+                                            <del class="text-muted">@pro.OriginPrice ₪</del><br />
+                                            <strong class="text-danger">@pro.Sale_price ₪</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>@pro.OriginPrice ₪</strong>
+                                        }
+                                        <div id="errorMessageContainer" style="display: none;" class="alert alert-danger" role="alert"></div>
+
+
+                                    </a>
+
+                                </div>
+                                <!-- End display -->
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row g-5 mb-5">
+        <div class="col-lg-4">
+            <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Furni<span>.</span></a></div>
+            <p class="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant</p>
+
+            <ul class="list-unstyled custom-social">
+                <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+                <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+            </ul>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="row links-wrap">
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Knowledge base</a></li>
+                        <li><a href="#">Live chat</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">Jobs</a></li>
+                        <li><a href="#">Our team</a></li>
+                        <li><a href="#">Leadership</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">Nordic Chair</a></li>
+                        <li><a href="#">Kruzo Aero</a></li>
+                        <li><a href="#">Ergonomic Chair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="border-top copyright">
+        <div class="row pt-4">
+            <div class="col-lg-6">
+                <p class="mb-2 text-center text-lg-start">
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a>  Distributed By <a href="https://themewagon.com">ThemeWagon</a> <!-- License information: https://untree.co/license/ -->
+                </p>
+            </div>
+
+            <div class="col-lg-6 text-center text-lg-end">
+                <ul class="list-unstyled d-inline-flex ms-auto">
+                    <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- End Footer Section -->
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/tiny-slider.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>function goBack() {
+            window.history.back();
+        }</script>
+</body>
+
+</html>
