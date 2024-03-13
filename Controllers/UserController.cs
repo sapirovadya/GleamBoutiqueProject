@@ -8,9 +8,11 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using GleamBoutiqueProject.Filters;
 
 namespace GleamBoutiqueProject.Controllers
 {
+    [NoCache]
     public class UserController : Controller
     {
 
@@ -135,7 +137,14 @@ namespace GleamBoutiqueProject.Controllers
             ModelState.AddModelError(string.Empty, "User does not exist");
             return View("SignIn", myUser);
         }
+        public IActionResult Logout()
+        {
 
+            HttpContext.Session.Clear(); // Clear session variables
+            Response.Cookies.Delete(".AspNetCore.Session");
+
+            return RedirectToAction("Index", "Home"); // Redirect to home page
+        }
 
     }
 }

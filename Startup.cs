@@ -23,7 +23,6 @@ namespace GleamBoutiqueProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            // Add session services
             services.AddDistributedMemoryCache(); // Required for session state
             services.AddSession(options =>
             {
@@ -50,10 +49,17 @@ namespace GleamBoutiqueProject
             app.UseRouting();
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
             app.UseSession(); // Add session middleware
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "logout",
+                    pattern: "User/Logout",
+                    defaults: new { controller = "User", action = "Logout" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

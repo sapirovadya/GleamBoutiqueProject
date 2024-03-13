@@ -52,8 +52,8 @@
             <div class="row gx-5">
                 <aside class="col-lg-6">
                     <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                        <a data-fslightbox="mygalley" class="rounded-4"  data-type="image">
-                            <img style="max-width: 60%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/images/@(Model.PName).jpg" />
+                        <a data-fslightbox="mygalley" class="rounded-4" data-type="image">
+                            <img style="width: 100%; height: 100%; object-fit: cover;" class="rounded-4" src="/images/@(Model.PName).jpg" />
                         </a>
                     </div>
                     <div class="d-flex justify-content-center mb-3">
@@ -142,6 +142,17 @@
                         </div>
 
                         <div class="my-custom-spacing"></div>
+
+                        @if (Model.Amount == 0)
+                        {
+                    <form asp-controller="ProductDetails" asp-action="IncrementNotifyCount" method="post">
+                        <input type="email" name="UserEmail" required placeholder="Enter your email"
+                               pattern="^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Invalid email address" />
+                        <input type="hidden" name="productId" value="@Model.Pid" />
+                        <button type="submit">Notify Me</button>
+                    </form>
+                        }
+
                     </div>
                 </main>
             </div>

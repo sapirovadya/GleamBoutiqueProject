@@ -31,13 +31,13 @@
     <title>GleamBoutique</title>
     <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
 
-    @{ ViewData["Title"] = "Add product"; }
+    @{ ViewData["Title"] = "Update product"; }
 </head>
 
 <body>
 
     <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
         <div class="container">
             <a class="navbar-brand" href="index.html">GleamBoutiqe<span>.</span></a>
@@ -52,7 +52,7 @@
                         <a class="nav-link" href="../Home/ManagerHome">Home</a>
 
                     </li>
-                    <li><a class="nav-link" href="../Shop/Shop">Shop</a></li>
+                    <li><a class="nav-link" href="../Managers/ManagerShop">Shop</a></li>
                     <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
                     <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
                     <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
@@ -60,9 +60,14 @@
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
-                    <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png"></a></li>
+                    <li>
+                        <a href="/User/Logout">
+                            <img src="~/images/LogOut.png" alt="Logout" style="width: 24px; height: 24px;">
+                        </a>
+                    </li>
+                    <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png" style="width: 24px; height: 24px;"></a></li>
                 </ul>
+
             </div>
         </div>
 
@@ -74,7 +79,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="intro-excerpt center">
-                        <h1>Edit Product</h1>
+                        <h1>Update Product</h1>
                     </div>
                 </div>
             </div>
@@ -89,152 +94,133 @@
 
                         <div class="p-3 p-lg-5 border bg-white">
                             <div class="form-group row">
-                                <div class="col-md-9">
-                                    <div>
-                                        <label for="Pid">Product ID:</label>
-                                        <input type="text" id="Pid" name="Pid" value="@Model.Pid" readonly />
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="Catalogy_number" class="form-label text-black">Catalogy Number:</label>
+                                        <input type="text" class="form-control" name="Pid" value="@Model.Pid" readonly>
                                     </div>
-                                    <div>
-                                        <label for="PName">Product Name:</label>
-                                        <input type="text" id="PName" name="PName" value="@Model.PName" />
+                                    <div class="mb-3">
+                                        <label for="PName" class="form-label text-black">Product Name:</label>
+                                        <input type="text" class="form-control" name="PName" value="@Model.PName">
+                                        <span class="text-danger">@Html.ValidationMessageFor(x => x.PName)</span>
                                     </div>
-                                    <div>
-                                        <label for="OriginPrice">Original Price:</label>
-                                        <input type="text" id="OriginPrice" name="OriginPrice" value="@Model.OriginPrice" />
+                                    <div class="mb-3">
+                                        <label for="OriginPrice" class="form-label text-black">Price:</label>
+                                        <input type="text" class="form-control" name="OriginPrice" value="@Model.OriginPrice">
+                                        <span class="text-danger">@Html.ValidationMessageFor(x => x.OriginPrice)</span>
                                     </div>
-                                    <div>
-                                        <label for="Amount">Amount:</label>
-                                        <input type="text" id="Amount" name="Amount" value="@Model.Amount" />
+                                    <div class="mb-3">
+                                        <label for="Amount" class="form-label text-black">Units in Stock:</label>
+                                        <input type="text" class="form-control" name="Amount" value="@Model.Amount">
+                                        <span class="text-danger">@Html.ValidationMessageFor(x => x.Amount)</span>
                                     </div>
-                                    <div>
-                                        <label for="Notify_Count">Notify Count:</label>
-                                        <input type="text" id="Notify_Count" name="Notify_Count" value="@Model.Notify_Count" readonly />
+                                    <div class="mb-3">
+                                        <label for="Notify_Count" class="form-label text-black">Notify Count:</label>
+                                        <input type="text" class="form-control" name="Notify_Count" value="@Model.Notify_Count" readonly>
                                     </div>
-                                    <div>
-                                        <label for="category">Category:</label>
-                                        <input type="text" id="category" name="category" value="@Model.category" />
+                                    <div class="mb-3">
+                                        <label for="category" class="form-label text-black">Category:</label>
+                                        <select name="category" class="form-control" value="@Model.category">
+                                            <option value="ring">Ring</option>
+                                            <option value="necklace">Necklace</option>
+                                            <option value="earrings">Earrings</option>
+                                            <option value="bracelet">Bracelet</option>
+                                        </select>
                                     </div>
-                                    <div>
-                                        <label for="Material">Material:</label>
-                                        <input type="text" id="Material" name="Material" value="@Model.Material" />
+                                    <div class="mb-3">
+                                        <label for="Material" class="form-label text-black">Material:</label>
+                                        <select id="materialSelect" name="Material" class="form-control">
+                                            <option value="gold" selected="@(Model.Material == "gold")">Gold</option>
+                                            <option value="silver" selected="@(Model.Material == "silver")">Silver</option>
+                                        </select>
                                     </div>
-                                    <div>
-                                        <label for="Sale_price">Sale Price:</label>
-                                        <input type="text" id="Sale_price" name="Sale_price" value="@Model.Sale_price" />
+                                    <div class="mb-3">
+                                        <label for="Sale_price" class="form-label text-black">Price after discount:</label>
+                                        <input type="text" class="form-control" name="Sale_price" value="@Model.Sale_price" />
+                                        <span class="text-danger">@Html.ValidationMessageFor(x => x.Sale_price)</span>
                                     </div>
-                                    <div>
-                                        <label for="karat">Karat:</label>
-                                        <input type="text" id="karat" name="karat" value="@Model.karat" />
+                                    <div class="mb-3" id="karatSelect" style="@(Model.Material == "gold" ? "" : "display:none;")">
+                                        <label for="karat" class="text-black">Karat:</label>
+                                        <select id="karat" name="karat" class="form-control">
+                                            <option value="14" selected="@(Model.karat == 14)">14</option>
+                                            <option value="18" selected="@(Model.karat == 18)">18</option>
+                                        </select>
                                     </div>
-                                    <div class="input-group-append text-center">
-                                        <input class="btn btn-black btn-sm" type="submit" value="Add" />
-                                    </div>
-
+                                    @*<div id="karatSelect" style="display:none;">
+                                        <label for="karat" class="text-black">Karat:</label>
+                                        <select id="karat" name="karat" class="form-control" value="@Model.karat">
+                                            <option value="14">14</option>
+                                            <option value="18">18</option>
+                                        </select>
+                                    </div>*@
                                 </div>
                             </div>
+                            </br>
+                            <div class="d-grid gap-2">
+                                <input class="btn btn-black btn-sm" type="submit" value="Update" />
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-
-
-
-
-
     <!-- Start Footer Section -->
     <footer class="footer-section">
         <div class="container relative">
-
             <div class="row g-5 mb-5">
                 <div class="col-lg-4">
-                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">GleamBoutique<span>.</span></a></div>
-                    <p class="mb-4">Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.</p>
-
+                    <div class="mb-4 footer-logo-wrap"><a href="../Home/HomePage" class="footer-logo">GleamBoutique<span>.</span></a></div>
+                    <p class="mb-4">
+                        Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
+                    </p>
                     <ul class="list-unstyled custom-social">
                         <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
                     </ul>
                 </div>
-
-                <div class="col-lg-8">
-                    <div class="row links-wrap">
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact us</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Support</a></li>
-                                <li><a href="#">Knowledge base</a></li>
-                                <li><a href="#">Live chat</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Jobs</a></li>
-                                <li><a href="#">Our team</a></li>
-                                <li><a href="#">Leadership</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Nordic Chair</a></li>
-                                <li><a href="#">Kruzo Aero</a></li>
-                                <li><a href="#">Ergonomic Chair</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
-            <div class="border-top copyright">
-                <div class="row pt-4">
-                    <div class="col-lg-6">
-                        <p class="mb-2 text-center text-lg-start">
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a> Distributed By <a hreff="https://themewagon.com">ThemeWagon</a>  <!-- License information: https://untree.co/license/ -->
-                        </p>
-                    </div>
-
-                    <div class="col-lg-6 text-center text-lg-end">
-                        <ul class="list-unstyled d-inline-flex ms-auto">
-                            <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-
         </div>
     </footer>
     <!-- End Footer Section -->
-
 
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/tiny-slider.js"></script>
     <script src="/js/custom.js"></script>
 
-    <script>
-        function goBack() {
+    <script>function goBack() {
             window.history.back();
         }</script>
 
-</body>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+            // Get reference to the material select element
+            var materialSelect = document.getElementById("materialSelect");
 
+            // Get reference to the karat select element
+            var karatSelect = document.getElementById("karatSelect");
+
+            // Check the initial value of the material select element
+            if (materialSelect.value === "gold") {
+                // If initial value is "gold", show the karat select element
+                karatSelect.style.display = "block";
+            } else {
+                // If initial value is not "gold", hide the karat select element
+                karatSelect.style.display = "none";
+            }
+
+            // Add change event listener to the material select element
+            materialSelect.addEventListener("change", function () {
+                // Check if the selected value is "gold"
+                if (materialSelect.value === "gold") {
+                    // Show the karat select element
+                    karatSelect.style.display = "block";
+                } else {
+                    // Hide the karat select element
+                    karatSelect.style.display = "none";
+                }
+            });
+        });</script>
+</body>
 </html>
