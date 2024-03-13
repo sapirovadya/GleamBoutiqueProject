@@ -8,11 +8,13 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using GleamBoutiqueProject.ViewModel;
+using GleamBoutiqueProject.Filters;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GleamBoutiqueProject.Controllers
 {
+    [NoCache]
     public class ManagersController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -410,7 +412,44 @@ namespace GleamBoutiqueProject.Controllers
                 return View("ProductsDetailsS", updatedProduct);
             }
         }
+        public IActionResult ManagerShop()
+        {
+            ProductViewModel proViewModel = new ProductViewModel();
+            proViewModel.productsList = new List<Product>();
+            //proViewModel.cartProducts = new List<Product>();
 
+            //SQL connection
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery = "SELECT * FROM Product";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    //Read from the SQL table
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Product newProduct = new Product();
+                        newProduct.Pid = reader.GetString(0);
+                        newProduct.PName = reader.GetString(1);
+                        newProduct.OriginPrice = reader.GetInt32(2);
+                        newProduct.Amount = reader.GetInt32(3);
+                        newProduct.Notify_Count = reader.GetInt32(4);
+                        newProduct.category = reader.GetString(5);
+                        newProduct.Material = reader.GetString(6);
+                        newProduct.Sale_price = reader.GetInt32(7);
+                        newProduct.karat = reader.GetInt32(8);
+                        //newProduct.ProImage = reader.GetString(9);
+
+                        proViewModel.productsList.Add(newProduct);
+                    }
+                    reader.Close();
+                }
+                connection.Close();
+            }
+            return View(proViewModel);
+        }
 
 
     }

@@ -23,8 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Managers\" />
+    <None Remove="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Managers\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
 </Project>
