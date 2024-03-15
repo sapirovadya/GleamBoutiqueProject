@@ -1,5 +1,6 @@
 ﻿@model GleamBoutiqueProject.Models.Product
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -143,16 +144,16 @@
 
                         <div class="my-custom-spacing"></div>
 
+
+
                         @if (Model.Amount == 0)
                         {
-                    <form asp-controller="ProductDetails" asp-action="IncrementNotifyCount" method="post">
-                        <input type="email" name="UserEmail" required placeholder="Enter your email"
-                               pattern="^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Invalid email address" />
-                        <input type="hidden" name="productId" value="@Model.Pid" />
-                        <button type="submit">Notify Me</button>
-                    </form>
+                            <form asp-controller="ProductDetails" asp-action="IncrementNotifyCount" method="post">
+                                <input type ="email" name="UserEmail" required placeholder="Enter your email" value="@ViewBag.UserEmail"  />
+                                <input type="hidden" name="productId" value="@Model.Pid" />
+                                <button type="submit">Notify Me</button>
+                            </form>
                         }
-
                     </div>
                 </main>
             </div>
@@ -239,24 +240,33 @@
     <script src="js/custom.js"></script>
 
     <script>
-            document.getElementById('button-minus').addEventListener('click', function () {
-                var input = document.getElementById('quantity-input');
-                var currentValue = parseInt(input.value) || 0; // Default to 1 if parsing fails
-                if (currentValue > 0) { // Ensure quantity does not go below 1
-                    input.value = currentValue - 1;
-                }
-            });
+        document.getElementById('button-minus').addEventListener('click', function () {
+            var input = document.getElementById('quantity-input');
+            var currentValue = parseInt(input.value) || 0; // Default to 1 if parsing fails
+            if (currentValue > 0) { // Ensure quantity does not go below 1
+                input.value = currentValue - 1;
+            }
+        });
 
-            document.getElementById('button-plus').addEventListener('click', function () {
-                var input = document.getElementById('quantity-input');
-                var currentValue = parseInt(input.value) || 0; // Default to 1 if parsing fails
-                var maxStock = parseInt(input.getAttribute('data-stock')); // Retrieve the max stock from the data attribute
+        document.getElementById('button-plus').addEventListener('click', function () {
+            var input = document.getElementById('quantity-input');
+            var currentValue = parseInt(input.value) || 0; // Default to 1 if parsing fails
+            var maxStock = parseInt(input.getAttribute('data-stock')); // Retrieve the max stock from the data attribute
 
-                if (currentValue < maxStock) { // Ensure quantity does not exceed available stock
-                    input.value = currentValue + 1;
-                }
-            });
-        </script>
+            if (currentValue < maxStock) { // Ensure quantity does not exceed available stock
+                input.value = currentValue + 1;
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+
 
 
 
