@@ -33,44 +33,6 @@
     <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.addToCartButton').click(function () {
-                var proid = $(this).data('proid');
-                var amount = $(this).data('amount');
-                var stock = $(this).data('stock');
-
-                // Check if stock is zero
-                if (stock <= 0) {
-                    alert('Sorry, the product is out of stock.');
-                    return; // Stop execution if out of stock
-                }
-
-                // Proceed to add the product to the cart
-                addToCart(proid, amount, stock);
-            });
-
-            function addToCart(proid, amount, stock) {
-                $.ajax({
-                    url: '/Shop/AddToCart',
-                    type: 'POST',
-                    data: { proid: proid, amount: amount, stock: stock },
-                    success: function (result) {
-                        // Handle success response
-                        console.log('Product added to cart');
-                        // Optionally, redirect or update the UI as needed
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle error response
-                        console.error('Failed to add product to cart');
-                        // Check if the error message is related to stock availability
-                        if (xhr.responseJSON && xhr.responseJSON.errorMessage) {
-                            alert(xhr.responseJSON.errorMessage); // Display error message to the user
-                        }
-                    }
-                });
-            }
-        });</script>
 </head>
 
 <body>
@@ -179,12 +141,16 @@
                 <div class="untree_co-section product-section before-footer-section">
                     <div class="container">
                         <div class="row">
+
                             @foreach (Product pro in Model.productsList)
                             {
                                 <!-- Display all products -->
                                 <div class="col-12 col-md-4 col-lg-3 mb-5">
-                                    <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
-                                        <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
+                                    <div class="product-item">
+                                        <a href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
+                                            <div class="out-of-stock-label" style="display: @(pro.Amount == 0 ? "block" : "none")">Sold Out</div>
+                                            <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
+                                        </a>
                                         <h3 class="product-title">@pro.PName</h3>
 
                                         @if (pro.Sale_price != 0)
@@ -198,14 +164,21 @@
                                         }
                                         <div id="errorMessageContainer" style="display: none;" class="alert alert-danger" role="alert"></div>
 
-                                        <span class="icon-cross">
-                                            <img src="/images/cross.svg" class="img-fluid addToCartButton" data-proid="@pro.Pid" data-amount="1" data-stock="@pro.Amount" />
-                                        </span>
-                                    </a>
-
+                                        @if (pro.Amount > 0)
+                                        {
+                                            <span class="icon-cross">
+                                                <img src="/images/cross.svg" class="img-fluid addToCartButton" data-proid="@pro.Pid" data-amount="1" data-stock="@pro.Amount" onclick="addToCart('@pro.Pid', '@pro.Amount')" />
+                                            </span>
+                                        }
+                                    </div>
                                 </div>
                                 <!-- End display -->
                             }
+
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -293,6 +266,30 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
+
+
+    <script>
+    function addToCart(proid, stock) {
+        var formData = new FormData();
+        formData.append("proid", proid);
+        formData.append("amount", 1);
+        formData.append("stock", stock);
+
+        $.ajax({
+            url: '@Url.Action("AddToCart", "Shop")',
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                alert(response.successMessage); // Display success message
+            },
+            error: function (response) {
+                alert(response.responseJSON.errorMessage);
+            }
+        });
+    }
+    </script>
 
 
 </body>

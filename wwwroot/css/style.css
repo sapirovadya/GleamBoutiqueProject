@@ -1066,3 +1066,22 @@ textarea {
         background-color: #ff8ec7; /* A slightly lighter or darker pink for hover */
         border-color: #ff8ec7;
     }
+
+
+.out-of-stock-label {
+    position: absolute;
+    top: 20px;
+    background-color: #85674a; /* Background color */
+    color: #ffffff; /* White text color */
+    padding: 5px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    font-family: 'Inter', sans-serif; /* Use the Inter font family */
+    font-weight: 400; /* Font weight */
+    line-height: 28px; /* Line height */
+    z-index: 1; /* Ensure the label is above the image */
+}
+
+
+
+
+

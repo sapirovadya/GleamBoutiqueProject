@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GleamBoutiqueProject.Models;
+using GleamBoutiqueProject.ViewModel;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -26,10 +29,9 @@ namespace GleamBoutiqueProject.Controllers
             return View();
         }
 
-        public IActionResult IncrementNotifyCount(string UserEmail, string productId)
+        public IActionResult IncrementNotifyCount(string userEmail, string productId)
         {
-            // Define your connection string here (ideally, it should be retrieved from your configuration settings)
-            
+ 
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

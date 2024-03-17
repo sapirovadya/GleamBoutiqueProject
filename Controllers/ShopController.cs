@@ -192,120 +192,76 @@ namespace GleamBoutiqueProject.Controllers
             return View("shop", proViewModel);
         }
 
+
         public IActionResult AddToCart(string proid, int amount, int stock)
         {
             string userEmail = HttpContext.Session.GetString("Email");
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-
-                // Check if the product is already in the cart for the user
-                string selectQuery = "SELECT proAmount FROM Cart WHERE userEmail = @UserEmail AND Proid = @proid";
-                using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    selectCommand.Parameters.AddWithValue("@UserEmail", userEmail);
-                    selectCommand.Parameters.AddWithValue("@proid", proid);
-
-                    object result = selectCommand.ExecuteScalar();
-
-                    if (result != null) // Product found in the cart
+                    connection.Open();
+                    int currentAmount = GetCartProductAmount(connection, userEmail, proid);
+                    if (currentAmount != -1) // Product found in the cart
                     {
-                        int currentAmount = Convert.ToInt32(result);
                         int newAmount = Math.Min(stock, currentAmount + amount);
-
-                        // Update the cart item
-                        string updateQuery = "UPDATE Cart SET proAmount = @NewAmount WHERE UserEmail = @userEmail AND Proid = @proid";
-                        using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
-                        {
-                            updateCommand.Parameters.AddWithValue("@NewAmount", newAmount);
-                            updateCommand.Parameters.AddWithValue("@UserEmail", userEmail); // Ensure the parameter name matches the case used here
-                            updateCommand.Parameters.AddWithValue("@Proid", proid);
-                            updateCommand.ExecuteNonQuery();
-                        }
+                        UpdateCartProductAmount(connection, userEmail, proid, newAmount);
                     }
                     else // Product not found in the cart
                     {
-                        if (stock > 0)
-                        {
-                            // Insert new cart item
-                            string insertQuery = "INSERT INTO Cart (Proid, proAmount, UserEmail) VALUES (@Proid, @proAmount, @UserEmail)";
-                            using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
-                            {
-                                insertCommand.Parameters.AddWithValue("@Proid", proid);
-                                insertCommand.Parameters.AddWithValue("@proAmount", amount);
-                                insertCommand.Parameters.AddWithValue("@UserEmail", userEmail);
-                                insertCommand.ExecuteNonQuery();
-                            }
-                        }
-                        else //not in the stock
-                            return Json(new { errorMessage = "Sorry, the product is out of stock." });
+                        InsertCartProduct(connection, proid, amount, userEmail);
                     }
                 }
-                connection.Close();
+                // Return a success message
+                return Json(new { successMessage = "The product has been successfully added to the cart!" });
             }
-
-            return RedirectToAction("Shop", "Index"); // Assuming "Shop" is the action and "Index" is the controller
+            catch (Exception ex)
+            {
+                // Handle exception
+                return Json(new { errorMessage = "ERROR. Please try again" });
+            }
         }
-        //public IActionResult AddToCart(string proid, int amount, int stock)
-        //{
-        //    string userEmail = HttpContext.Session.GetString("Email");
-
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-
-        //        // Check if the product is already in the cart for the user
-        //        string selectQuery = "SELECT proAmount FROM Cart WHERE userEmail = @UserEmail AND Proid = @proid";
-        //        using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
-        //        {
-        //            selectCommand.Parameters.AddWithValue("@UserEmail", userEmail);
-        //            selectCommand.Parameters.AddWithValue("@proid", proid);
-
-        //            object result = selectCommand.ExecuteScalar();
-
-        //            if (result != null) // Product found in the cart
-        //            {
-        //                int currentAmount = Convert.ToInt32(result);
-        //                int newAmount = Math.Min(stock, currentAmount + amount);
-
-        //                // Update the cart item
-        //                string updateQuery = "UPDATE Cart SET proAmount = @NewAmount WHERE UserEmail = @userEmail AND Proid = @proid";
-        //                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
-        //                {
-        //                    updateCommand.Parameters.AddWithValue("@NewAmount", newAmount);
-        //                    updateCommand.Parameters.AddWithValue("@UserEmail", userEmail); // Ensure the parameter name matches the case used here
-        //                    updateCommand.Parameters.AddWithValue("@Proid", proid);
-        //                    updateCommand.ExecuteNonQuery();
-        //                }
-        //            }
-        //            else // Product not found in the cart
-        //            {
-        //                if (stock > 0)  
-        //                {
-        //                    // Insert new cart item
-        //                    string insertQuery = "INSERT INTO Cart (Proid, proAmount, UserEmail) VALUES (@Proid, @proAmount, @UserEmail)";
-        //                    using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
-        //                    {
-        //                        insertCommand.Parameters.AddWithValue("@Proid", proid);
-        //                        insertCommand.Parameters.AddWithValue("@proAmount", amount);
-        //                        insertCommand.Parameters.AddWithValue("@UserEmail", userEmail);
-        //                        insertCommand.ExecuteNonQuery();
-        //                    }
-        //                }
-        //                else //not in the stock
-        //                    return Json(new { errorMessage = "Sorry, the product is out of stock." });
-        //            }
-        //        }
-        //        connection.Close();
-        //    }
-
-        //    return RedirectToAction("Shop", "Index"); // Assuming "Shop" is the action and "Index" is the controller
-        //}
 
 
+        private int GetCartProductAmount(SqlConnection connection, string userEmail, string proid)
+        {
+            string selectQuery = "SELECT proAmount FROM Cart WHERE userEmail = @UserEmail AND Proid = @proid";
+            using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@UserEmail", userEmail);
+                selectCommand.Parameters.AddWithValue("@proid", proid);
+                object result = selectCommand.ExecuteScalar();
 
+                if (result != null)  //product found in the cart
+                    return Convert.ToInt32(result);  //return 1
+                else
+                    return -1; // Product not found in the cart
+            }
+        }
 
+        private void UpdateCartProductAmount(SqlConnection connection, string userEmail, string proid, int newAmount)
+        {
+            string updateQuery = "UPDATE Cart SET proAmount = @NewAmount WHERE UserEmail = @userEmail AND Proid = @proid";
+            using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+            {
+                updateCommand.Parameters.AddWithValue("@NewAmount", newAmount);
+                updateCommand.Parameters.AddWithValue("@UserEmail", userEmail);
+                updateCommand.Parameters.AddWithValue("@Proid", proid);
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+
+        private void InsertCartProduct(SqlConnection connection, string proid, int amount, string userEmail)
+        {
+            string insertQuery = "INSERT INTO Cart (Proid, proAmount, UserEmail) VALUES (@Proid, @proAmount, @UserEmail)";
+            using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
+            {
+                insertCommand.Parameters.AddWithValue("@Proid", proid);
+                insertCommand.Parameters.AddWithValue("@proAmount", amount);
+                insertCommand.Parameters.AddWithValue("@UserEmail", userEmail);
+                insertCommand.ExecuteNonQuery();
+            }
+        }
 
         public IActionResult Cart()
         {
@@ -322,7 +278,6 @@ namespace GleamBoutiqueProject.Controllers
                 List<CartItemViewModel> userCartItems = GetCartItemsForUser(userEmail);
                 allCartItems.AddRange(userCartItems);
             }
-
             // Pass the list of cart items to the view
             return View(allCartItems);
         }
@@ -335,13 +290,10 @@ namespace GleamBoutiqueProject.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-
                 string query = "SELECT C.Proid, C.proAmount, P.PName, P.OriginPrice, P.Sale_Price FROM Cart C INNER JOIN Product P ON C.Proid = P.Pid WHERE C.UserEmail = @UserEmail";
-
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserEmail", userEmail);
-
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -360,12 +312,12 @@ namespace GleamBoutiqueProject.Controllers
                     }
                 }
             }
-
             return cartItems;
         }
 
         public IActionResult ProductDetails(string id)
         {
+            string userEmail = HttpContext.Session.GetString("Email");
             Product product = null;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -404,7 +356,9 @@ namespace GleamBoutiqueProject.Controllers
                 return NotFound();
             }
 
+            ViewBag.UserEmail = userEmail;
             return View("ProductDetails", product);
         }
     }
 }
+

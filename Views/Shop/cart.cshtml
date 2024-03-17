@@ -29,6 +29,9 @@
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -102,49 +105,39 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
+                                 <tr>
                                     <td class="product-thumbnail">
-                                        <img src="/images/@(item.PName).jpg" alt="Image" class="img-fluid">
+                                            <img src="/images/@(item.PName).jpg" alt="Image" class="img-fluid">
                                     </td>
                                     <td class="product-name">
-                                        <h2 class="h5 text-black">@item.PName</h2>
+                                            <h2 class="h5 text-black">@item.PName</h2>
                                     </td>
                                     <td>
-                                        @if (item.salePrice != 0)
-                                        {
-                                        <del class="text-muted">@item.OriginPrice ₪</del><br />
-                                        <strong class="text-danger">@item.salePrice ₪</strong>
-                                        }
-                                        else
-                                        {
-                                        @item.OriginPrice @Html.Raw("₪")
-                                        }
+                                       @if (item.salePrice != 0)
+                                         {
+                                          <del class="text-muted">@item.OriginPrice ₪</del><br />
+                                          <strong class="text-danger">@item.salePrice ₪</strong>
+                                         }
+                                         else
+                                            @item.OriginPrice @Html.Raw("₪")
                                     </td>
                                     <td>
                                         <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
                                             <div class="input-group-prepend">
                                                 <button class="btn btn-outline-black decrease" type="button">&minus;</button>
                                             </div>
-                                            <input type="text" class="form-control text-center quantity-amount" value="@item.ProAmount" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                            <input type="text" class="form-control text-center quantity-amount" value="@item.ProAmount" data-stock="@item.ProAmount" data-price="@item.salePrice != 0 ? item.salePrice : item.OriginPrice" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                                             <div class="input-group-append">
                                                 <button class="btn btn-outline-black increase" type="button">&plus;</button>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        @if (item.salePrice == 0)
-                                        {
-                                        @(item.OriginPrice * item.ProAmount)@Html.Raw("₪")
-                                        }
-                                        else
-                                        {
-                                        @(item.salePrice * item.ProAmount)@Html.Raw("₪")
-                                        }
+                                       <span class="total-amount">@((item.salePrice != 0 ? item.salePrice : item.OriginPrice) * item.ProAmount) ₪</span>
                                     </td>
                                     <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                                </tr>
-                                }
-
+                                    </tr>
+                                   }
                             </tbody>
                         </table>
                     </div>
@@ -320,9 +313,13 @@
     <!-- End Footer Section -->
 
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/tiny-slider.js"></script>
+    <script src="/js/custom.js"></script>
+
+
+
+
 </body>
 
 </html>
