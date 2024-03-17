@@ -317,6 +317,7 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult ProductDetails(string id)
         {
+            string userEmail = HttpContext.Session.GetString("Email");
             Product product = null;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -355,6 +356,7 @@ namespace GleamBoutiqueProject.Controllers
                 return NotFound();
             }
 
+            ViewBag.UserEmail = userEmail;
             return View("ProductDetails", product);
         }
     }
