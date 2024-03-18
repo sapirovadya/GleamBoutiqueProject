@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using GleamBoutiqueProject.Filters;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -139,11 +141,14 @@ namespace GleamBoutiqueProject.Controllers
         }
         public IActionResult Logout()
         {
+            //// Clear the existing authentication cookie
+            //HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            HttpContext.Session.Clear(); // Clear session variables
-            Response.Cookies.Delete(".AspNetCore.Session");
+            //// Clear session data associated with user's role
+            //_httpContextAccessor.HttpContext.Session.Remove("UserRole");
 
-            return RedirectToAction("Index", "Home"); // Redirect to home page
+            //// Redirect the user to the home page after logout
+            return RedirectToAction("Index", "Home");
         }
 
     }
