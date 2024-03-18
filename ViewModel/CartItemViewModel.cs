@@ -8,5 +8,6 @@ namespace GleamBoutiqueProject.ViewModel
         public string PName { get; set; }
         public int OriginPrice { get; set; }
         public int salePrice { get; set; }
+        public int ProStock { get; set; }
     }
 }

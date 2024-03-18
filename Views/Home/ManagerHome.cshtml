@@ -39,7 +39,7 @@
         <div class="container">
             <!--<a class="navbar-brand" href="index.html">GleamBoutique<span>.</span></a>-->
 
-            <a href="index.html"><img src="/images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
+            <a href="index.html"><img src="~/images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
 
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,11 +62,12 @@
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 
                     <li>
-                        <a href="/User/Logout">
-                            <img src="/images/LogOut.png" alt="Logout" style="width: 24px; height: 24px;">
+                        <a href="/User/Logout" style="filter: invert(1);">
+                            <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top: 9px;">
                         </a>
+
                     </li>
-                    <li><a class="nav-link" href="cart.html"><img src="/images/cart.svg"></a></li>
+                    <li><a href="javascript:void(0)" style="filter: invert(1);" class="nav-link" onclick="goBack()"><img src="~/images/back1.png" style="width: 35px; height: 35px;"></a></li>
                 </ul>
             </div>
         </div>
@@ -90,7 +91,7 @@
                         </p>
 
                         <p>
-                            <a href="/Managers/ManagerShop" class="btn btn-secondary me-2" style="background-color: #947f6f; color: white;">Shop Now</a>
+                            <a href="../Managers/ManagerShop" class="btn btn-secondary me-2" style="background-color: #947f6f; color: white;">Shop Now</a>
                         </p>
                     </div>
                 </div>
@@ -156,7 +157,7 @@
                         <div class="col-6 col-md-6">
                             <div class="feature">
                                 <div class="icon">
-                                    <img src="images/truck.svg" alt="Image" class="imf-fluid">
+                                    <img src="~/images/truck.svg" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>Fast &amp; Free Shipping</h3>
                                 <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
@@ -166,7 +167,7 @@
                         <div class="col-6 col-md-6">
                             <div class="feature">
                                 <div class="icon">
-                                    <img src="images/bag.svg" alt="Image" class="imf-fluid">
+                                    <img src="~/images/bag.svg" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>Easy to Shop</h3>
                                 <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
@@ -176,7 +177,7 @@
                         <div class="col-6 col-md-6">
                             <div class="feature">
                                 <div class="icon">
-                                    <img src="images/support.svg" alt="Image" class="imf-fluid">
+                                    <img src="~/images/support.svg" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>24/7 Support</h3>
                                 <p>Available for you at the number: +972-8-6519864</p>
@@ -186,7 +187,7 @@
                         <div class="col-6 col-md-6">
                             <div class="feature">
                                 <div class="icon">
-                                    <img src="images/return.svg" alt="Image" class="imf-fluid">
+                                    <img src="~/images/return.svg" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>Hassle Free Returns</h3>
                                 <p>
@@ -201,7 +202,7 @@
 
                 <div class="col-lg-5">
                     <div class="img-wrap">
-                        <img src="images/Hila.jpg" alt="Image" class="img-fluid">
+                        <img src="~/images/Hila.jpg" alt="Image" class="img-fluid">
                     </div>
                 </div>
 
@@ -218,7 +219,6 @@
                     <h2 class="section-title">About us</h2>
                 </div>
             </div>
-
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="testimonial-slider-wrap text-center">
@@ -227,7 +227,6 @@
                             <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
                             <span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
                         </div>
-
                         <div class="testimonial-slider">
 
                             <div class="item">
@@ -236,15 +235,15 @@
 
                                         <div class="testimonial-block text-center">
                                             <blockquote class="mb-5">
-                                                <p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
+                                                <p>&ldquo;I'm May, a 24-year-old software engineering student who has a deep passion for crafting beautiful jewelry. Each piece in our collection is meticulously designed and handcrafted, blending elegance with personal flair. Drawing inspiration from nature's beauty and vibrant colors, we create unique pieces that reflect individuality and charm. Thank you for supporting our journey and sharing in our love for handmade jewelry.&rdquo;</p>
                                             </blockquote>
 
                                             <div class="author-info">
                                                 <div class="author-pic">
-                                                    <img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                    <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
                                                 </div>
-                                                <h3 class="font-weight-bold">Maria Jones</h3>
-                                                <span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
+                                                <h3 class="font-weight-bold">May zohar</h3>
+                                                <span class="position d-block mb-3">CEO, co-founder and website designer</span>
                                             </div>
                                         </div>
 
@@ -259,15 +258,15 @@
 
                                         <div class="testimonial-block text-center">
                                             <blockquote class="mb-5">
-                                                <p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
+                                                <p>&ldquo;I'm Sapir, a 26-year-old enthusiast of fine jewelry, with a special love for earrings. As one of the three owners of this handmade jewelry website, I pour my passion into creating elegant and unique pieces that capture the essence of beauty and style. Inspired by intricate designs and the play of light, each earring is meticulously crafted to add a touch of charm and sophistication to your look. Thank you for joining us on this creative journey and appreciating the artistry behind our handmade earrings.&rdquo;</p>
                                             </blockquote>
 
                                             <div class="author-info">
                                                 <div class="author-pic">
-                                                    <img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                    <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
                                                 </div>
-                                                <h3 class="font-weight-bold">Maria Jones</h3>
-                                                <span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
+                                                <h3 class="font-weight-bold">Sapir ovadya</h3>
+                                                <span class="position d-block mb-3">CEO, co-founder and website designer</span>
                                             </div>
                                         </div>
 
@@ -282,15 +281,15 @@
 
                                         <div class="testimonial-block text-center">
                                             <blockquote class="mb-5">
-                                                <p>&ldquo;Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer convallis volutpat dui quis scelerisque.&rdquo;</p>
+                                                <p>&ldquo;I'm Oriya, a 23-year-old with an extraordinary creativity and a deep passion for crafting rings. As one of the three owners of this handmade jewelry website, I pour my heart into designing and creating unique pieces that speak volumes about elegance and style. Drawing inspiration from various sources, each ring in our collection is a masterpiece that reflects my love for intricate details and fine craftsmanship. Thank you for supporting our creative journey and appreciating the artistry behind our handmade rings.&rdquo;</p>
                                             </blockquote>
 
                                             <div class="author-info">
                                                 <div class="author-pic">
-                                                    <img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                    <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
                                                 </div>
-                                                <h3 class="font-weight-bold">Maria Jones</h3>
-                                                <span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
+                                                <h3 class="font-weight-bold">Oriya Hazan</h3>
+                                                <span class="position d-block mb-3">CEO, co-founder and website designer</span>
                                             </div>
                                         </div>
 
@@ -298,10 +297,9 @@
                                 </div>
                             </div>
                             <!-- END item -->
-
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>

@@ -451,6 +451,45 @@ namespace GleamBoutiqueProject.Controllers
             return View(proViewModel);
         }
 
+        public IActionResult SearchProduct(string searchKeyword)
+        {
+            ProductViewModel proViewModel = new ProductViewModel();
+            proViewModel.productsList = new List<Product>();
+            // SQL connection
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery = "SELECT * FROM Product WHERE PName LIKE @proNameToSearch";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    // Set the parameter value
+                    command.Parameters.AddWithValue("@proNameToSearch", "%" + searchKeyword + "%");
+
+                    // Read from the SQL table
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Product newProduct = new Product();
+                        newProduct.Pid = reader.GetString(0);
+                        newProduct.PName = reader.GetString(1);
+                        newProduct.OriginPrice = reader.GetInt32(2);
+                        newProduct.Amount = reader.GetInt32(3);
+                        newProduct.Notify_Count = reader.GetInt32(4);
+                        newProduct.category = reader.GetString(5);
+                        newProduct.Material = reader.GetString(6);
+                        newProduct.Sale_price = reader.GetInt32(7);
+                        newProduct.karat = reader.GetInt32(8);
+
+                        proViewModel.productsList.Add(newProduct);
+                    }
+                    reader.Close();
+                }
+                connection.Close();
+            }
+
+            return View("ManagerShop", proViewModel);
+        }
 
     }
 }

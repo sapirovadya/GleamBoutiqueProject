@@ -30,7 +30,36 @@
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <title>GleamBoutique</title>
-    <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
+    <style>
+        .hero {
+            padding: 1.5rem; /* Adjust the padding to make the div smaller */
+            /* You can also adjust other styles such as margins, width, height, etc. */
+        }
+
+        .footer-section {
+            padding: 1.5rem;
+        }
+
+            /* Style for the footer text */
+            .footer-section p {
+                font-size: 0.9rem;
+            }
+
+        /* Style for the social icons */
+        .custom-social {
+            list-style: none;
+        }
+
+            .custom-social li {
+                display: inline-block;
+                margin-right: 1rem;
+            }
+
+                .custom-social li a {
+                    font-size: 1rem;
+                }
+    </style>
+    <link rel="shortcut icon" type="image/png" href="~/images/logo.png" />
 
     @{ ViewData["Title"] = "Add product"; }
 </head>
@@ -47,27 +76,28 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                <li class="nav-item ">
-                    <a class="nav-link" href="../Home/ManagerHome">Home</a>
+            <div class="collapse navbar-collapse" id="navbarsFurni">
+                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="../Home/ManagerHome">Home</a>
 
-                </li>
-                <li><a class="nav-link" href="../Managers/ManagerShop">Shop</a></li>
-                <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
-                <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
-                <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
-                <li><a class="nav-link" href="../Managers/ProductLists">Edit Product</a></li>
-            </ul>
+                    </li>
+                    <li><a class="nav-link" href="../Managers/ManagerShop">Shop</a></li>
+                    <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
+                    <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
+                    <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
+                    <li><a class="nav-link" href="../Managers/ProductLists">Edit Product</a></li>
+                </ul>
 
-            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li>
-                    <a href="/User/Logout">
-                        <img src="~/images/LogOut.png" alt="Logout" style="width: 24px; height: 24px;">
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    <li>
+                    <a href="/User/Logout" style="filter: invert(1);">
+                        <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top:9px;">
                     </a>
-                </li>
-                <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png"></a></li>
-            </ul>
-        </div>
+                    </li>
+                    <li><a href="javascript:void(0)" style="filter: invert(1);" class="nav-link" onclick="goBack()"><img src="~/images/back1.png" style="width: 35px; height: 35px;"></a></li>
+                </ul>
+            </div>
         </div>
 
     </nav>
@@ -89,9 +119,9 @@
         <div class="untree_co-section">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-6 mb-5 mb-md-0">
+                    <div class="col-md-8 mb-7 mb-md-0">
 
-                        <div class="p-3 p-lg-5 border bg-white">
+                        <div class="p-3 p-lg-7 border bg-white">
                             @if (TempData["ErrorMessage"] != null)
                             {
                                 <div class="alert alert-danger" role="alert">
@@ -99,20 +129,20 @@
                                 </div>}
 
                             <div class="form-group row">
-                                <div class="col-md-9">
+                                <div class="col-md-13">
 
                                     <table>
                                         <tr>
                                             <th>Amount to order</th>
-                                            <th>Catalog Number</th>
-                                            <th>Product Name</th>
-                                            <th>Original Price</th>
-                                            <th>Amount</th>
-                                            <th>Notify</th>
-                                            <th>Category</th>
-                                            <th>Material</th>
-                                            <th>Sale Price</th>
-                                            <th>Karat</th>
+                                            <th style="padding: 10px;">Catalog Number</th>
+                                            <th style="padding: 10px;">Product Name</th>
+                                            <th style="padding: 10px;">Original Price</th>
+                                            <th style="padding: 10px;">Amount</th>
+                                            <th style="padding: 10px;">Notify</th>
+                                            <th style="padding: 10px;">Category</th>
+                                            <th style="padding: 10px;">Material</th>
+                                            <th style="padding: 10px;">Sale Price</th>
+                                            <th style="padding: 10px;">Karat</th>
                                         </tr>
                                         @foreach (Product pro in Model.ProductsList)
                                         {
@@ -138,8 +168,9 @@
                         </div>
                     </div>
                 </div>
+                </div>
+            </div>
     </form>
-
     <footer class="footer-section">
         <div class="container relative">
 
@@ -164,7 +195,6 @@
 
         </div>
     </footer>
-    <!-- End Footer Section -->
 
 
     <script src="/js/bootstrap.bundle.min.js"></script>
