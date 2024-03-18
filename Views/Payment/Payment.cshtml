@@ -29,32 +29,30 @@
 <body>
 
     <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="navigation bar">
 
         <div class="container">
-            <a class="navbar-brand" href="index.html">Furni<span>.</span></a>
+            <a class="navbar-brand" href="index.html"><span>.</span></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsFurni">
-                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                    <li class="nav-item ">
-                        <a class="nav-link" href="index.html">Home</a>
+                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mt-mb-md-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
                     </li>
-                    <li><a class="nav-link" href="shop.html">Shop</a></li>
-                    <li><a class="nav-link" href="about.html">About us</a></li>
-                    <li><a class="nav-link" href="services.html">Services</a></li>
-                    <li><a class="nav-link" href="blog.html">Blog</a></li>
-                    <li><a class="nav-link" href="contact.html">Contact us</a></li>
+                    <li><a class="nav-link" href="../Shop/Shop">Shop</a></li>
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="#"><img src="~/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="~/images/cart.svg"></a></li>
+
+                    <li><a class="nav-link" href="../User/SignIn"><img src="~/images/user.svg"></a></li>
+                    <li><a class="nav-link" href="../Shop/Cart"><img src="~/images/cart.svg"></a></li>
                 </ul>
             </div>
+
         </div>
 
     </nav>
@@ -62,16 +60,7 @@
     <!-- Start Hero Section -->
     <div class="hero">
         <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-lg-5">
-                    <div class="intro-excerpt">
-                        <h1>Checkout</h1>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-
-                </div>
-            </div>
+            <h1>Checkout</h1>
         </div>
     </div>
     <!-- End Hero Section -->
@@ -83,7 +72,6 @@
                 </div>
             </div>
             <form action="MakePayment" method="post">
-
                 <div class="row">
                     <div class="col-md-6 mb-5 mb-md-0">
                         <h2 class="h3 mb-3 text-black">Billing Details</h2>
@@ -143,23 +131,6 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-
-                        <div class="row mb-5">
-                            <div class="col-md-12">
-                                <h2 class="h3 mb-3 text-black">Coupon Code</h2>
-                                <div class="p-3 p-lg-5 border bg-white">
-
-                                    <label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
-                                    <div class="input-group w-75 couponcode-wrap">
-                                        <input type="text" class="form-control me-2" id="c_code" placeholder="Coupon Code" aria-label="Coupon Code" aria-describedby="button-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-black btn-sm" type="button" id="button-addon2">Apply</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="row mb-5">
                             <div class="col-md-12">
@@ -228,7 +199,7 @@
 
                                         <div class="collapse" id="collapsepaypal">
                                             <div class="py-2">
-                                                <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                @*<p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>*@
                                             </div>
                                         </div>
                                     </div>
@@ -237,8 +208,8 @@
                                         <input class="btn btn-black btn-sm" type="submit" value="Place Order" />
                                     </div>
                                     <!-- <div class="form-group">
-                                 <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
-                             </div>  -->
+                                        <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+                                    </div>  -->
 
 
 
@@ -366,53 +337,45 @@
     <script src="/js/tiny-slider.js"></script>
     <script src="/js/custom.js"></script>
 
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Function to toggle visibility of credit card fields and validation messages
-            function toggleVisibility(displayState) {
-                const elementsToToggle = [
-                    document.querySelector('label[for="creditCardNumber"]'),
-                    document.getElementById('creditCardNumber'),
-                    document.querySelector('label[for="ExpiryDate"]'),
-                    document.getElementById('ExpiryDate'),
-                    document.querySelector('label[for="SecurityNumber"]'),
-                    document.getElementById('SecurityNumber'),
-                    document.querySelector('label[for="IdOwner"]'),
-                    document.getElementById('IdOwner'),
-                    document.querySelector('label[for="NameOwner"]'),
-                    document.getElementById('NameOwner')
-                ];
+            const creditCardFields = document.querySelectorAll('#creditCardNumber, #ExpiryDate, #SecurityNumber, #IdOwner, #NameOwner, label[for="creditCardNumber"], label[for="ExpiryDate"], label[for="SecurityNumber"], label[for="IdOwner"], label[for="NameOwner"]');
 
-                // Toggle each field visibility
-                elementsToToggle.forEach(element => {
-                    if (element) element.style.display = displayState;
-                });
-
-                // Toggle validation messages visibility
-                document.querySelectorAll('.validation-message').forEach(message => {
-                    message.style.display = displayState;
+            // Function to hide all credit card fields
+            function hideCreditCardFields() {
+                creditCardFields.forEach(field => {
+                    field.style.display = 'none';
                 });
             }
 
-            // Initial visibility check
-            const paymentMethod = localStorage.getItem('paymentMethod');
-            toggleVisibility(paymentMethod === 'creditCard' ? 'block' : 'none');
+            // Initially hide credit card fields
+            hideCreditCardFields();
 
-            // Credit card link event listener
             const creditCardLink = document.getElementById('creditCardLink');
-            creditCardLink.addEventListener('click', () => {
+            creditCardLink.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent the default anchor action
+                // Show credit card fields
+                creditCardFields.forEach(field => {
+                    field.style.display = ''; // Revert to default display
+                });
+                // Update local storage to reflect the user's choice
                 localStorage.setItem('paymentMethod', 'creditCard');
-                toggleVisibility('block');
             });
 
-            // PayPal link event listener
             const paypalLink = document.getElementById('paypalLink');
-            paypalLink.addEventListener('click', () => {
+            paypalLink.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent the default anchor action
+                // Hide credit card fields
+                hideCreditCardFields();
+                // Update local storage to reflect the user's choice
                 localStorage.setItem('paymentMethod', 'paypal');
-                toggleVisibility('none');
             });
         });
     </script>
+
+
 
     <script>
         document.getElementById('ExpiryDate').addEventListener('input', function (e) {
