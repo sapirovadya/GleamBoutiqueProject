@@ -31,7 +31,35 @@
     <link href="/css/style.css" rel="stylesheet">
     <title>GleamBoutique</title>
     <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
+    <style>
+        .hero {
+            padding: 1.5rem; /* Adjust the padding to make the div smaller */
+            /* You can also adjust other styles such as margins, width, height, etc. */
+        }
 
+        .footer-section {
+            padding: 1.5rem;
+        }
+
+            /* Style for the footer text */
+            .footer-section p {
+                font-size: 0.9rem;
+            }
+
+        /* Style for the social icons */
+        .custom-social {
+            list-style: none;
+        }
+
+            .custom-social li {
+                display: inline-block;
+                margin-right: 1rem;
+            }
+
+                .custom-social li a {
+                    font-size: 1rem;
+                }
+    </style>
     @{ ViewData["Title"] = "Add product"; }
 </head>
 
@@ -62,11 +90,11 @@
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li>
-                        <a href="/User/Logout">
-                            <img src="~/images/LogOut.png" alt="Logout" style="width: 24px; height: 24px;">
-                        </a>
+                    <a href="/User/Logout" style="filter: invert(1);">
+                        <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top:9px;">
+                    </a>
                     </li>
-                    <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png"></a></li>
+                    <li><a href="javascript:void(0)" style="filter: invert(1);" class="nav-link" onclick="goBack()"><img src="~/images/back1.png" style="width: 35px; height: 35px;"></a></li>
                 </ul>
             </div>
         </div>
@@ -90,14 +118,14 @@
         <div class="untree_co-section">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-6 mb-5 mb-md-0">
+                    <div class="col-md-8 mb-7 mb-md-0">
 
-                        <div class="p-4 p-lg-7 border bg-white">
+                        <div class="p-3 p-lg-7 border bg-white">
                             <div class="form-group row">
                                 <div class="col-md-15">
                                     <table>
                                         <tr>
-                                            <th style="padding: 10px;">Catalog Number</th>
+                                            <th style="padding: 0px;">Catalog Number</th>
                                             <th style="padding: 10px;">Product Name</th>
                                             <th style="padding: 10px;">Original Price</th>
                                             <th style="padding: 10px;">Amount</th>
@@ -129,6 +157,9 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+        </div>
     </form>
 
     <footer class="footer-section">
@@ -155,7 +186,6 @@
 
         </div>
     </footer>
-    <!-- End Footer Section -->
 
 
     <script src="/js/bootstrap.bundle.min.js"></script>

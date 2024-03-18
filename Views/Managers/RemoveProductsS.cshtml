@@ -26,7 +26,35 @@
     <link href="/css/style.css" rel="stylesheet">
     <title>GleamBoutique</title>
     <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
+    <style>
+        .hero {
+            padding: 1.5rem; /* Adjust the padding to make the div smaller */
+            /* You can also adjust other styles such as margins, width, height, etc. */
+        }
 
+        .footer-section {
+            padding: 1.5rem;
+        }
+
+            /* Style for the footer text */
+            .footer-section p {
+                font-size: 0.9rem;
+            }
+
+        /* Style for the social icons */
+        .custom-social {
+            list-style: none;
+        }
+
+            .custom-social li {
+                display: inline-block;
+                margin-right: 1rem;
+            }
+
+                .custom-social li a {
+                    font-size: 1rem;
+                }
+    </style>
     @{ ViewData["Title"] = "Add product"; }
 </head>
 
@@ -57,11 +85,11 @@
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li>
-                        <a href="/User/Logout">
-                            <img src="~/images/LogOut.png" alt="Logout" style="width: 24px; height: 24px;">
+                        <a href="/User/Logout" style="filter: invert(1);">
+                            <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top:9px;">
                         </a>
                     </li>
-                    <li><a href="javascript:void(0)" class="nav-link" onclick="goBack()"><img src="images/back.png"></a></li>
+                    <li><a href="javascript:void(0)" style="filter: invert(1);" class="nav-link" onclick="goBack()"><img src="~/images/back1.png" style="width: 35px; height: 35px;"></a></li>
                 </ul>
             </div>
         </div>
@@ -85,23 +113,23 @@
         <div class="untree_co-section">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-6 mb-5 mb-md-0">
+                    <div class="col-md-8 mb-7 mb-md-0">
 
-                        <div class="p-3 p-lg-5 border bg-white">
+                        <div class="p-3 p-lg-7 border bg-white">
                             <div class="form-group row">
-                                <div class="col-md-9">
+                                <div class="col-md-13">
                                     <table>
                                         <tr>
                                             <th>Checkbox</th>
-                                            <th>Catalog Number</th>
-                                            <th>Product Name</th>
-                                            <th>Original Price</th>
-                                            <th>Amount</th>
-                                            <th>Notify</th>
-                                            <th>Category</th>
-                                            <th>Material</th>
-                                            <th>Sale Price</th>
-                                            <th>Karat</th>
+                                            <th style="padding: 10px;">Catalog Number</th>
+                                            <th style="padding: 10px;">Product Name</th>
+                                            <th style="padding: 10px;">Original Price</th>
+                                            <th style="padding: 10px;">Amount</th>
+                                            <th style="padding: 10px;">Notify</th>
+                                            <th style="padding: 10px;">Category</thstyle="padding:>
+                                            <th style="padding: 10px;">Material</th>
+                                            <th style="padding: 10px;">Sale Price</th>
+                                            <th style="padding: 10px;">Karat</th>
                                         </tr>
                                         @foreach (Product pro in Model.ProductsList)
                                         {
@@ -119,6 +147,7 @@
                                             </tr>
                                         }
                                     </table>
+                                    </br>
                                     <div class="input-group-append text-center">
                                         <input class="btn btn-black btn-sm" type="submit" value="Delete Selected Products" />
                                     </div>
@@ -127,33 +156,27 @@
                         </div>
                     </div>
                 </div>
+                </div>
+            </div>
     </form>
 
     <footer class="footer-section">
         <div class="container relative">
-
-
             <div class="row g-5 mb-5">
                 <div class="col-lg-4">
                     <div class="mb-4 footer-logo-wrap"><a href="../Home/HomePage" class="footer-logo">GleamBoutique<span>.</span></a></div>
                     <p class="mb-4">
                         Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
                     </p>
-
                     <ul class="list-unstyled custom-social">
                         <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
                     </ul>
                 </div>
-
-
-
             </div>
-
         </div>
     </footer>
-    <!-- End Footer Section -->
 
 
     <script src="/js/bootstrap.bundle.min.js"></script>

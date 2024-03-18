@@ -20,6 +20,7 @@
     <Content Remove="Views\Manager\AddProduct.cshtml" />
     <Content Remove="ViewModel\RemoveProductViewModel.cshtml" />
     <Content Remove="Views\Managers\RemoveProducts.cshtml" />
+    <Content Remove="wwwroot\images\LogOut.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Managers\" />
