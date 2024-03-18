@@ -49,7 +49,7 @@ namespace GleamBoutiqueProject.Controllers
                     if (rowsAffected > 0)
                     {
                         // If the update was successful, redirect or return a success response
-                        return RedirectToAction("ProductDetails", "Shop", new { id = productId });
+                        return RedirectToAction("shop", "Shop");
                     }
                     else
                     {

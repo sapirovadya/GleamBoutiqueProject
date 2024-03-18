@@ -148,12 +148,23 @@
 
                         @if (Model.Amount == 0)
                         {
-                            <form asp-controller="ProductDetails" asp-action="IncrementNotifyCount" method="post">
-                                <input type ="email" name="UserEmail" required placeholder="Enter your email" value="@ViewBag.UserEmail"  />
+                            <form asp-controller="ProductDetails" asp-action="IncrementNotifyCount" method="post" id="notifyForm">
+                                <input type="email" name="UserEmail" required placeholder="Enter your email" value="@ViewBag.UserEmail" id="userEmail" oninvalid="setCustomValidity('Please enter a valid email address.')" oninput="setCustomValidity('')" />
                                 <input type="hidden" name="productId" value="@Model.Pid" />
                                 <button type="submit">Notify Me</button>
                             </form>
+
+                            <script>
+                                document.getElementById('userEmail').oninvalid = function (event) {
+                                    event.target.setCustomValidity('Invalid email address. Please enter a valid email address.');
+                                }
+                                document.getElementById('userEmail').oninput = function (event) {
+                                    event.target.setCustomValidity(''); // Clear the custom message
+                                }
+                            </script>
                         }
+
+
                     </div>
                 </main>
             </div>
@@ -258,14 +269,6 @@
             }
         });
     </script>
-
-
-
-
-
-
-
-
 
 
 

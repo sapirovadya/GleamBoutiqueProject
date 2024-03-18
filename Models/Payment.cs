@@ -33,6 +33,40 @@ namespace GleamBoutiqueProject.Models
         [Required(ErrorMessage = "Full name is required.")]
         public string FullName { get; set; }
 
+        [Key]
+        public int shipId { get; set; }
+
+        [Required(ErrorMessage = "First name is required.")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "First name should only contain letters.")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Last name is required.")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Last name should only contain letters.")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "City is required.")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "City should only contain letters.")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "Street is required.")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Street should only contain letters.")]
+        public string Street { get; set; }
+
+        [Required(ErrorMessage = "PostalCode is required.")]
+        [RegularExpression(@"^\d{7}$", ErrorMessage = "Postal Code should exactly be 7 digits.")]
+        public string PostalCode { get; set; }
+
+        [Required(ErrorMessage = "Apartment is required.")]
+        [RegularExpression(@"^[a-zA-Z0-9\s\-]+$", ErrorMessage = "Apartment should only contain letters, digits, spaces, and hyphens.")]
+        public string Apartment { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required.")]
+        [RegularExpression(@"^0\d{1,2}-\d{7}$", ErrorMessage = "Invaild Phone number")]
+        public string Phone { get; set; }
 
         public bool IsExpiryDateValid()
         {
