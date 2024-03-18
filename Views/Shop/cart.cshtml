@@ -1,17 +1,11 @@
-﻿﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-
-<!-- /*
+﻿<!-- /*
 * Bootstrap 5
 * Template Name: Furni
 * Template Author: Untree.co
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -103,41 +97,45 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if(Model == null)
+                                {
+                                    //Dispaly all the cart of the guest
+                                }
                                 @foreach (var item in Model)
                                 {
-                                 <tr>
-                                    <td class="product-thumbnail">
-                                            <img src="/images/@(item.PName).jpg" alt="Image" class="img-fluid">
-                                    </td>
-                                    <td class="product-name">
+                                    <tr data-proid="@item.ProId">
+                                        <td class="product-thumbnail">
+                                            <img src="/images/@(item.PName).jpg" alt="Image" class="img-fluid" style="width: 100px; height: auto;">
+                                        </td>
+                                        <td class="product-name">
                                             <h2 class="h5 text-black">@item.PName</h2>
-                                    </td>
-                                    <td>
-                                       @if (item.salePrice != 0)
-                                         {
-                                          <del class="text-muted">@item.OriginPrice ₪</del><br />
-                                          <strong class="text-danger">@item.salePrice ₪</strong>
-                                         }
-                                         else
-                                            @item.OriginPrice @Html.Raw("₪")
-                                    </td>
-                                    <td>
-                                        <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-                                            </div>
-                                            <input type="text" class="form-control text-center quantity-amount" value="@item.ProAmount" data-stock="@item.ProAmount" data-price="@item.salePrice != 0 ? item.salePrice : item.OriginPrice" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-black increase" type="button">&plus;</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                       <span class="total-amount">@((item.salePrice != 0 ? item.salePrice : item.OriginPrice) * item.ProAmount) ₪</span>
-                                    </td>
-                                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                                    </tr>
-                                   }
+                                        </td>
+                                        <td>
+                                            @if (item.salePrice != 0)
+                                            {
+                                                <del class="text-muted">@item.OriginPrice ₪</del><br />
+                                                <strong class="text-danger">@item.salePrice ₪</strong>
+                                            }
+                                            else
+                                                @item.OriginPrice @Html.Raw("₪")
+                                            </td>
+                                            <td>
+                                                <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
+                                                    <div class="input-group-prepend">
+                                                        <button class="btn btn-outline-black decrease" type="button" id="decreaseButton" data-proid="@item.ProId" @(item.ProAmount == 1 ? "disabled" : "" )>&minus;</button>
+                                                    </div>
+                                                    <input type="text" class="form-control text-center quantity-amount" value="@item.ProAmount" data-stock="@item.ProAmount" max=@item.ProStock data-price="@item.salePrice != 0 ? item.salePrice : item.OriginPrice" data-proid="@item.ProId" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-black increase" type="button" id="increaseButton" data-proid="@item.ProId" @(item.ProStock == item.ProAmount ? "disabled" : "" )>&plus;</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="total-amount">@((item.salePrice != 0 ? item.salePrice : item.OriginPrice) * item.ProAmount) ₪</span>
+                                            </td>
+                                            <td><a class="btn btn-black btn-sm delete-product" id="remove" data-proid="@item.ProId">X</a></td>
+                                        </tr>
+                                    }
                             </tbody>
                         </table>
                     </div>
@@ -147,23 +145,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="row mb-5">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <button class="btn btn-black btn-sm btn-block">Update Cart</button>
-                        </div>
                         <div class="col-md-6">
-                            <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label class="text-black h4" for="coupon">Coupon</label>
-                            <p>Enter your coupon code if you have one.</p>
-                        </div>
-                        <div class="col-md-8 mb-3 mb-md-0">
-                            <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-black">Apply Coupon</button>
+                            <a href="@Url.Action("Shop", "Shop")" class="btn btn-outline-black btn-sm btn-block">Continue Shopping</a>
                         </div>
                     </div>
                 </div>
@@ -175,20 +158,12 @@
                                     <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <span class="text-black">Subtotal</span>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
-                                </div>
-                            </div>
                             <div class="row mb-5">
                                 <div class="col-md-6">
                                     <span class="text-black">Total</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
+                                    <strong class="text-black" id="totalAmountPlaceholder">Calculating...</strong>
                                 </div>
                             </div>
 
@@ -317,7 +292,98 @@
     <script src="/js/tiny-slider.js"></script>
     <script src="/js/custom.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // When the increase button is clicked
+            $('.increase').click(function () {
+                var proId = $(this).data('proid');
+                var quantityInput = $(this).closest('.quantity-container').find('.quantity-amount');
+                var newAmount = parseInt(quantityInput.val());
+                updateAmount(proId, newAmount);
+            });
 
+            // When the decrease button is clicked
+            $('.decrease').click(function () {
+                var proId = $(this).data('proid');
+                var quantityInput = $(this).closest('.quantity-container').find('.quantity-amount');
+                var newAmount = parseInt(quantityInput.val());
+                updateAmount(proId, newAmount);
+            });
+
+            function updateAmount(proId, newAmount) {
+                $.ajax({
+                    url: '/Shop/UpdateCartProductAmountFromCart',
+                    type: 'POST',
+                    data: { proid: proId, amount: newAmount },
+                    success: function (response) {
+                        console.log(response)
+                        // Handle success (you might want to update the UI to reflect the new amount)
+                        if (response.successMessage == "max stock") {
+                            $(this).siblings('.quantity-amount').val(response.quantity.toString());
+                            location.reload();
+                            alert("You have reached the maximum quantity of the product available in stock");
+                        }
+                        else if (response.successMessage == "The product amount update successfully!") {
+                            $(this).siblings('.quantity-amount').val(response.quantity.toString());
+                            location.reload();
+                            alert("The product amount update successfully!");
+                        }
+                    },
+                    error: function (response) {
+                        // Handle error
+                        alert(response.errorMessage || "Error updating the product amount");
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                $('.delete-product').click(function (e) {
+                    e.preventDefault(); // Prevent the default behavior of the anchor tag
+                    var proId = $(this).data('proid');
+                    deleteProduct(proId);
+                });
+
+                function deleteProduct(proId) {
+                    $.ajax({
+                        url: '/Shop/DeleteProduct',
+                        type: 'POST',
+                        data: { proid: proId },
+                        success: function (response) {
+                            if (response.successMessage == "The product deleted") {
+                                location.reload();
+                                alert("The product deleted!");
+                            }
+                        },
+                        error: function (response) {
+                            alert(response.errorMessage || "Error updating the product amount");
+                        }
+                    });
+                }
+            });
+
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            function calculateTotalAmount() {
+                var totalAmount = 0;
+                $('.total-amount').each(function () {
+                    totalAmount += parseFloat($(this).text().replace('₪', '').trim());
+                });
+                $('#totalAmountPlaceholder').text(totalAmount.toFixed(2) + ' ₪');
+            }
+
+            calculateTotalAmount();
+
+            // Update total amount whenever a quantity changes
+            $('.quantity-amount').change(function () {
+                calculateTotalAmount();
+            });
+        });
+    </script>
 
 
 </body>

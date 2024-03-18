@@ -15,7 +15,7 @@ namespace GleamBoutiqueProject.Controllers
     public class ShopController : Controller
     {
         public List<string> PidCartList = new List<string>();
-
+        public List<CartItemViewModel> allCartItems;
 
         public IConfiguration _configuration;
         string connectionString = "";
@@ -222,6 +222,78 @@ namespace GleamBoutiqueProject.Controllers
             }
         }
 
+        public IActionResult UpdateCartProductAmountFromCart(string proid, int amount)
+        {
+            string userEmail = HttpContext.Session.GetString("Email");
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    int productStock = GetProductStock(connection, proid);
+                    if (amount > productStock)
+                        return Json(new { successMessage = "max stock", Quantity = productStock });
+                    else
+                    {
+                        UpdateCartProductAmount(connection, userEmail, proid, amount);
+                        return Json(new { successMessage = "The product amount update successfully!", Quantity = productStock });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Message = "ERROR. Please try again" });
+            }
+        }
+
+        private int GetProductStock(SqlConnection connection, string proid)
+        {
+            string selectQuery = "SELECT Amount FROM Product WHERE Pid = @proid";
+            using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@proid", proid);
+                object result = selectCommand.ExecuteScalar();
+
+                if (result != null)  //product found
+                    return Convert.ToInt32(result);
+                else
+                    return -1; // Product not found in the cart
+            }
+        }
+
+        public IActionResult DeleteProduct(string proid)
+        {
+            string userEmail = HttpContext.Session.GetString("Email");
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    int a= DeleteProductFromCart(connection, proid, userEmail);
+                    return Json(new { successMessage = "The product deleted" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Message = "ERROR. Please try again" });
+            }
+        }
+
+        private int DeleteProductFromCart(SqlConnection connection, string proid,string userEmail)
+        {
+            string selectQuery = "DELETE FROM Cart WHERE Proid = @proid AND UserEmail = @userEmail";
+            using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@proid", proid);
+                selectCommand.Parameters.AddWithValue("@userEmail", userEmail);
+                object result = selectCommand.ExecuteScalar();
+
+                if (result != null)  //product found
+                    return Convert.ToInt32(result);
+                else
+                    return -1; // Product not found in the cart
+            }
+        }
 
         private int GetCartProductAmount(SqlConnection connection, string userEmail, string proid)
         {
@@ -269,7 +341,7 @@ namespace GleamBoutiqueProject.Controllers
             string userEmail = HttpContext.Session.GetString("Email");
 
             // List to store cart items for all users
-            List<CartItemViewModel> allCartItems = new List<CartItemViewModel>();
+            allCartItems = new List<CartItemViewModel>();
 
             // Check if user email is available
             if (!string.IsNullOrEmpty(userEmail))
@@ -290,7 +362,7 @@ namespace GleamBoutiqueProject.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT C.Proid, C.proAmount, P.PName, P.OriginPrice, P.Sale_Price FROM Cart C INNER JOIN Product P ON C.Proid = P.Pid WHERE C.UserEmail = @UserEmail";
+                string query = "SELECT C.Proid, C.proAmount, P.PName, P.OriginPrice, P.Sale_Price, P.Amount FROM Cart C INNER JOIN Product P ON C.Proid = P.Pid WHERE C.UserEmail = @UserEmail";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserEmail", userEmail);
@@ -305,7 +377,8 @@ namespace GleamBoutiqueProject.Controllers
                                 ProAmount = reader.GetInt32(1),
                                 PName = reader.GetString(2),
                                 OriginPrice = reader.GetInt32(3),
-                                salePrice = reader.GetInt32(4)
+                                salePrice = reader.GetInt32(4),
+                                ProStock = reader.GetInt32(5)
                             };
                             cartItems.Add(item);
                         }
@@ -359,6 +432,7 @@ namespace GleamBoutiqueProject.Controllers
             ViewBag.UserEmail = userEmail;
             return View("ProductDetails", product);
         }
+
     }
 }
 
