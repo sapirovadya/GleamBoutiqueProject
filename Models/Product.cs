@@ -8,6 +8,23 @@ namespace GleamBoutiqueProject.Models
 {
     public class Product
     {
+        public Product()
+        {
+        }
+
+        public Product(Product product)
+        {
+            this.Pid = product.Pid;
+            this.PName = product.PName;
+            this.OriginPrice = product.OriginPrice;
+            this.Amount = product.Amount;
+            this.Notify_Count = product.Notify_Count;
+            this.category = product.category;
+            this.Material = product.Material;
+            this.Sale_price = product.Sale_price;
+            this.karat = product.karat;
+        }
+
         [Key]
         [Required(ErrorMessage = "Catalog number is required ")]
         //[RegularExpression("^#200[a-zA-Z]{0,2}$", ErrorMessage = "Catalog number must start with #200")]
@@ -36,5 +53,6 @@ namespace GleamBoutiqueProject.Models
         public string Material { get; set; }
         public int Sale_price { get; set; }
         public int karat { get; set; }
+        public Product Product1 { get; }
     }
 }

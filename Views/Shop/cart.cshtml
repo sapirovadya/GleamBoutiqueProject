@@ -4,8 +4,10 @@
 * Template Author: Untree.co
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
 
+*/ -->
+@using Microsoft.AspNetCore.Http
+@model GleamBoutiqueProject.ViewModel.CartItemViewModel
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,8 +24,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-    <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
-
+    <title>GleamBoutique</title>
+    <link rel="shortcut icon" type="image/png" href="/images/icon.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </head>
@@ -45,16 +47,12 @@
                     <li class="nav-item ">
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
-                    <li><a class="nav-link" href="shop.html">Shop</a></li>
-                    <li><a class="nav-link" href="about.html">About us</a></li>
-                    <li><a class="nav-link" href="services.html">Services</a></li>
-                    <li><a class="nav-link" href="blog.html">Blog</a></li>
-                    <li><a class="nav-link" href="contact.html">Contact us</a></li>
+                    <li><a class="nav-link" href="../Shop/Shop">Shop</a></li>
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
-                    <li><a class="nav-link" href="cart.html"><img src="images/cart.svg"></a></li>
+                    <li><a class="nav-link" href="cart.html"><img src="~/images/cart.svg"></a></li>
                 </ul>
             </div>
         </div>
@@ -97,45 +95,42 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(Model == null)
-                                {
-                                    //Dispaly all the cart of the guest
-                                }
-                                @foreach (var item in Model)
-                                {
-                                    <tr data-proid="@item.ProId">
-                                        <td class="product-thumbnail">
-                                            <img src="/images/@(item.PName).jpg" alt="Image" class="img-fluid" style="width: 100px; height: auto;">
-                                        </td>
-                                        <td class="product-name">
-                                            <h2 class="h5 text-black">@item.PName</h2>
-                                        </td>
-                                        <td>
-                                            @if (item.salePrice != 0)
-                                            {
-                                                <del class="text-muted">@item.OriginPrice ₪</del><br />
-                                                <strong class="text-danger">@item.salePrice ₪</strong>
-                                            }
-                                            else
-                                                @item.OriginPrice @Html.Raw("₪")
+
+                                    @foreach (CartItem item in Model.UserCart ?? Model.guestCart)
+                                    {
+                                        <tr data-proid="@item.ProId">
+                                            <td class="product-thumbnail">
+                                                <img src="/images/@(item.PName).jpg" alt="Image" class="img-fluid" style="width: 100px; height: auto;">
+                                            </td>
+                                            <td class="product-name">
+                                                <h2 class="h5 text-black">@item.PName</h2>
                                             </td>
                                             <td>
-                                                <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-outline-black decrease" type="button" id="decreaseButton" data-proid="@item.ProId" @(item.ProAmount == 1 ? "disabled" : "" )>&minus;</button>
+                                                @if (item.SalePrice != 0)
+                                                {
+                                                    <del class="text-muted">@item.OriginPrice ₪</del><br />
+                                                    <strong class="text-danger">@item.SalePrice ₪</strong>
+                                                }
+                                                else
+                                                    @item.OriginPrice @Html.Raw("₪")
+                                                </td>
+                                                <td>
+                                                    <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-outline-black decrease" type="button" id="decreaseButton" data-proid="@item.ProId" @(item.ProAmount == 1 ? "disabled" : "" )>&minus;</button>
+                                                        </div>
+                                                        <input type="text" class="form-control text-center quantity-amount" value="@item.ProAmount" data-stock="@item.ProAmount" max=@item.ProStock data-price="@item.SalePrice != 0 ? item.salePrice : item.OriginPrice" data-proid="@item.ProId" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-black increase" type="button" id="increaseButton" data-proid="@item.ProId" @(item.ProStock == item.ProAmount ? "disabled" : "" )>&plus;</button>
+                                                        </div>
                                                     </div>
-                                                    <input type="text" class="form-control text-center quantity-amount" value="@item.ProAmount" data-stock="@item.ProAmount" max=@item.ProStock data-price="@item.salePrice != 0 ? item.salePrice : item.OriginPrice" data-proid="@item.ProId" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-black increase" type="button" id="increaseButton" data-proid="@item.ProId" @(item.ProStock == item.ProAmount ? "disabled" : "" )>&plus;</button>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="total-amount">@((item.salePrice != 0 ? item.salePrice : item.OriginPrice) * item.ProAmount) ₪</span>
-                                            </td>
-                                            <td><a class="btn btn-black btn-sm delete-product" id="remove" data-proid="@item.ProId">X</a></td>
-                                        </tr>
-                                    }
+                                                </td>
+                                                <td>
+                                                    <span class="total-amount">@((item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount) ₪</span>
+                                                </td>
+                                                <td><a class="btn btn-black btn-sm delete-product" id="remove" data-proid="@item.ProId">X</a></td>
+                                            </tr>
+                                        }
                             </tbody>
                         </table>
                     </div>
@@ -293,8 +288,7 @@
     <script src="/js/custom.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
+    <script>$(document).ready(function () {
             // When the increase button is clicked
             $('.increase').click(function () {
                 var proId = $(this).data('proid');
@@ -363,11 +357,9 @@
             });
 
 
-        });
-    </script>
+        });</script>
 
-    <script>
-        $(document).ready(function () {
+    <script>$(document).ready(function () {
             function calculateTotalAmount() {
                 var totalAmount = 0;
                 $('.total-amount').each(function () {
@@ -382,8 +374,7 @@
             $('.quantity-amount').change(function () {
                 calculateTotalAmount();
             });
-        });
-    </script>
+        });</script>
 
 
 </body>

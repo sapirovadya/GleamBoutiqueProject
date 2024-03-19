@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using GleamBoutiqueProject.Models;
+
 namespace GleamBoutiqueProject.ViewModel
 {
     public class CartItemViewModel
     {
-        public string ProId { get; set; }
-        public int ProAmount { get; set; }
-        public string PName { get; set; }
-        public int OriginPrice { get; set; }
-        public int salePrice { get; set; }
-        public int ProStock { get; set; }
+        public List<CartItem> UserCart { get; set; }
+        public List<CartItem> guestCart { get; set; }
     }
 }

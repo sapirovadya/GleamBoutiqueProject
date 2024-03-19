@@ -9,13 +9,16 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace GleamBoutiqueProject.Controllers
 {
     public class ShopController : Controller
     {
-        public List<string> PidCartList = new List<string>();
         public List<CartItemViewModel> allCartItems;
+        public static List<CartItem> guestList = new List<CartItem>();  // Ensure this is properly initialized
+        List<CartItem> UserList = new List<CartItem>();  // Make sure UserList is initialized when needed
 
         public IConfiguration _configuration;
         string connectionString = "";
@@ -193,7 +196,7 @@ namespace GleamBoutiqueProject.Controllers
         }
 
 
-        public IActionResult AddToCart(string proid, int amount, int stock)
+        public IActionResult AddToCart(string proid, int amount,int stock)
         {
             string userEmail = HttpContext.Session.GetString("Email");
             try
@@ -201,20 +204,46 @@ namespace GleamBoutiqueProject.Controllers
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    int currentAmount = GetCartProductAmount(connection, userEmail, proid);
-                    if (currentAmount != -1) // Product found in the cart
+                    if (string.IsNullOrEmpty(userEmail)) //guest mode
                     {
-                        int newAmount = Math.Min(stock, currentAmount + amount);
-                        UpdateCartProductAmount(connection, userEmail, proid, newAmount);
+                        foreach (CartItem item in guestList)
+                        {
+                            if (item.ProId == proid)
+                            {
+                                if (item.ProAmount + amount <= item.ProStock)
+                                {
+                                    item.ProAmount += amount;
+                                    return Json(new { successMessage = "The product has been successfully added to the cart!" });
+                                }
+                                else
+                                    return Json(new { successMessage = "You have reached the maximum quantity of the product available in stock There are " + (stock- item.ProAmount) + " more available in stock." });
+                            }    
+                        }
+                        InsertProductToCartList(proid, amount, connection);
+                        HttpContext.Session.Set("CartItems", JsonSerializer.SerializeToUtf8Bytes(guestList)); // Save guestList to session
+                        return Json(new { successMessage = "The product has been successfully added to the cart!" });     
                     }
-                    else // Product not found in the cart
+                    else
                     {
+                        int currentAmount = GetCartProductAmount(connection, userEmail, proid);
+                        if (currentAmount != -1)// Product found in the cart
+                        {
+                            if (currentAmount + amount <= stock)
+                            {
+                                UpdateCartProductAmount(connection, userEmail, proid, currentAmount + amount);
+                                return Json(new { successMessage = "The product has been successfully added to the cart!" });
+                            }
+                            else
+                                return Json(new { successMessage = "You have reached the maximum quantity of the product available in stock. There are " + (stock- currentAmount) + " more available in stock."});
+
+                        }
+                        // Product not found in the cart
                         InsertCartProduct(connection, proid, amount, userEmail);
+                        return Json(new { successMessage = "The product has been successfully added to the cart!" });
+
                     }
                 }
-                // Return a success message
-                return Json(new { successMessage = "The product has been successfully added to the cart!" });
-            }
+        }
             catch (Exception ex)
             {
                 // Handle exception
@@ -222,6 +251,39 @@ namespace GleamBoutiqueProject.Controllers
             }
         }
 
+        private Product GetProduct(SqlConnection connection, string proid)
+        {
+            Product newPro = new Product();
+
+            string selectQuery = "SELECT * FROM Product WHERE Pid = @proid";
+            using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@proid", proid);
+                SqlDataReader reader = selectCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        newPro.Pid = reader.GetString(0);
+                        newPro.PName = reader.GetString(1);
+                        newPro.OriginPrice = reader.GetInt32(2);
+                        newPro.Amount = reader.GetInt32(3);
+                        newPro.Notify_Count = reader.GetInt32(4);
+                        newPro.category = reader.GetString(5);
+                        newPro.Material = reader.GetString(6);
+                        newPro.Sale_price = reader.GetInt32(7);
+                        newPro.karat = reader.GetInt32(8);
+                    }
+                    reader.Close();
+            }
+            return newPro;
+
+        }
+        private void InsertProductToCartList(string proid,int amount, SqlConnection connection)
+        {
+            Product NewPro = new Product(GetProduct(connection, proid));
+            CartItem NewItem = new CartItem(NewPro.Pid, amount, NewPro.PName, NewPro.OriginPrice, NewPro.Sale_price, NewPro.Amount);
+            guestList.Add(NewItem);
+        }
         public IActionResult UpdateCartProductAmountFromCart(string proid, int amount)
         {
             string userEmail = HttpContext.Session.GetString("Email");
@@ -337,27 +399,30 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult Cart()
         {
-            // Retrieve the email of the current user from session
             string userEmail = HttpContext.Session.GetString("Email");
 
-            // List to store cart items for all users
-            allCartItems = new List<CartItemViewModel>();
+            CartItemViewModel viewModel = new CartItemViewModel();
 
-            // Check if user email is available
             if (!string.IsNullOrEmpty(userEmail))
             {
-                // Retrieve cart items for the current user
-                List<CartItemViewModel> userCartItems = GetCartItemsForUser(userEmail);
-                allCartItems.AddRange(userCartItems);
+                List<CartItem> userCartItems = GetCartItemsForUser(userEmail);
+                viewModel.UserCart = userCartItems;
             }
-            // Pass the list of cart items to the view
-            return View(allCartItems);
+            else
+            {
+                List<CartItem> guestCartItems = GetGuestCartItems(); // Get guest cart items
+                viewModel.guestCart = guestCartItems;
+            }
+
+            return View(viewModel);
         }
 
+
+
         // Helper method to retrieve cart items for a specific user
-        private List<CartItemViewModel> GetCartItemsForUser(string userEmail)
+        private List<CartItem> GetCartItemsForUser(string userEmail)
         {
-            List<CartItemViewModel> cartItems = new List<CartItemViewModel>();
+            List<CartItem> cartItems = new List<CartItem>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -370,16 +435,7 @@ namespace GleamBoutiqueProject.Controllers
                     {
                         while (reader.Read())
                         {
-                            // Create CartItemViewModel objects and add them to the list
-                            CartItemViewModel item = new CartItemViewModel
-                            {
-                                ProId = reader.GetString(0),
-                                ProAmount = reader.GetInt32(1),
-                                PName = reader.GetString(2),
-                                OriginPrice = reader.GetInt32(3),
-                                salePrice = reader.GetInt32(4),
-                                ProStock = reader.GetInt32(5)
-                            };
+                            CartItem item = new CartItem(reader.GetString(0), reader.GetInt32(1), reader.GetString(2), reader.GetInt32(3),reader.GetInt32(4), reader.GetInt32(5));
                             cartItems.Add(item);
                         }
                     }
@@ -431,6 +487,12 @@ namespace GleamBoutiqueProject.Controllers
 
             ViewBag.UserEmail = userEmail;
             return View("ProductDetails", product);
+        }
+
+        public List<CartItem> GetGuestCartItems()
+        {
+            // Assuming guestList is the list of guest cart items in your controller
+            return guestList.ToList();
         }
 
     }
