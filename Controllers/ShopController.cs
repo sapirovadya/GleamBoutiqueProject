@@ -220,7 +220,7 @@ namespace GleamBoutiqueProject.Controllers
                             }    
                         }
                         InsertProductToCartList(proid, amount, connection);
-                        HttpContext.Session.Set("CartItems", JsonSerializer.SerializeToUtf8Bytes(guestList)); // Save guestList to session
+                        //HttpContext.Session.Set("CartItems", JsonSerializer.SerializeToUtf8Bytes(guestList)); // Save guestList to session
                         return Json(new { successMessage = "The product has been successfully added to the cart!" });     
                     }
                     else
@@ -412,6 +412,13 @@ namespace GleamBoutiqueProject.Controllers
             {
                 List<CartItem> guestCartItems = GetGuestCartItems(); // Get guest cart items
                 viewModel.guestCart = guestCartItems;
+
+                // Serialize and store the guestCart in the session if not empty
+                if (viewModel.guestCart != null && viewModel.guestCart.Count > 0)
+                {
+                    var cartJson = System.Text.Json.JsonSerializer.Serialize(viewModel.guestCart);
+                    HttpContext.Session.SetString("GuestCart", cartJson);
+                }
             }
 
             return View(viewModel);

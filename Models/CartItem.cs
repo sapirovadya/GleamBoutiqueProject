@@ -4,6 +4,7 @@ namespace GleamBoutiqueProject.Models
 {
     public class CartItem
     {
+        public CartItem() { }
         public CartItem(string pid, int amount1, string pName, int originPrice, int salePrice, int amount2)
         {
             this.ProId = pid;
