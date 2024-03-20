@@ -67,7 +67,7 @@
     </div>
     <!-- End Hero Section -->
 
-    <div class="untree_co-section">
+    <div class="untree_co-section" style="padding-top: 30px;">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md-12">
@@ -156,22 +156,17 @@
                                             }
 
                                             <!-- Calculate and display cart subtotal -->
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                                                <td class="text-black">
-                                                    @{
-                                                        // Calculate the cart subtotal based on the items in the cart
-                                                        decimal cartSubtotal = (Model.OrderList).Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
-                                                    }
-                                                    @cartSubtotal.ToString("C") <!-- Format as currency -->
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class="text-black font-weight-bold"><strong>Total Price</strong></td>
+                                            <td class="text-black font-weight-bold">
+                                                @{
+                                                    // Calculate the cart subtotal based on the items in the cart
+                                                    decimal cartSubtotal = (Model.OrderList).Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
+                                                }
+                                                <strong>@cartSubtotal.ToString() ₪</strong></td>
+                                            
+                                        </tr>
 
-                                            <!-- Display order total (same as cart subtotal for this example) -->
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                                                <td class="text-black font-weight-bold"><strong>@cartSubtotal.ToString("C") ₪</strong></td>
-                                            </tr>
                                         </tbody>
                                     </table>
 
