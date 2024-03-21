@@ -31,31 +31,23 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult IncrementNotifyCount(string userEmail, string productId)
         {
- 
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-
                 // SQL to increment the notify count for the specified product
                 string sqlQuery = "UPDATE Product SET Notify_Count = Notify_Count + 1 WHERE Pid = @ProductId";
-
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
                     // Set the parameter value to the SQL command
                     command.Parameters.AddWithValue("@ProductId", productId);
-
                     int rowsAffected = command.ExecuteNonQuery();
                     if (rowsAffected > 0)
                     {
-                        // If the update was successful, redirect or return a success response
                         return RedirectToAction("shop", "Shop");
+                        return Json(new { successMessage = "Notify message" });
                     }
                     else
-                    {
-                        // Handle the case where the product was not found or the update failed
                         return NotFound();
-                    }
                 }
             }
         }

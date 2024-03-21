@@ -12,7 +12,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
+
 <body>
 
     <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
@@ -143,27 +147,25 @@
 
                         <div class="my-custom-spacing"></div>
 
-
+                        <hr />
 
                         @if (Model.Amount == 0)
                         {
-                            <form asp-controller="ProductDetails" asp-action="IncrementNotifyCount" method="post" id="notifyForm">
-                                <input type="email" name="UserEmail" required placeholder="Enter your email" value="@ViewBag.UserEmail" id="userEmail" oninvalid="setCustomValidity('Please enter a valid email address.')" oninput="setCustomValidity('')" />
-                                <input type="hidden" name="productId" value="@Model.Pid" />
-                                <button type="submit">Notify Me</button>
+                            <div class="mb-3 notify-me-text">
+                                <span style="font-size: 15px; font-weight: bold;">Notify me when this product is back in stock</span>
+                            </div>
+                            <form asp-controller="ProductDetails" asp-action="IncrementNotifyCount" method="post" id="notifyForm" class="row g-3">
+                                <div class="col-auto">
+                                    <input type="email" name="UserEmail" class="form-control" required placeholder="Enter your email" value="@ViewBag.UserEmail" id="userEmail" oninvalid="setCustomValidity('Please enter a valid email address.')" oninput="setCustomValidity('')">
+                                    <input type="hidden" name="productId" value="@Model.Pid" />
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" type="submit" id="notifyButton">
+                                        <span class="fa fa-paper-plane"></span>
+                                    </button>
+                                </div>
                             </form>
-
-                            <script>
-                                document.getElementById('userEmail').oninvalid = function (event) {
-                                    event.target.setCustomValidity('Invalid email address. Please enter a valid email address.');
-                                }
-                                document.getElementById('userEmail').oninput = function (event) {
-                                    event.target.setCustomValidity(''); // Clear the custom message
-                                }
-                            </script>
                         }
-
-
                     </div>
                 </main>
             </div>
@@ -264,6 +266,36 @@
             if (currentValue < maxStock) { // Ensure quantity does not exceed available stock
                 input.value = currentValue + 1;
             }
+        });
+    </script>
+
+    <script>
+        document.getElementById('userEmail').oninvalid = function (event) {
+            event.target.setCustomValidity('Invalid email address. Please enter a valid email address.');
+        }
+        document.getElementById('userEmail').oninput = function (event) {
+            event.target.setCustomValidity(''); // Clear the custom message
+        }
+
+        document.getElementById('notifyForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            Swal.fire({
+                title: 'Notify Me',
+                text: 'You will be notified when the product is back in stock.',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#947f6f',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'smaller-swal2-popup',
+                    htmlContainer: 'height-300px' // Use the custom class for the pop-up
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('notifyForm').submit();
+                }
+            });
         });
     </script>
 

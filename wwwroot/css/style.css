@@ -1117,7 +1117,7 @@ textarea {
     }
 
 .my-custom-spacing {
-    margin-top: 20px;
+    margin-top: 50px;
 }
 .btn-pink {
     background-color: #ff69b4; /* Light pink background */
@@ -1231,3 +1231,19 @@ textarea {
     height: 300px;
     margin: 0px;
 }
+
+.notify-me-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Custom styles for smaller SweetAlert2 pop-up boxes */
+.height-300px .swal2-popup {
+    height: 300px !important; /* Set the height */
+    overflow-y: auto !important; /* Enable vertical scroll if content exceeds height */
+}
+
+
+

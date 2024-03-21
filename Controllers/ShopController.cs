@@ -216,7 +216,7 @@ namespace GleamBoutiqueProject.Controllers
                                     return Json(new { successMessage = "The product has been successfully added to the cart!" });
                                 }
                                 else
-                                    return Json(new { successMessage = "You have reached the maximum quantity of the product available in stock There are " + (stock- item.ProAmount) + " more available in stock." });
+                                    return Json(new { successMessage = "You have reached the maximum quantity of the product available in stock. There are " + (stock- item.ProAmount) + " more available in stock." });
                             }    
                         }
                         InsertProductToCartList(proid, amount, connection);
@@ -246,8 +246,7 @@ namespace GleamBoutiqueProject.Controllers
         }
             catch (Exception ex)
             {
-                // Handle exception
-                return Json(new { errorMessage = "ERROR. Please try again" });
+                return Json(new { errorMessage = ex });
             }
         }
 
@@ -262,7 +261,6 @@ namespace GleamBoutiqueProject.Controllers
                 SqlDataReader reader = selectCommand.ExecuteReader();
                     while (reader.Read())
                     {
-
                         newPro.Pid = reader.GetString(0);
                         newPro.PName = reader.GetString(1);
                         newPro.OriginPrice = reader.GetInt32(2);
@@ -293,21 +291,32 @@ namespace GleamBoutiqueProject.Controllers
                 {
                     connection.Open();
                     int productStock = GetProductStock(connection, proid);
-                    if (amount > productStock)
-                        return Json(new { successMessage = "max stock", Quantity = productStock });
-                    else
+                    if (amount > productStock)   //Max stock
+                        return Json(new { successMessage = "No more left in stock", Quantity = productStock });
+                    else   
                     {
-                        UpdateCartProductAmount(connection, userEmail, proid, amount);
+                        if (userEmail != null)  //registered user
+                            UpdateCartProductAmount(connection, userEmail, proid, amount);
+                        else  //Guest mode
+                            UpdateCartProductAmountForGuest(proid, amount);
                         return Json(new { successMessage = "The product amount update successfully!", Quantity = productStock });
                     }
                 }
             }
             catch (Exception ex)
             {
-                return Json(new { Message = "ERROR. Please try again" });
+                return Json(new { Message = ex });
             }
         }
 
+        private void UpdateCartProductAmountForGuest(string proid, int amount)
+        {
+            foreach (CartItem item in guestList)
+            {
+                if (item.ProId == proid)
+                    item.ProAmount = amount;
+            }
+        }
         private int GetProductStock(SqlConnection connection, string proid)
         {
             string selectQuery = "SELECT Amount FROM Product WHERE Pid = @proid";
@@ -328,32 +337,40 @@ namespace GleamBoutiqueProject.Controllers
             string userEmail = HttpContext.Session.GetString("Email");
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                if (userEmail != null)  //registered user
                 {
-                    connection.Open();
-                    int a= DeleteProductFromCart(connection, proid, userEmail);
-                    return Json(new { successMessage = "The product deleted" });
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        DeleteProductFromCart(connection, proid, userEmail);
+                    }
                 }
+                else   //Guest mode
+                    DeleteProductForGuest(proid);
+                return Json(new { successMessage = "The product deleted" });
             }
             catch (Exception ex)
             {
-                return Json(new { Message = "ERROR. Please try again" });
+                return Json(new { Message = ex });
+            }
+        }
+        private void DeleteProductForGuest(string proid)
+        {
+            foreach (CartItem item in guestList)
+            {
+                if (item.ProId == proid)
+                    guestList.Remove(item);
             }
         }
 
-        private int DeleteProductFromCart(SqlConnection connection, string proid,string userEmail)
+        private void DeleteProductFromCart(SqlConnection connection, string proid,string userEmail)
         {
             string selectQuery = "DELETE FROM Cart WHERE Proid = @proid AND UserEmail = @userEmail";
             using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
             {
                 selectCommand.Parameters.AddWithValue("@proid", proid);
                 selectCommand.Parameters.AddWithValue("@userEmail", userEmail);
-                object result = selectCommand.ExecuteScalar();
-
-                if (result != null)  //product found
-                    return Convert.ToInt32(result);
-                else
-                    return -1; // Product not found in the cart
+                selectCommand.ExecuteScalar();
             }
         }
 
