@@ -26,7 +26,7 @@ namespace GleamBoutiqueProject.Models
         public string CVV { get; set; }
 
         [Required(ErrorMessage = "ID is required.")]
-        [RegularExpression(@"^\d{8}$", ErrorMessage = "ID must be an 8-digit number.")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "ID must be an 9-digit number.")]
         public string ID { get; set; }
 
         // The full name must be provided.
@@ -65,8 +65,10 @@ namespace GleamBoutiqueProject.Models
         public string Apartment { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
-        [RegularExpression(@"^0\d{1,2}-\d{7}$", ErrorMessage = "Invaild Phone number")]
+        [RegularExpression(@"^0\d{8,9}$", ErrorMessage = "Invaild Phone number")]
         public string Phone { get; set; }
+
+        public DateTime ship_Date { get; set; }
 
         public bool IsExpiryDateValid()
         {

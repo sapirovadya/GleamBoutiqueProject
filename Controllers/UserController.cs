@@ -113,6 +113,7 @@ namespace GleamBoutiqueProject.Controllers
                                 else
                                 {
                                     HttpContext.Session.SetString("UserName", reader.GetString(0));
+                                    HttpContext.Session.SetString("LastUserName", reader.GetString(1));
                                     HttpContext.Session.SetString("Email", reader.GetString(2));
 
                                     connection.Close();

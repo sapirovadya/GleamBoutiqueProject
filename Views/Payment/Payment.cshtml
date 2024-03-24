@@ -73,6 +73,10 @@
                 <div class="col-md-12">
                 </div>
             </div>
+
+            
+
+
             <form action="MakePayment" method="post">
                 <div class="row">
                     <div class="col-md-6 mb-5 mb-md-0">
@@ -82,12 +86,12 @@
                                 <div class="col-md-6">
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.FirstName)</div>
                                     <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_fname" name="c_fname">
+                                    <input type="text" class="form-control" value="@ViewBag.UserName" id="c_fname" name="OrderPayment.FirstName">
                                 </div>
                                 <div class="col-md-6">
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.LastName)</div>
                                     <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_lname" name="c_lname">
+                                    <input type="text" class="form-control" value="@ViewBag.UserLastName" id="c_lname" name="OrderPayment.LastName">
                                 </div>
                             </div>
 
@@ -95,38 +99,38 @@
                                 <div class="col-md-6">
                                     <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.City)</div>
-                                    <input type="text" class="form-control" id="c_address" name="c_address" placeholder="City">
+                                    <input type="text" class="form-control" id="c_address" name="OrderPayment.City" placeholder="City">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="c_address" class="text-black"><span class="text-danger"></span></label>
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Street)</div>
-                                    <input type="text" class="form-control" placeholder="Street">
+                                    <input type="text" class="form-control" placeholder="Street" name="OrderPayment.Street">
                                 </div>
                             </div>
 
                             <div class="form-group mt-3">
                                 <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Apartment)</div>
-                                <input type="text" class="form-control" placeholder="Apartment">
+                                <input type="text" class="form-control" placeholder="Apartment" name="OrderPayment.Apartment">
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.PostalCode)</div>
                                     <label for="c_postal_zip" class="text-black">Postal code <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
+                                    <input type="text" class="form-control" id="c_postal_zip" name="OrderPayment.PostalCode">
                                 </div>
                             </div>
 
                             <div class="form-group row mb-5">
                                 <div class="col-md-6">
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Email)</div>
-                                    <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_email_address" name="c_email_address">
+                                    <label for="c_email_address" class="text-black">Email<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" value="@ViewBag.UserEmail" id="c_email_address" name="OrderPayment.Email">
                                 </div>
                                 <div class="col-md-6">
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Phone)</div>
                                     <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_phone" name="c_phone">
+                                    <input type="text" class="form-control" id="c_phone" name="OrderPayment.Phone">
                                 </div>
                             </div>
 
@@ -138,6 +142,7 @@
                             <div class="col-md-12">
                                 <h2 class="h3 mb-3 text-black">Your Order</h2>
                                 <div class="p-3 p-lg-5 border bg-white">
+
                                     <table class="table site-block-order-table mb-5">
                                         <thead>
                                             <tr>
@@ -147,29 +152,31 @@
                                         </thead>
                                         <tbody>
                                             <!-- Loop through the cart items -->
-                                            @foreach (var item in Model.OrderList)
-                                            {
+                                            @if(Model != null && Model.OrderList != null){
+                                                @foreach (var item in Model.OrderList)
+                                                {
+                                                    <tr>
+                                                        <td>@item.PName <strong class="mx-2">x</strong> @item.ProAmount</td>
+                                                        <td>@((item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount) ₪</td>
+                                                    </tr>
+                                                }
+
+                                                <!-- Calculate and display cart subtotal -->
                                                 <tr>
-                                                    <td>@item.PName <strong class="mx-2">x</strong> @item.ProAmount</td>
-                                                    <td>@((item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount) ₪</td>
+                                                    <td class="text-black font-weight-bold"><strong>Total Price</strong></td>
+                                                    <td class="text-black font-weight-bold">
+                                                        @{
+                                                            // Calculate the cart subtotal based on the items in the cart
+                                                            decimal cartSubtotal = (Model.OrderList).Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
+                                                        }
+                                                        <strong>@cartSubtotal.ToString() ₪</strong>
+                                                    </td>
+
                                                 </tr>
                                             }
-
-                                            <!-- Calculate and display cart subtotal -->
-                                        <tr>
-                                            <td class="text-black font-weight-bold"><strong>Total Price</strong></td>
-                                            <td class="text-black font-weight-bold">
-                                                @{
-                                                    // Calculate the cart subtotal based on the items in the cart
-                                                    decimal cartSubtotal = (Model.OrderList).Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
-                                                }
-                                                <strong>@cartSubtotal.ToString() ₪</strong></td>
-                                            
-                                        </tr>
-
                                         </tbody>
-                                    </table>
 
+                                    </table>
 
 
                                     <div class="border p-3 mb-5">
@@ -182,19 +189,19 @@
                                         <div class="form-group">
                                             <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.CreditCardNumber)</div>
                                             <label for="creditCardNumber" class="text-black">Credit Card Number:<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="creditCardNumber" name="CreditCardNumber" placeholder="0000 0000 0000 0000" value="@(Model.OrderPayment?.CreditCardNumber)" maxlength="16" />
+                                            <input type="text" class="form-control" id="creditCardNumber" name="OrderPayment.CreditCardNumber" placeholder="0000 0000 0000 0000" value="@(Model.OrderPayment?.CreditCardNumber)" maxlength="16" />
                                             <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.ExpiryDate)</div>
                                             <label for="ExpiryDate" class="text-black">Expiry Date:<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="ExpiryDate" name="ExpiryDate" placeholder="MM/YY" value="@(Model.OrderPayment?.ExpiryDate)" maxlength="5" />
+                                            <input type="text" class="form-control" id="ExpiryDate" name="OrderPayment.ExpiryDate" placeholder="MM/YY" value="@(Model.OrderPayment?.ExpiryDate)" maxlength="5" />
                                             <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.CVV)</div>
                                             <label for="SecurityNumber" class="text-black">CVV:<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="SecurityNumber" name="CVV" placeholder="000" value="@(Model.OrderPayment?.CVV)" maxlength="3" />
+                                            <input type="text" class="form-control" id="SecurityNumber" name="OrderPayment.CVV" placeholder="000" value="@(Model.OrderPayment?.CVV)" maxlength="3" />
                                             <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.ID)</div>
                                             <label for="IdOwner" class="text-black">ID:<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="IdOwner" name="ID" placeholder="000000000" value="@(Model.OrderPayment?.ID)" maxlength="9" />
+                                            <input type="text" class="form-control" id="IdOwner" name="OrderPayment.ID" placeholder="000000000" value="@(Model.OrderPayment?.ID)" maxlength="9" />
                                             <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.FullName)</div>
                                             <label for="NameOwner" class="text-black">Full Name:<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="NameOwner" name="FullName" value="@(Model.OrderPayment?.FullName)" />
+                                            <input type="text" class="form-control" id="NameOwner" name="OrderPayment.FullName" value="@(Model.OrderPayment?.FullName)" />
                                         </div>
 
                                     </div>
@@ -217,8 +224,8 @@
                                         <input class="btn btn-black btn-sm" type="submit" value="Place Order" />
                                     </div>
                                     <!-- <div class="form-group">
-                                        <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
-                                    </div>  -->
+        <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+    </div>  -->
 
 
 
