@@ -1245,5 +1245,56 @@ textarea {
     overflow-y: auto !important; /* Enable vertical scroll if content exceeds height */
 }
 
+.custom-select {
+    position: relative;
+    font-family: Arial;
+}
+
+    .custom-select select {
+        display: none;
+    }
+
+        .custom-select select:focus + .select-selected {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+            .custom-select select:focus + .select-selected:after {
+                border-color: transparent transparent #000 transparent;
+                top: 7px;
+            }
+
+            .custom-select select:focus + .select-selected + .select-items {
+                display: block;
+            }
+
+.select-items {
+    display: none;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+    .select-items div {
+        cursor: pointer;
+        padding: 8px 16px;
+        color: #000;
+        font-size: 14px;
+    }
+
+        .select-items div:hover {
+            background-color: #ccc;
+        }
 
 
+.form-check-input {
+    color: #947f6f !important;
+}

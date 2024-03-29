@@ -17,11 +17,14 @@ namespace GleamBoutiqueProject.Controllers
     public class ShopController : Controller
     {
         public List<CartItemViewModel> allCartItems;
-        public static List<CartItem> guestList = new List<CartItem>();  // Ensure this is properly initialized
-        List<CartItem> UserList = new List<CartItem>();  // Make sure UserList is initialized when needed
+        public static List<CartItem> guestList = new List<CartItem>();  
+        List<CartItem> UserList = new List<CartItem>(); 
+
+        public static List<Product> productsList = new List<Product>();
 
         public IConfiguration _configuration;
         string connectionString = "";
+
         public ShopController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -40,10 +43,7 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult Shop()
         {
-            ProductViewModel proViewModel = new ProductViewModel();
-            proViewModel.productsList = new List<Product>();
-            //proViewModel.cartProducts = new List<Product>();
-
+            productsList = new List<Product>();
             //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -68,19 +68,18 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.karat = reader.GetInt32(8);
                         //newProduct.ProImage = reader.GetString(9);
 
-                        proViewModel.productsList.Add(newProduct);
+                        productsList.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View("shop", proViewModel);
+            return View("shop", productsList);
         }
 
         public IActionResult FilterResults(List<string> categories, List<string> materials, List<int> karats, int? salePrice)
         {
-            ProductViewModel proViewModel = new ProductViewModel();
-            proViewModel.productsList = new List<Product>();
+            productsList = new List<Product>();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -147,18 +146,36 @@ namespace GleamBoutiqueProject.Controllers
                                 Sale_price = Convert.ToInt32(reader["Sale_price"]), // Assuming 'Sale_price' is stored as int
                                 karat = reader.IsDBNull(reader.GetOrdinal("karat")) ? 0 : reader.GetInt32(reader.GetOrdinal("karat")), // Assuming 'karat' is an int and can be null
                             };
-                            proViewModel.productsList.Add(newProduct);
+                            //proViewModel.productsList.Add(newProduct);
+                            productsList.Add(newProduct);
                         }
                     }
                 }
             }
-            return View("shop", proViewModel);
+            return View("shop", productsList);
         }
+
+        public IActionResult sortProduct(string sortOption)
+        {
+            switch (sortOption)
+            {
+                case "lowToHigh":
+                    //proViewModel.productsList = proViewModel.productsList.OrderBy(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
+                    productsList = productsList.OrderBy(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
+                    break;
+                case "highToLow":
+                    //proViewModel.productsList = proViewModel.productsList.OrderByDescending(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
+                    productsList = productsList.OrderByDescending(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
+                    break;
+                default:
+                    break;
+            }
+            return View("shop", productsList);
+        }
+
 
         public IActionResult SearchProduct(string searchKeyword)
         {
-            ProductViewModel proViewModel = new ProductViewModel();
-            proViewModel.productsList = new List<Product>();
             // SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -185,14 +202,14 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        proViewModel.productsList.Add(newProduct);
+                        productsList.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
 
-            return View("shop", proViewModel);
+            return View("shop", productsList);
         }
 
 
@@ -220,7 +237,6 @@ namespace GleamBoutiqueProject.Controllers
                             }    
                         }
                         InsertProductToCartList(proid, amount, connection);
-                        //HttpContext.Session.Set("CartItems", JsonSerializer.SerializeToUtf8Bytes(guestList)); // Save guestList to session
                         return Json(new { successMessage = "The product has been successfully added to the cart!" });     
                     }
                     else
@@ -440,8 +456,6 @@ namespace GleamBoutiqueProject.Controllers
 
             return View(viewModel);
         }
-
-
 
         // Helper method to retrieve cart items for a specific user
         private List<CartItem> GetCartItemsForUser(string userEmail)
