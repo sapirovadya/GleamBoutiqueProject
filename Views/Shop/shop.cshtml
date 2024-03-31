@@ -1,19 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@*@model GleamBoutiqueProject.ViewModel.ProductViewModel*@
 
-@model GleamBoutiqueProject.ViewModel.ProductViewModel
+@model List<Product>
+
 @using Microsoft.AspNetCore.Http
 
-<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,9 +20,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="/css/tiny-slider.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-    <title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+    <title>Shop</title>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -100,45 +91,89 @@
         <div class="row">
             <div class="col-md-3">
                 <!-- Filter form here -->
+                <!-- Filter form here -->
                 <form action="FilterResults" method="GET">
-                    <label for="category">Category:</label><br>
-                    <input type="checkbox" id="necklace" name="categories" value="necklace">
-                    <label for="necklace">Necklaces</label><br>
-                    <input type="checkbox" id="bracelet" name="categories" value="bracelet">
-                    <label for="bracelet">Bracelets</label><br>
-                    <input type="checkbox" id="earrings" name="categories" value="earrings">
-                    <label for="earrings">Earrings</label><br>
-                    <input type="checkbox" id="ring" name="categories" value="ring">
-                    <label for="ring">Rings</label><br>
+                    <h4>Filter by:</h4>
 
-                    <label for="material">Material:</label><br>
-                    <input type="checkbox" id="gold" name="materials" value="gold">
-                    <label for="gold">Gold</label><br>
-                    <input type="checkbox" id="silver" name="materials" value="silver">
-                    <label for="silver">Silver</label><br>
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="necklace" name="categories" value="necklace">
+                            <label class="form-check-label" for="necklace">Necklaces</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bracelet" name="categories" value="bracelet">
+                            <label class="form-check-label" for="bracelet">Bracelets</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="earrings" name="categories" value="earrings">
+                            <label class="form-check-label" for="earrings">Earrings</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="ring" name="categories" value="ring">
+                            <label class="form-check-label" for="ring">Rings</label>
+                        </div>
+                    </div>
 
-                    <!-- Assuming only one karat value can be selected; otherwise, adjust similarly -->
-                    <label for="karat">Karat:</label><br>
-                    <input type="checkbox" id="karat14" name="karats" value="14">
-                    <label for="karat14">14</label><br>
-                    <input type="checkbox" id="karat18" name="karats" value="18">
-                    <label for="karat18">18</label><br>
+                    <!-- Material -->
+                    <div class="mb-3">
+                        <label for="material" class="form-label">Material:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gold" name="materials" value="gold">
+                            <label class="form-check-label" for="gold">Gold</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="silver" name="materials" value="silver">
+                            <label class="form-check-label" for="silver">Silver</label>
+                        </div>
+                    </div>
 
-                    <!-- Assuming salePrice is a boolean indicating if the item is on sale -->
-                    <label for="salePrice">On Sale:</label><br>
-                    <input type="checkbox" id="salePrice" name="salePrice" value="1"><br>
+                    <!-- Karat -->
+                    <div class="mb-3">
+                        <label for="karat" class="form-label">Karat:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="karat14" name="karats" value="14">
+                            <label class="form-check-label" for="karat14">14</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="karat18" name="karats" value="18">
+                            <label class="form-check-label" for="karat18">18</label>
+                        </div>
+                    </div>
 
-                    <button type="submit" class="btn btn-primary mt-3">Filter</button>
+                    <!-- Sale Price -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="salePrice" name="salePrice" value="1">
+                            <label class="form-check-label" for="salePrice">On Sale</label>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="sortHidden" name="sort" value="">
+                    <button type="submit" class="btn btn-primary">Filter</button>
                 </form>
             </div>
 
-
             <div class="col-md-9">
+                <!-- Sort by -->
+                <div class="mb-3">
+                    <label for="sort" class="form-label">Sort by:</label>
+                    <div class="custom-select" style="width: 150px;">
+                        <select id="sort" name="sort" class="form-select" onchange="sortProducts(this)">
+                            <option value="lowToHigh">Low to High</option>
+                            <option value="highToLow">High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+
                 <div class="untree_co-section product-section before-footer-section">
                     <div class="container">
                         <div class="row">
-
-                            @foreach (Product pro in Model.productsList)
+                            @foreach (Product pro in Model)
                             {
                                 <!-- Display all products -->
                                 <div class="col-12 col-md-4 col-lg-3 mb-5">
@@ -170,101 +205,14 @@
                                 </div>
                                 <!-- End display -->
                             }
-
-
-
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <!-- End Footer Section -->
 
-
-
-    <div class="row g-5 mb-5">
-        <div class="col-lg-4">
-            <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Furni<span>.</span></a></div>
-            <p class="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. Pellentesque habitant</p>
-
-            <ul class="list-unstyled custom-social">
-                <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-                <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
-            </ul>
-        </div>
-
-        <div class="col-lg-8">
-            <div class="row links-wrap">
-                <div class="col-6 col-sm-6 col-md-3">
-                    <ul class="list-unstyled">
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact us</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-6 col-sm-6 col-md-3">
-                    <ul class="list-unstyled">
-                        <li><a href="#">Support</a></li>
-                        <li><a href="#">Knowledge base</a></li>
-                        <li><a href="#">Live chat</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-6 col-sm-6 col-md-3">
-                    <ul class="list-unstyled">
-                        <li><a href="#">Jobs</a></li>
-                        <li><a href="#">Our team</a></li>
-                        <li><a href="#">Leadership</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-6 col-sm-6 col-md-3">
-                    <ul class="list-unstyled">
-                        <li><a href="#">Nordic Chair</a></li>
-                        <li><a href="#">Kruzo Aero</a></li>
-                        <li><a href="#">Ergonomic Chair</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="border-top copyright">
-        <div class="row pt-4">
-            <div class="col-lg-6">
-                <p class="mb-2 text-center text-lg-start">
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a>  Distributed By <a href="https://themewagon.com">ThemeWagon</a> <!-- License information: https://untree.co/license/ -->
-                </p>
-            </div>
-
-            <div class="col-lg-6 text-center text-lg-end">
-                <ul class="list-unstyled d-inline-flex ms-auto">
-                    <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- End Footer Section -->
-
-
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/tiny-slider.js"></script>
-    <script src="js/custom.js"></script>
-
-
-    <script>
+        <script>
     function addToCart(proid, stock) {
         var formData = new FormData();
         formData.append("proid", proid);
@@ -285,9 +233,50 @@
             }
         });
     }
-    </script>
+        </script>
 
+        <script>
+            $(document).ready(function () {
+                // Get the selected values from the query string
+                const urlParams = new URLSearchParams(window.location.search);
+                const categories = urlParams.getAll('categories');
+                const materials = urlParams.getAll('materials');
+                const karats = urlParams.getAll('karats');
+                const salePrice = urlParams.get('salePrice');
+                const sort = urlParams.get('sort');
+
+                // Set the selected options in the select box
+                categories.forEach(category => {
+                    $(`input[name="categories"][value="${category}"]`).prop('checked', true);
+                });
+
+                materials.forEach(material => {
+                    $(`input[name="materials"][value="${material}"]`).prop('checked', true);
+                });
+
+                karats.forEach(karat => {
+                    $(`input[name="karats"][value="${karat}"]`).prop('checked', true);
+                });
+
+                if (salePrice === '1') {
+                    $(`input[name="salePrice"]`).prop('checked', true);
+                }
+
+                $('#sort').val(sort); // Set the selected sort option
+
+                // Update the hidden input value when the select element changes
+                $('#sort').change(function () {
+                    $('#sort').val($(this).val());
+                });
+            });
+        </script>
+
+        <script>
+            function sortProducts(selectElement) {
+                var sortOption = selectElement.value;
+                window.location.href = '/Shop/sortProduct?sortOption=' + sortOption;
+            }
+        </script>
 
 </body>
-
 </html>

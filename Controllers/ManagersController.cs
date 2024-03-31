@@ -17,6 +17,8 @@ namespace GleamBoutiqueProject.Controllers
     [NoCache]
     public class ManagersController : Controller
     {
+        public static List<Product> productsList = new List<Product>();
+
         private readonly IConfiguration _configuration;
         private readonly ILogger<HomeController> _logger;
         private readonly string connectionString;
@@ -414,9 +416,10 @@ namespace GleamBoutiqueProject.Controllers
         }
         public IActionResult ManagerShop()
         {
-            ProductViewModel proViewModel = new ProductViewModel();
-            proViewModel.productsList = new List<Product>();
+            //ProductViewModel proViewModel = new ProductViewModel();
+            //proViewModel.productsList = new List<Product>();
             //proViewModel.cartProducts = new List<Product>();
+            productsList = new List<Product>();
 
             //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -442,19 +445,19 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.karat = reader.GetInt32(8);
                         //newProduct.ProImage = reader.GetString(9);
 
-                        proViewModel.productsList.Add(newProduct);
+                        productsList.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(proViewModel);
+            return View(productsList);
         }
 
         public IActionResult SearchProduct(string searchKeyword)
         {
-            ProductViewModel proViewModel = new ProductViewModel();
-            proViewModel.productsList = new List<Product>();
+            //ProductViewModel proViewModel = new ProductViewModel();
+            //proViewModel.productsList = new List<Product>();
             // SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -481,14 +484,14 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        proViewModel.productsList.Add(newProduct);
+                        productsList.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
 
-            return View("ManagerShop", proViewModel);
+            return View("ManagerShop", productsList);
         }
 
     }
