@@ -61,7 +61,7 @@ namespace GleamBoutiqueProject.Models
         public string PostalCode { get; set; }
 
         [Required(ErrorMessage = "Apartment is required.")]
-        [RegularExpression(@"^[a-zA-Z0-9\s\-]+$", ErrorMessage = "Apartment should only contain letters, digits, spaces, and hyphens.")]
+        [RegularExpression(@"^\d{1,7}$", ErrorMessage = "Apartment should only digits")]
         public string Apartment { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]

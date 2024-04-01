@@ -26,6 +26,26 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult Payment()
         {
+            string checkuser = HttpContext.Session.GetString("Email");
+            if (!string.IsNullOrEmpty(checkuser))
+            {
+                var cartItems = GetCartItemsForUser(checkuser);
+                if (cartItems == null || cartItems.Count == 0)
+                {
+                    return RedirectToAction("cart","Shop");
+                }
+                
+            }
+            else
+            {
+                    
+                    if (ShopController.guestList.Count == 0)
+                    {
+                        return RedirectToAction("cart", "Shop");
+                    }
+                
+            }
+
             string userEmail = HttpContext.Session.GetString("Email");
             string userName = HttpContext.Session.GetString("UserName");
             string lastName = HttpContext.Session.GetString("LastUserName");
@@ -33,11 +53,12 @@ namespace GleamBoutiqueProject.Controllers
 
             if (string.IsNullOrEmpty(userEmail))
             {
+
                 var cartJson = HttpContext.Session.GetString("GuestCart");
                 if (!string.IsNullOrEmpty(cartJson))
                 {
                     Order.OrderList = JsonSerializer.Deserialize<List<CartItem>>(cartJson);
-                    //HttpContext.Session.Remove("GuestCart"); 
+                    
                 }
             }
             else
@@ -127,6 +148,7 @@ namespace GleamBoutiqueProject.Controllers
                         else
                         {
                             HttpContext.Session.Remove("GuestCart");
+                            ShopController.guestList.Clear();
                         }
 
                         transaction.Commit();

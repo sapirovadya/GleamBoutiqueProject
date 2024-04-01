@@ -13,7 +13,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Untree.co">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.png">
 
     <meta name="description" content="" />
@@ -27,20 +26,22 @@
     <title>GleamBoutique</title>
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
 
-    <script>function scrollToSection(sectionId) {
+    <script>
+    function scrollToSection(sectionId) {
             var section = document.getElementById(sectionId);
             if (section) {
                 section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }</script>
-    
-    <script type="text/javascript">window.onload = function () {
+
+    <script type="text/javascript">
+    window.onload = function () {
             history.replaceState(null, "", window.location.href);
             window.onpopstate = function (event) {
                 // Prevent going back to the logout URL or any secure page after logout
                 history.go(1);
             };
-        };</script> 
+        };</script>
 
 
 </head>

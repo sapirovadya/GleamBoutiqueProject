@@ -8,8 +8,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GleamBoutiqueProject.Models
 {
+
     public class User
     {
+
+        public User()
+        {
+        }
+
+        public User(User user1)
+        {
+            this.FirstName = user1.FirstName;
+            this.LastName = user1.LastName;
+            this.Email = user1.Email;
+            this.Password = user1.Password;
+
+        }
+
         [Required(ErrorMessage = "First name is required")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "First name must be between 2-25 letters")]
         [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "First name should contain only letters")]

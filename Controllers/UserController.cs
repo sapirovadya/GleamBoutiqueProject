@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using GleamBoutiqueProject.ViewModel;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -52,17 +54,14 @@ namespace GleamBoutiqueProject.Controllers
                 User newUser = new User();
                 newUser.Password = "";
                 return View(newUser);
-        }
+            }
             else
             {
-                return View("UserPage",userEmail);
+                return RedirectToAction("UserPage");
             }
         }
 
-        public IActionResult UserPage(string email)
-        {
-            return View();
-        }
+
 
 
         public IActionResult SignUpS()
@@ -161,6 +160,7 @@ namespace GleamBoutiqueProject.Controllers
                                     HttpContext.Session.SetString("UserName", reader.GetString(0));
                                     HttpContext.Session.SetString("LastUserName", reader.GetString(1));
                                     HttpContext.Session.SetString("Email", reader.GetString(2));
+                                    HttpContext.Session.SetString("UserPassword", reader.GetString(3));
 
                                     connection.Close();
                                     return RedirectToAction("Index", "Home", myUser);
@@ -217,6 +217,148 @@ namespace GleamBoutiqueProject.Controllers
                 return RedirectToAction("Error", "Home"); // Redirect to an error page or handle the error as needed
             }
         }
+
+        public IActionResult ShippingTracker(int orderId)
+        {
+            return View();
+        }
+
+        //public IActionResult UserPage()
+        //{
+
+        //    var email = HttpContext.Session.GetString("Email");
+        //    if (string.IsNullOrEmpty(email))
+        //    {
+        //        return RedirectToAction("SignIn");
+        //    }
+
+
+
+
+        //        var user = new User
+        //        {
+        //            FirstName = HttpContext.Session.GetString("UserName"),
+        //            LastName = HttpContext.Session.GetString("LastUserName"),
+        //            Email = HttpContext.Session.GetString("Email"),
+        //            Password = HttpContext.Session.GetString("UserPassword")
+        //        };
+        //        return View(user); 
+
+
+        //}
+
+        public IActionResult UserPage()
+        {
+
+            var email = HttpContext.Session.GetString("Email");
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            else
+            {
+                // Assuming you have a method like GetOrdersForUser(email) that returns a List<Orders>
+                var orders = GetOrdersForUser(email);
+
+                var viewModel = new UserAndOrderViewModel
+                {
+                    OrdersLists = orders,
+                    userToUpdate = new User
+                    {
+                        FirstName = HttpContext.Session.GetString("UserName"),
+                        LastName = HttpContext.Session.GetString("LastUserName"),
+                        Email = HttpContext.Session.GetString("Email"),
+                        Password = HttpContext.Session.GetString("UserPassword")
+                    }
+                };
+
+                return View(viewModel);
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult UpdateUserDetails(User updatedUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                // If the model state is not valid, return the user to the form with the current input.
+                return View("UserPage", updatedUser);
+            }
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string updateQuery = "UPDATE [User] SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Password = @Password WHERE Email = @OriginalEmail";
+                    using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", updatedUser.FirstName);
+                        command.Parameters.AddWithValue("@LastName", updatedUser.LastName);
+                        command.Parameters.AddWithValue("@Email", updatedUser.Email);
+                        command.Parameters.AddWithValue("@Password", updatedUser.Password);
+                        command.Parameters.AddWithValue("@OriginalEmail", HttpContext.Session.GetString("Email")); // Assuming you have the user's original email in session
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+
+                            HttpContext.Session.SetString("Email", updatedUser.Email);
+                            HttpContext.Session.SetString("UserName", updatedUser.FirstName); // Update first name in session
+                            HttpContext.Session.SetString("LastUserName", updatedUser.LastName);
+                            HttpContext.Session.SetString("UserPassword", updatedUser.Password);
+                            return RedirectToAction("UserPage"); // Or wherever you want to redirect the user after successful update
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Update failed. Please try again.");
+                            return View("UserPage", updatedUser);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                return View("UserPage", updatedUser);
+            }
+        }
+
+        private List<Orders> GetOrdersForUser(string userEmail)
+        {
+            List<Orders> orderItems = new List<Orders>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                // Correct the query to select all columns from the [Order] table where the EmailUser matches.
+                string query = "SELECT OrderId, EmailUser, OrderDate, TotalPrice, ShipDate  FROM [Order] WHERE EmailUser = @UserEmail";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@UserEmail", userEmail);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Properly read each column value using the appropriate reader methods.
+                            Orders item = new Orders
+                            {
+                                OrderId = reader.GetInt32(0),
+                                Email = reader.GetString(1), 
+                                OrderDate = reader.GetDateTime(2),
+                                TotalPrice = reader.GetDecimal(3),
+                                ShipDate = reader.GetDateTime(4) 
+                            };
+                            orderItems.Add(item);
+                        }
+                    }
+                }
+            }
+            return orderItems;
+        }
+
 
     }
 }

@@ -36,7 +36,7 @@ namespace GleamBoutiqueProject.Controllers
                 // Set session variable with user's name
                 string name = HttpContext.Session.GetString("UserName");
                 ViewData["Message"] = $"Hello {name}!";
-                return View("index");
+                return View("index", NewUser);
             }
             ViewData["Message"] = $"Hello Guest!";
 
