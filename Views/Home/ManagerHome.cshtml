@@ -32,310 +32,318 @@
 </head>
 
 <body>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
-    <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+            <div class="container">
+                <!--<a class="navbar-brand" href="index.html">GleamBoutique<span>.</span></a>-->
 
-        <div class="container">
-            <!--<a class="navbar-brand" href="index.html">GleamBoutique<span>.</span></a>-->
-
-            <a href="index.html"><img src="~/images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
+                <a href="index.html"><img src="~/images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
 
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarsFurni">
-                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mt-mb-md-0">
-                    <li class="nav-item ">
-                        <a class="nav-link" href="../Home/ManagerHome">Home</a>
-                    </li>
-                    <li><a class="nav-link" href="../Managers/ManagerShop">Shop</a></li>
+                <div class="collapse navbar-collapse" id="navbarsFurni">
+                    <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mt-mb-md-0">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="../Home/ManagerHome">Home</a>
+                        </li>
+                        <li><a class="nav-link" href="../Managers/ManagerShop">Shop</a></li>
 
-                    <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
-                    <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
-                    <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
-                    <li><a class="nav-link" href="../Managers/ProductLists">Edit Product</a></li>
-                </ul>
+                        <li><a class="nav-link" href="../Managers/AddProducts">Add Product</a></li>
+                        <li><a class="nav-link" href="../Managers/RemoveProductsS">Remove Product</a></li>
+                        <li><a class="nav-link" href="../Managers/InventoryCheck">Inventory</a></li>
+                        <li><a class="nav-link" href="../Managers/ProductLists">Edit Product</a></li>
+                    </ul>
 
-                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 
-                    <li>
-                        <a href="/User/Logout" style="filter: invert(1);">
-                            <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top: 9px;">
-                        </a>
+                        <li>
+                            <a href="/User/Logout" style="filter: invert(1);">
+                                <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top: 9px;">
+                            </a>
 
-                    </li>
-                    <li><a href="javascript:void(0)" style="filter: invert(1);" class="nav-link" onclick="goBack()"><img src="~/images/back1.png" style="width: 35px; height: 35px;"></a></li>
-                </ul>
+                        </li>
+                        <li><a href="javascript:void(0)" style="filter: invert(1);" class="nav-link" onclick="goBack()"><img src="~/images/back1.png" style="width: 35px; height: 35px;"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+        <!-- End Header/Navigation -->
+        <!-- Start Hero Section -->
+
+        <div class="hero">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-lg-5">
+                        <div class="intro-excerpt">
+                            <h2>@ViewData["Message"]</h2>
+
+                            <h1 style="color: #6b5646; margin-bottom: 0; font-size: 55px; ">Gleam Boutique</h1>
+                            <h3 style="color: #6b5646; margin-top: 0; margin-bottom: 20px; "><span class="d-block">Homemade Jewelry</span></h3>
+
+                            <p class="mb-4" style="color: #b09178; font-size: 18px;">
+                                Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
+                            </p>
+
+                            <p>
+                                <a href="../Managers/ManagerShop" class="btn btn-secondary me-2" style="background-color: #947f6f; color: white;">Shop Now</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="we-help-section col-lg-7 mb-5 mb-lg-0">
+                        <div class="imgs-grid">
+                            <div class="grid grid-1"><img src="/images/Oriya.jpg" alt="Untree.co"></div>
+                            <div class="grid grid-2"><img src="/images/May.jpg" alt="Untree.co"></div>
+                            <div class="grid grid-3"><img src="/images/Sapir.jpg" alt="Untree.co"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-    </nav>
-    <!-- End Header/Navigation -->
-    <!-- Start Hero Section -->
+        <div class="product-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
+                        <h2 class="mb-4 section-title">Crafted with excellent material.</h2>
+                        <p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. </p>
 
-    <div class="hero">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-lg-5">
-                    <div class="intro-excerpt">
-                        <h2>@ViewData["Message"]</h2>
+                    </div>
 
-                        <h1 style="color: #6b5646; margin-bottom: 0; font-size: 55px; ">Gleam Boutique</h1>
-                        <h3 style="color: #6b5646; margin-top: 0; margin-bottom: 20px; "><span class="d-block">Homemade Jewelry</span></h3>
+                    <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                        <a class="product-item" href="cart.html">
+                            <img src="/images/Oriya.jpg" class="img-fluid product-thumbnail">
+                            <h3 class="product-title">Oriya</h3>
+                            <strong class="product-price">3250₪</strong>
+                        </a>
+                    </div>
 
-                        <p class="mb-4" style="color: #b09178; font-size: 18px;">
+                    <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                        <a class="product-item" href="cart.html">
+                            <img src="/images/Sapir.jpg" class="img-fluid product-thumbnail">
+                            <h3 class="product-title">Sapir</h3>
+                            <strong class="product-price">899₪</strong>
+
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                        <a class="product-item" href="cart.html">
+                            <img src="/images/May.jpg" class="img-fluid product-thumbnail">
+                            <h3 class="product-title">May</h3>
+                            <strong class="product-price">490₪</strong>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Product Section -->
+        <!-- Start Why Choose Us Section -->
+        <div class="why-choose-section">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-lg-6">
+                        <h2 class="section-title">Why Choose Us</h2>
+                        <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
+
+                        <div class="row my-5">
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="~/images/truck.svg" alt="Image" class="imf-fluid">
+                                    </div>
+                                    <h3>Fast &amp; Free Shipping</h3>
+                                    <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="~/images/bag.svg" alt="Image" class="imf-fluid">
+                                    </div>
+                                    <h3>Easy to Shop</h3>
+                                    <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="~/images/support.svg" alt="Image" class="imf-fluid">
+                                    </div>
+                                    <h3>24/7 Support</h3>
+                                    <p>Available for you at the number: +972-8-6519864</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="~/images/return.svg" alt="Image" class="imf-fluid">
+                                    </div>
+                                    <h3>Hassle Free Returns</h3>
+                                    <p>
+                                        To return a product, contact us by phone: +972-8-6519864
+                                        Up to 14 days for return.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="img-wrap">
+                            <img src="~/images/Hila.jpg" alt="Image" class="img-fluid">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- End Popular Product -->
+        <!-- Start Testimonial Slider -->
+        <div class="testimonial-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 mx-auto text-center">
+                        <h2 class="section-title">About us</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="testimonial-slider-wrap text-center">
+
+                            <div id="testimonial-nav">
+                                <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
+                                <span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
+                            </div>
+                            <div class="testimonial-slider">
+
+                                <div class="item">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-8 mx-auto">
+
+                                            <div class="testimonial-block text-center">
+                                                <blockquote class="mb-5">
+                                                    <p>&ldquo;I'm May, a 24-year-old software engineering student who has a deep passion for crafting beautiful jewelry. Each piece in our collection is meticulously designed and handcrafted, blending elegance with personal flair. Drawing inspiration from nature's beauty and vibrant colors, we create unique pieces that reflect individuality and charm. Thank you for supporting our journey and sharing in our love for handmade jewelry.&rdquo;</p>
+                                                </blockquote>
+
+                                                <div class="author-info">
+                                                    <div class="author-pic">
+                                                        <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                    </div>
+                                                    <h3 class="font-weight-bold">May zohar</h3>
+                                                    <span class="position d-block mb-3">CEO, co-founder and website designer</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END item -->
+
+                                <div class="item">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-8 mx-auto">
+
+                                            <div class="testimonial-block text-center">
+                                                <blockquote class="mb-5">
+                                                    <p>&ldquo;I'm Sapir, a 26-year-old enthusiast of fine jewelry, with a special love for earrings. As one of the three owners of this handmade jewelry website, I pour my passion into creating elegant and unique pieces that capture the essence of beauty and style. Inspired by intricate designs and the play of light, each earring is meticulously crafted to add a touch of charm and sophistication to your look. Thank you for joining us on this creative journey and appreciating the artistry behind our handmade earrings.&rdquo;</p>
+                                                </blockquote>
+
+                                                <div class="author-info">
+                                                    <div class="author-pic">
+                                                        <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                    </div>
+                                                    <h3 class="font-weight-bold">Sapir ovadya</h3>
+                                                    <span class="position d-block mb-3">CEO, co-founder and website designer</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END item -->
+
+                                <div class="item">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-8 mx-auto">
+
+                                            <div class="testimonial-block text-center">
+                                                <blockquote class="mb-5">
+                                                    <p>&ldquo;I'm Oriya, a 23-year-old with an extraordinary creativity and a deep passion for crafting rings. As one of the three owners of this handmade jewelry website, I pour my heart into designing and creating unique pieces that speak volumes about elegance and style. Drawing inspiration from various sources, each ring in our collection is a masterpiece that reflects my love for intricate details and fine craftsmanship. Thank you for supporting our creative journey and appreciating the artistry behind our handmade rings.&rdquo;</p>
+                                                </blockquote>
+
+                                                <div class="author-info">
+                                                    <div class="author-pic">
+                                                        <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                    </div>
+                                                    <h3 class="font-weight-bold">Oriya Hazan</h3>
+                                                    <span class="position d-block mb-3">CEO, co-founder and website designer</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END item -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Testimonial Slider -->
+        <!-- Start Footer Section -->
+        <footer class="footer-section">
+            <div class="container relative">
+
+
+                <div class="row g-5 mb-5">
+                    <div class="col-lg-4">
+                        <div class="mb-4 footer-logo-wrap"><a href="../Home/HomePage" class="footer-logo">GleamBoutique<span>.</span></a></div>
+                        <p class="mb-4">
                             Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
                         </p>
 
-                        <p>
-                            <a href="../Managers/ManagerShop" class="btn btn-secondary me-2" style="background-color: #947f6f; color: white;">Shop Now</a>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="we-help-section col-lg-7 mb-5 mb-lg-0">
-                    <div class="imgs-grid">
-                        <div class="grid grid-1"><img src="/images/Oriya.jpg" alt="Untree.co"></div>
-                        <div class="grid grid-2"><img src="/images/May.jpg" alt="Untree.co"></div>
-                        <div class="grid grid-3"><img src="/images/Sapir.jpg" alt="Untree.co"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="product-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-                    <h2 class="mb-4 section-title">Crafted with excellent material.</h2>
-                    <p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. </p>
-
-                </div>
-
-                <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                    <a class="product-item" href="cart.html">
-                        <img src="/images/Oriya.jpg" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">Oriya</h3>
-                        <strong class="product-price">3250₪</strong>
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                    <a class="product-item" href="cart.html">
-                        <img src="/images/Sapir.jpg" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">Sapir</h3>
-                        <strong class="product-price">899₪</strong>
-
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                    <a class="product-item" href="cart.html">
-                        <img src="/images/May.jpg" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">May</h3>
-                        <strong class="product-price">490₪</strong>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- End Product Section -->
-    <!-- Start Why Choose Us Section -->
-    <div class="why-choose-section">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-lg-6">
-                    <h2 class="section-title">Why Choose Us</h2>
-                    <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
-
-                    <div class="row my-5">
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="~/images/truck.svg" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>Fast &amp; Free Shipping</h3>
-                                <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="~/images/bag.svg" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>Easy to Shop</h3>
-                                <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="~/images/support.svg" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>24/7 Support</h3>
-                                <p>Available for you at the number: +972-8-6519864</p>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="~/images/return.svg" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>Hassle Free Returns</h3>
-                                <p>
-                                    To return a product, contact us by phone: +972-8-6519864
-                                    Up to 14 days for return.
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="col-lg-5">
-                    <div class="img-wrap">
-                        <img src="~/images/Hila.jpg" alt="Image" class="img-fluid">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- End Popular Product -->
-    <!-- Start Testimonial Slider -->
-    <div class="testimonial-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7 mx-auto text-center">
-                    <h2 class="section-title">About us</h2>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="testimonial-slider-wrap text-center">
-
-                        <div id="testimonial-nav">
-                            <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
-                            <span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
-                        </div>
-                        <div class="testimonial-slider">
-
-                            <div class="item">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-8 mx-auto">
-
-                                        <div class="testimonial-block text-center">
-                                            <blockquote class="mb-5">
-                                                <p>&ldquo;I'm May, a 24-year-old software engineering student who has a deep passion for crafting beautiful jewelry. Each piece in our collection is meticulously designed and handcrafted, blending elegance with personal flair. Drawing inspiration from nature's beauty and vibrant colors, we create unique pieces that reflect individuality and charm. Thank you for supporting our journey and sharing in our love for handmade jewelry.&rdquo;</p>
-                                            </blockquote>
-
-                                            <div class="author-info">
-                                                <div class="author-pic">
-                                                    <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
-                                                </div>
-                                                <h3 class="font-weight-bold">May zohar</h3>
-                                                <span class="position d-block mb-3">CEO, co-founder and website designer</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END item -->
-
-                            <div class="item">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-8 mx-auto">
-
-                                        <div class="testimonial-block text-center">
-                                            <blockquote class="mb-5">
-                                                <p>&ldquo;I'm Sapir, a 26-year-old enthusiast of fine jewelry, with a special love for earrings. As one of the three owners of this handmade jewelry website, I pour my passion into creating elegant and unique pieces that capture the essence of beauty and style. Inspired by intricate designs and the play of light, each earring is meticulously crafted to add a touch of charm and sophistication to your look. Thank you for joining us on this creative journey and appreciating the artistry behind our handmade earrings.&rdquo;</p>
-                                            </blockquote>
-
-                                            <div class="author-info">
-                                                <div class="author-pic">
-                                                    <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
-                                                </div>
-                                                <h3 class="font-weight-bold">Sapir ovadya</h3>
-                                                <span class="position d-block mb-3">CEO, co-founder and website designer</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END item -->
-
-                            <div class="item">
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-8 mx-auto">
-
-                                        <div class="testimonial-block text-center">
-                                            <blockquote class="mb-5">
-                                                <p>&ldquo;I'm Oriya, a 23-year-old with an extraordinary creativity and a deep passion for crafting rings. As one of the three owners of this handmade jewelry website, I pour my heart into designing and creating unique pieces that speak volumes about elegance and style. Drawing inspiration from various sources, each ring in our collection is a masterpiece that reflects my love for intricate details and fine craftsmanship. Thank you for supporting our creative journey and appreciating the artistry behind our handmade rings.&rdquo;</p>
-                                            </blockquote>
-
-                                            <div class="author-info">
-                                                <div class="author-pic">
-                                                    <img src="~/images/person-1.png" alt="Maria Jones" class="img-fluid">
-                                                </div>
-                                                <h3 class="font-weight-bold">Oriya Hazan</h3>
-                                                <span class="position d-block mb-3">CEO, co-founder and website designer</span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END item -->
-                        </div>
+                        <ul class="list-unstyled custom-social">
+                            <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                            <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+                            <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                        </ul>
                     </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Testimonial Slider -->
-    <!-- Start Footer Section -->
-    <footer class="footer-section">
-        <div class="container relative">
 
 
-            <div class="row g-5 mb-5">
-                <div class="col-lg-4">
-                    <div class="mb-4 footer-logo-wrap"><a href="../Home/HomePage" class="footer-logo">GleamBoutique<span>.</span></a></div>
-                    <p class="mb-4">
-                        Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
-                    </p>
-
-                    <ul class="list-unstyled custom-social">
-                        <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                    </ul>
                 </div>
 
-
-
             </div>
+        </footer>
+        <!-- End Footer Section -->
 
-        </div>
-    </footer>
-    <!-- End Footer Section -->
-
-
+    }
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/tiny-slider.js"></script>
     <script src="/js/custom.js"></script>
+
+    <script>window.onload = function () {
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        }</script>
+
+
 </body>
 
 </html>
