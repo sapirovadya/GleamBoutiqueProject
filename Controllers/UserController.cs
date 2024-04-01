@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GleamBoutiqueProject.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using GleamBoutiqueProject.Filters;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+
+
+using System.Reflection.PortableExecutable;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -20,8 +21,18 @@ namespace GleamBoutiqueProject.Controllers
 
         public IConfiguration _configuration;
         string connectionString = "";
-        public UserController(IConfiguration configuration)
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthenticationService _authenticationService;
+
+        private readonly ILogger<UserController> _logger;
+
+        public UserController(ILogger<UserController> logger,IAuthenticationService authenticationService,IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
+            _logger = logger;
+
+            _authenticationService = authenticationService;
+            _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
             connectionString = _configuration.GetConnectionString("dbConnect");
         }
@@ -35,10 +46,24 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult SignIn()
         {
-            User newUser = new User();
-            newUser.Password = "";
-            return View(newUser);
+            string userEmail = HttpContext.Session.GetString("Email");
+            if (string.IsNullOrEmpty(userEmail)) //guest mode
+            {
+                User newUser = new User();
+                newUser.Password = "";
+                return View(newUser);
         }
+            else
+            {
+                return View("UserPage",userEmail);
+            }
+        }
+
+        public IActionResult UserPage(string email)
+        {
+            return View();
+        }
+
 
         public IActionResult SignUpS()
         {
@@ -54,9 +79,26 @@ namespace GleamBoutiqueProject.Controllers
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sqlQuery = "INSERT INTO [User] VALUES (@Value1, @Value2, @Value3, @Value4)";
+                    string checkExistingEmailQuery = "SELECT COUNT(*) FROM [User] WHERE Email = @Email";
 
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    using (SqlCommand checkEmailCommand = new SqlCommand(checkExistingEmailQuery, connection))
+                    {
+                        checkEmailCommand.Parameters.AddWithValue("@Email", myUser.Email);
+                        int existingEmailCount = (int)checkEmailCommand.ExecuteScalar();
+
+                        if (existingEmailCount > 0)
+                        {
+                            // Email already exists, show error message
+                            ModelState.AddModelError("Email", "This email already exists in the system. Please log in with this email.");
+
+                            return View("SignUpS", myUser);
+                        }
+                    }
+
+                    // Email doesn't exist, proceed with registration
+                    string insertUserQuery = "INSERT INTO [User] VALUES (@Value1, @Value2, @Value3, @Value4)";
+
+                    using (SqlCommand command = new SqlCommand(insertUserQuery, connection))
                     {
                         //Set the parameter values to the SQL
                         command.Parameters.AddWithValue("@Value1", myUser.FirstName);
@@ -66,12 +108,16 @@ namespace GleamBoutiqueProject.Controllers
 
                         int rowsAffected = command.ExecuteNonQuery();
                         if (rowsAffected > 0)
+                        {
+                            HttpContext.Session.SetString("UserName", myUser.FirstName);
+                            HttpContext.Session.SetString("LastUserName", myUser.LastName);
+                            HttpContext.Session.SetString("Email", myUser.Email);
+                            connection.Close();
                             return RedirectToAction("Index", "Home", myUser);
+                        }
                         else
-
                             return View("SignUpS", myUser);
                     }
-                    connection.Close();
                 }
             }
             else
@@ -140,16 +186,36 @@ namespace GleamBoutiqueProject.Controllers
             ModelState.AddModelError(string.Empty, "User does not exist");
             return View("SignIn", myUser);
         }
-        public IActionResult Logout()
+
+
+
+
+
+        public async Task<IActionResult> LogOut()
         {
-            //// Clear the existing authentication cookie
-            //HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            try
+            {
+                // Create a connection to your database using the connection string from appsettings.json
+                using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("dbConnect")))
+                {
+                    connection.Open();
 
-            //// Clear session data associated with user's role
-            //_httpContextAccessor.HttpContext.Session.Remove("UserRole");
+                    // Clear session data or perform any other necessary cleanup tasks
+                    HttpContext.Session.Clear();
 
-            //// Redirect the user to the home page after logout
-            return RedirectToAction("Index", "Home");
+                    // Sign out the user using ASP.NET Core Identity's built-in method
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    _logger.LogInformation("User logged out successfully.");
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error during logout: {ex.Message}");
+                return RedirectToAction("Error", "Home"); // Redirect to an error page or handle the error as needed
+            }
         }
 
     }

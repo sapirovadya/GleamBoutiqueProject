@@ -1245,7 +1245,7 @@ textarea {
     overflow-y: auto !important; /* Enable vertical scroll if content exceeds height */
 }
 
-.custom-select {
+/*.custom-select {
     position: relative;
     font-family: Arial;
 }
@@ -1255,8 +1255,8 @@ textarea {
     }
 
         .custom-select select:focus + .select-selected {
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.8);*/ /* Semi-transparent white background */
+            /*border: 1px solid #ccc;
             border-radius: 4px;
             padding: 8px;
             cursor: pointer;
@@ -1274,8 +1274,8 @@ textarea {
 .select-items {
     display: none;
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.8);*/ /* Semi-transparent white background */
+    /*border: 1px solid #ccc;
     border-top: none;
     border-radius: 0 0 4px 4px;
     max-height: 200px;
@@ -1297,4 +1297,4 @@ textarea {
 
 .form-check-input {
     color: #947f6f !important;
-}
+}*/

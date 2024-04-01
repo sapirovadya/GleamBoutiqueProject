@@ -119,15 +119,13 @@
                             <div class="form-group row">
                                 <div class="col-md-9">
                                     <div>
-                                        <!--//<div style="color:red;">@Html.ValidationMessageFor(x=>x.Pid)</div>-->
-
+                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.Pid)</div>
                                         <label for="Catalogy_number" class="text-black">Catalogy Number:</label>
                                         <input type="text" class="form-control" name="Pid" value="@Model.Pid">
-                                        <span class="text-danger">@Html.ValidationMessageFor(x => x.Pid)</span>
                                     </div>
                                     <div>
                                         <div style="color:red;">@Html.ValidationMessageFor(x => x.PName)</div>
-                                        <label for="PName" class="text-black">Product Name: <span class="text-danger"></span></label>
+                                        <label for="PName" class="text-black">Product Name:</label>
                                         <input type="text" class="form-control" name="PName" value="@Model.PName">
                                     </div>
                                     <div>
