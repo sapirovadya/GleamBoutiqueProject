@@ -69,7 +69,8 @@ namespace GleamBoutiqueProject.Models
         public string Phone { get; set; }
 
         public DateTime ship_Date { get; set; }
-
+        
+        public int Receipt { get; set; }
         public bool IsExpiryDateValid()
         {
             DateTime expiryDate = ConvertToDateTime(ExpiryDate);

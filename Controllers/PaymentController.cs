@@ -32,18 +32,18 @@ namespace GleamBoutiqueProject.Controllers
                 var cartItems = GetCartItemsForUser(checkuser);
                 if (cartItems == null || cartItems.Count == 0)
                 {
-                    return RedirectToAction("cart","Shop");
+                    return RedirectToAction("cart", "Shop");
                 }
-                
+
             }
             else
             {
-                    
-                    if (ShopController.guestList.Count == 0)
-                    {
-                        return RedirectToAction("cart", "Shop");
-                    }
-                
+
+                if (ShopController.guestList.Count == 0)
+                {
+                    return RedirectToAction("cart", "Shop");
+                }
+
             }
 
             string userEmail = HttpContext.Session.GetString("Email");
@@ -58,7 +58,7 @@ namespace GleamBoutiqueProject.Controllers
                 if (!string.IsNullOrEmpty(cartJson))
                 {
                     Order.OrderList = JsonSerializer.Deserialize<List<CartItem>>(cartJson);
-                    
+
                 }
             }
             else
@@ -72,9 +72,16 @@ namespace GleamBoutiqueProject.Controllers
         }
 
 
-        public IActionResult ThankYou()
+        public IActionResult ThankYou(int receiptNumber)
         {
-            return View();
+            var payment = GetPaymentByReceiptNumber(receiptNumber);
+            if (payment == null)
+            {
+                // Handle the case where no payment is found
+                return NotFound(); // Or redirect to another view as appropriate
+            }
+            return View(payment);
+
         }
 
 
@@ -103,9 +110,10 @@ namespace GleamBoutiqueProject.Controllers
                     var transaction = connection.BeginTransaction();
                     try
                     {
-
-                        string insertPaymentSql = @"INSERT INTO Payment (CreditCardNumber, ExpiryDate, CVV, ID, FullName, FirstName, LastName, Email, City, Street, Apartment, PostalCode, Phone)
-                    VALUES (@CreditCardNumber, @ExpiryDate, @CVV, @ID, @FullName, @FirstName, @LastName, @Email, @City, @Street, @Apartment, @PostalCode, @Phone);
+                        int ReceiptNumber = NewReceiptNumber(connection, transaction);
+                        
+                        string insertPaymentSql = @"INSERT INTO Payment (CreditCardNumber, ExpiryDate, CVV, ID, FullName, FirstName, LastName, Email, City, Street, Apartment, PostalCode, Phone, Receipt)
+                    VALUES (@CreditCardNumber, @ExpiryDate, @CVV, @ID, @FullName, @FirstName, @LastName, @Email, @City, @Street, @Apartment, @PostalCode, @Phone, @Receipt);
                     SELECT CAST(SCOPE_IDENTITY() as int);";
 
                         var paymentCommand = new SqlCommand(insertPaymentSql, connection, transaction);
@@ -124,6 +132,7 @@ namespace GleamBoutiqueProject.Controllers
                         paymentCommand.Parameters.AddWithValue("@Apartment", newPayment.Apartment);
                         paymentCommand.Parameters.AddWithValue("@PostalCode", newPayment.PostalCode);
                         paymentCommand.Parameters.AddWithValue("@Phone", newPayment.Phone);
+                        paymentCommand.Parameters.AddWithValue("@Receipt", ReceiptNumber);
 
                         int shipId = (int)paymentCommand.ExecuteScalar(); 
                         decimal totalPrice = model.OrderList.Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
@@ -150,9 +159,13 @@ namespace GleamBoutiqueProject.Controllers
                             HttpContext.Session.Remove("GuestCart");
                             ShopController.guestList.Clear();
                         }
-
+                        
                         transaction.Commit();
-                        return RedirectToAction("ThankYou");
+
+                        int ReceiptNumbertoThanks = ReceiptNumber;
+                        return RedirectToAction("ThankYou", new { receiptNumber = ReceiptNumbertoThanks });
+
+                        //return RedirectToAction("ThankYou",model);
                     }
                     catch (Exception ex)
                     {
@@ -192,6 +205,45 @@ namespace GleamBoutiqueProject.Controllers
             }
             return cartItems;
         }
+
+
+        private int NewReceiptNumber(SqlConnection connection, SqlTransaction transaction)
+        {
+            string getMaxReceiptSql = "SELECT ISNULL(MAX(Receipt), 0) + 1 FROM Payment";
+            SqlCommand getMaxReceiptCmd = new SqlCommand(getMaxReceiptSql, connection, transaction);
+            return (int)getMaxReceiptCmd.ExecuteScalar();
+        }
+
+
+
+        private Payment GetPaymentByReceiptNumber(int receiptNumber)
+        {
+            Payment payment = null;
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var query = "SELECT * FROM Payment WHERE Receipt = @ReceiptNumber";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ReceiptNumber", receiptNumber);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            payment = new Payment
+                            {
+                                // Assign properties from reader
+                                Receipt = (int)reader["Receipt"],
+                                // Populate other properties as needed
+                                // Example: CreditCardNumber = reader["CreditCardNumber"].ToString(),
+                            };
+                        }
+                    }
+                }
+            }
+            return payment;
+        }
+
 
     }
 
