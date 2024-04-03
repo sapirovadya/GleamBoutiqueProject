@@ -149,7 +149,7 @@ namespace GleamBoutiqueProject.Controllers
                             string password = reader.GetString(3);
                             if ((email == myUser.Email) && (password == myUser.Password))
                             {
-                                if (myUser.Email == "sapir@gmail.com" && myUser.Password == "s1234")
+                                if (myUser.Email == "sapir@gmail.com" && myUser.Password == "Ss123456")
                                 {
                                     HttpContext.Session.SetString("ManageUser", reader.GetString(0));
                                     connection.Close();
