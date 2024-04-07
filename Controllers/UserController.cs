@@ -218,10 +218,10 @@ namespace GleamBoutiqueProject.Controllers
             }
         }
 
-        public IActionResult ShippingTracker(int orderId)
-        {
-            return View();
-        }
+        //public IActionResult ShippingTracker(int orderId)
+        //{
+        //    return View();
+        //}
 
         //public IActionResult UserPage()
         //{
@@ -359,6 +359,40 @@ namespace GleamBoutiqueProject.Controllers
             return orderItems;
         }
 
+
+        public IActionResult ShippingTracker(int orderId)
+        {
+            Orders newOrder = new Orders();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery = "SELECT * FROM [Order] WHERE OrderId = @orderId";
+
+                using (SqlCommand selectCommand = new SqlCommand(sqlQuery, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@OrderId", orderId);
+                    SqlDataReader reader = selectCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        newOrder.OrderId = reader.GetInt32(0);
+                        newOrder.Email = reader.GetString(1);
+                        newOrder.OrderDate = reader.GetDateTime(2);
+                        newOrder.TotalPrice = reader.GetDecimal(3);
+                        newOrder.ShipDate = reader.GetDateTime(4);
+                    }
+                    reader.Close();
+                }
+                connection.Close();
+            }
+
+            var currentDate = DateTime.Now;
+            var shipDate = newOrder.ShipDate;
+            var orderDate = newOrder.OrderDate;
+            var totalDays = (shipDate - currentDate).Days;  ///1111
+            var daysPassed = (currentDate - shipDate).Days;
+
+            return View(newOrder);
+        }
 
     }
 }

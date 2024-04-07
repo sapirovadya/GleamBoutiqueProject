@@ -180,6 +180,7 @@ namespace GleamBoutiqueProject.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+
                 string sqlQuery = "SELECT * FROM Product WHERE PName LIKE @proNameToSearch";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
