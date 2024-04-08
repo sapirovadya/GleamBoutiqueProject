@@ -151,21 +151,28 @@
                     </div>
 
                     <input type="hidden" id="sortHidden" name="sort" value="">
-                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <button class="btn btn-outline-primary" type="submit" id="button-search">Filter</button>
                 </form>
             </div>
 
+
             <div class="col-md-9">
                 <!-- Sort by -->
-                <div class="mb-3">
-                    <label for="sort" class="form-label">Sort by:</label>
-                    <div class="custom-select" style="width: 150px;">
-                        <select id="sort" name="sort" class="form-select" onchange="sortProducts(this)">
-                            <option value="lowToHigh">Low to High</option>
-                            <option value="highToLow">High to Low</option>
-                        </select>
+                <div class="row mb-3">
+                    <label for="sort" class="col-sm-2 col-form-label">Sort by:</label>
+                    <div class="col-sm-10">
+                        <div class="custom-select" style="width: 150px;">
+                            <select id="sort" name="sort" class="form-select" onchange="sortProducts(this)">
+                                <option value="lowToHigh">Low to High</option>
+                                <option value="highToLow">High to Low</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+
+
+
+
 
                 <div class="untree_co-section product-section before-footer-section">
                     <div class="container">
@@ -177,7 +184,7 @@
                                     <div class="product-item">
                                         <a href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
                                             <div class="out-of-stock-label" style="display: @(pro.Amount == 0 ? "block" : "none")">Sold Out</div>
-                                            <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
+                                            <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail" style="height: 300px; width: auto;">
                                         </a>
                                         <h3 class="product-title">@pro.PName</h3>
 
@@ -202,6 +209,7 @@
                                 </div>
                                 <!-- End display -->
                             }
+
                         </div>
                     </div>
                 </div>
@@ -232,8 +240,7 @@
     }
         </script>
 
-        <script>
-            $(document).ready(function () {
+        <script>$(document).ready(function () {
                 // Get the selected values from the query string
                 const urlParams = new URLSearchParams(window.location.search);
                 const categories = urlParams.getAll('categories');
@@ -265,15 +272,107 @@
                 $('#sort').change(function () {
                     $('#sort').val($(this).val());
                 });
-            });
-        </script>
+            });</script>
 
-        <script>
-            function sortProducts(selectElement) {
+        <script>function sortProducts(selectElement) {
                 var sortOption = selectElement.value;
                 window.location.href = '/Shop/sortProduct?sortOption=' + sortOption;
-            }
-        </script>
+            }</script>
+        <script>document.addEventListener('DOMContentLoaded', function () {
+                // Function to update selected filters display
+                function updateSelectedFiltersDisplay() {
+                    const selectedFiltersList = document.getElementById('selectedFiltersList');
+                    selectedFiltersList.innerHTML = ''; // Clear previous selections
+
+                    // Get all checked checkboxes for categories, materials, and karats
+                    const checkedCategories = document.querySelectorAll('input[name="categories"]:checked');
+                    const checkedMaterials = document.querySelectorAll('input[name="materials"]:checked');
+                    const checkedKarats = document.querySelectorAll('input[name="karats"]:checked');
+                    const onSale = document.querySelector('input[name="salePrice"]:checked');
+
+                    // Function to add filter to the display list
+                    function addFilter(label) {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = label;
+                        selectedFiltersList.appendChild(listItem);
+                    }
+
+                    // Add checked categories to the display
+                    checkedCategories.forEach(function (checkbox) {
+                        addFilter(checkbox.nextElementSibling.textContent);
+                    });
+
+                    // Add checked materials to the display
+                    checkedMaterials.forEach(function (checkbox) {
+                        addFilter(checkbox.nextElementSibling.textContent);
+                    });
+
+                    // Add checked karats to the display
+                    checkedKarats.forEach(function (checkbox) {
+                        addFilter(checkbox.nextElementSibling.textContent);
+                    });
+
+                    // Add on sale filter to the display
+                    if (onSale) {
+                        addFilter(onSale.nextElementSibling.textContent);
+                    }
+                }
+
+                // Attach click event listeners to all checkboxes
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.addEventListener('click', updateSelectedFiltersDisplay);
+                });
+            });</script>
+        <script>document.addEventListener('DOMContentLoaded', function () {
+                // Get the saved sort option from local storage
+                const savedSortOption = localStorage.getItem('savedSortOption');
+
+                // If a sort option is saved, set it as the selected option
+                if (savedSortOption) {
+                    document.getElementById('sort').value = savedSortOption;
+                }
+
+                // Get the saved filter options from local storage
+                const savedFilters = JSON.parse(localStorage.getItem('savedFilters')) || {};
+
+                // Apply saved filter options
+                Object.keys(savedFilters).forEach(function (key) {
+                    const value = savedFilters[key];
+                    const checkbox = document.querySelector(`input[name="${key}"][value="${value}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+
+                // Attach change event listeners to filter checkboxes
+                const filterCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+                filterCheckboxes.forEach(function (checkbox) {
+                    checkbox.addEventListener('change', function () {
+                        saveFilterOption(this.name, this.value, this.checked);
+                        // Optionally, trigger the form submission or filtering action here
+                    });
+                });
+
+                // Function to save the selected filter option to local storage
+                function saveFilterOption(name, value, isChecked) {
+                    let savedFilters = JSON.parse(localStorage.getItem('savedFilters')) || {};
+                    if (isChecked) {
+                        savedFilters[name] = value;
+                    } else {
+                        delete savedFilters[name];
+                    }
+                    localStorage.setItem('savedFilters', JSON.stringify(savedFilters));
+                }
+
+                // Function to save the selected sort option to local storage
+                function saveSortOption(option) {
+                    localStorage.setItem('savedSortOption', option);
+                }
+            });</script>
+
+
+
 
 </body>
 </html>

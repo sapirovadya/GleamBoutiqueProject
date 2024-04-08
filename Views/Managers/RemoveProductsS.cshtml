@@ -6,8 +6,7 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 
-@model GleamBoutiqueProject.ViewModel.RemoveProductViewModel
-
+@model List<Product>
 <!doctype html>
 <html lang="en">
 <head>
@@ -131,7 +130,7 @@
                                             <th style="padding: 10px;">Sale Price</th>
                                             <th style="padding: 10px;">Karat</th>
                                         </tr>
-                                        @foreach (Product pro in Model.ProductsList)
+                                        @foreach (Product pro in Model)
                                         {
                                             <tr>
                                                 <td><input type="checkbox" name="selectedProducts" value="@pro.Pid" /></td>
@@ -156,8 +155,8 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
     </form>
 
     <footer class="footer-section">

@@ -18,7 +18,7 @@ namespace GleamBoutiqueProject.Controllers
     public class ManagersController : Controller
     {
         public static List<Product> productsList = new List<Product>();
-
+        public static List<Product> RemoveList = new List<Product>();
         private readonly IConfiguration _configuration;
         private readonly ILogger<HomeController> _logger;
         private readonly string connectionString;
@@ -84,8 +84,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult RemoveProductsS()
         {
-            RemoveProductViewModel RemViewModel = new RemoveProductViewModel();
-            RemViewModel.ProductsList = new List<Product>();
+            
+            
 
             //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -111,13 +111,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.karat = reader.GetInt32(8);
                         //newProduct.ProImage = reader.GetString(9);
 
-                        RemViewModel.ProductsList.Add(newProduct);
+                        RemoveList.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(RemViewModel);
+            return View(RemoveList);
         }
 
 
@@ -148,8 +148,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult InventoryCheck()
         {
-            RemoveProductViewModel InventoryViewModel = new RemoveProductViewModel();
-            InventoryViewModel.ProductsList = new List<Product>();
+            
+   
 
             //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -175,13 +175,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.karat = reader.GetInt32(8);
                         //newProduct.ProImage = reader.GetString(9);
 
-                        InventoryViewModel.ProductsList.Add(newProduct);
+                        RemoveList.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(InventoryViewModel);
+            return View(RemoveList);
         }
 
         public async Task<IActionResult> UpdateAmount(Dictionary<string, int> selectedProducts)
@@ -257,8 +257,6 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult ProductLists()
         {
-            RemoveProductViewModel InventoryViewModel = new RemoveProductViewModel();
-            InventoryViewModel.ProductsList = new List<Product>();
 
             //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -284,13 +282,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.karat = reader.GetInt32(8);
                         //newProduct.ProImage = reader.GetString(9);
 
-                        InventoryViewModel.ProductsList.Add(newProduct);
+                        RemoveList.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(InventoryViewModel);
+            return View(RemoveList);
         }
 
         public IActionResult ProductsDetailsS(string id)
