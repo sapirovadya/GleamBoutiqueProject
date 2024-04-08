@@ -11,8 +11,7 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 
-@model GleamBoutiqueProject.ViewModel.RemoveProductViewModel
-
+@model List<Product>
 <!doctype html>
 <html lang="en">
 <head>
@@ -90,9 +89,9 @@
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li>
-                    <a href="/User/Logout" style="filter: invert(1);">
-                        <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top:9px;">
-                    </a>
+                        <a href="/User/Logout" style="filter: invert(1);">
+                            <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top:9px;">
+                        </a>
                     </li>
                     <li><a href="javascript:void(0)" style="filter: invert(1);" class="nav-link" onclick="goBack()"><img src="~/images/back1.png" style="width: 35px; height: 35px;"></a></li>
                 </ul>
@@ -135,7 +134,7 @@
                                             <th style="padding: 10px;">Sale Price</th>
                                             <th style="padding: 10px;">Karat</th>
                                         </tr>
-                                        @foreach (Product pro in Model.ProductsList)
+                                        @foreach (Product pro in Model)
                                         {
                                             <tr>
                                                 <td><a href="@Url.Action("ProductsDetailsS", "Managers", new { id = pro.Pid })">@pro.Pid</a></td>
