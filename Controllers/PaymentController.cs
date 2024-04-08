@@ -26,6 +26,7 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult Payment()
         {
+
             string checkuser = HttpContext.Session.GetString("Email");
             if (!string.IsNullOrEmpty(checkuser))
             {
@@ -242,9 +243,8 @@ namespace GleamBoutiqueProject.Controllers
                 }
             }
             return payment;
+
         }
-
-
     }
 
 }

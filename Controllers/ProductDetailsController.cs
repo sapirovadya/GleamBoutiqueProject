@@ -44,7 +44,6 @@ namespace GleamBoutiqueProject.Controllers
                     if (rowsAffected > 0)
                     {
                         return RedirectToAction("shop", "Shop");
-                        return Json(new { successMessage = "Notify message" });
                     }
                     else
                         return NotFound();

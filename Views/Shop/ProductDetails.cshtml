@@ -125,9 +125,7 @@
                             <div class="col-md-4 col-6 mb-3">
                                 <label class="mb-2 d-block">Quantity</label>
                                 <div class="input-group mb-3" style="width: 140px;">
-                                    @*<button class="btn btn-white border border-secondary px-3 btn-pink" type="button" id="button-minus" data-mdb-ripple-color="dark">*@
                                     <button class="btn btn-white border border-secondary px-3" type="button" id="button-minus" data-mdb-ripple-color="dark">
-
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <input type="text" class="form-control text-center border border-secondary" placeholder="0" aria-label="Example text with button addon"
@@ -137,13 +135,13 @@
                                     </button>
                                 </div>
                             </div>
+
                             <div>
-                                <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-                                <a href="#" class="btn btn-primary shadow-0" id="add-to-cart-button"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+                                <a id="buy-now-button" class="btn btn-warning shadow-0">Buy now</a>
+                                <a id="add-to-cart-button" class="btn btn-warning shadow-0">Add to cart</a>
                             </div>
                         </div>
 
-                        <div class="my-custom-spacing"></div>
 
                         <hr />
 
@@ -247,8 +245,7 @@
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
 
-    <script>
-        document.getElementById('button-minus').addEventListener('click', function () {
+    <script>document.getElementById('button-minus').addEventListener('click', function () {
             var input = document.getElementById('quantity-input');
             var currentValue = parseInt(input.value) || 0; // Default to 1 if parsing fails
             if (currentValue > 0) { // Ensure quantity does not go below 1
@@ -264,11 +261,9 @@
             if (currentValue < maxStock) { // Ensure quantity does not exceed available stock
                 input.value = currentValue + 1;
             }
-        });
-    </script>
+        });</script>
 
-    <script>
-        document.getElementById('userEmail').oninvalid = function (event) {
+    <script>document.getElementById('userEmail').oninvalid = function (event) {
             event.target.setCustomValidity('Invalid email address. Please enter a valid email address.');
         }
         document.getElementById('userEmail').oninput = function (event) {
@@ -294,8 +289,41 @@
                     document.getElementById('notifyForm').submit();
                 }
             });
+        });</script>
+    <script>
+    document.getElementById('add-to-cart-button').addEventListener('click', function () {
+        var amount = document.getElementById('quantity-input').value.trim();
+
+        if (amount === '' || parseInt(amount) <= 0) {
+            alert('Please enter a valid quantity.');
+            return;
+        }
+
+        var proId = '@Model.Pid';
+        var stock = '@Model.Amount';
+
+        var dataToSend = {
+            proid: proId,
+            amount: amount,
+            stock: stock
+        };
+
+        // Send a POST request to the AddToCart action using AJAX
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddToCart", "Shop")',
+            data: dataToSend,
+            success: function (response) {
+                window.location.href = '/Shop/Shop'; // Redirect upon successful addition
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the product to the cart.');
+            }
         });
+    });
     </script>
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </body>
