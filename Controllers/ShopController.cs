@@ -17,7 +17,8 @@ namespace GleamBoutiqueProject.Controllers
     public class ShopController : Controller
     {
         public List<CartItemViewModel> allCartItems;
-        public static List<CartItem> guestList = new List<CartItem>();  
+        public static List<CartItem> guestList = new List<CartItem>();
+        public static List<CartItem> buynowList = new List<CartItem>();
         List<CartItem> UserList = new List<CartItem>(); 
 
         public static List<Product> productsList = new List<Product>();
@@ -335,6 +336,8 @@ namespace GleamBoutiqueProject.Controllers
                     item.ProAmount = amount;
             }
         }
+
+  
         private int GetProductStock(SqlConnection connection, string proid)
         {
             string selectQuery = "SELECT Amount FROM Product WHERE Pid = @proid";
@@ -435,6 +438,7 @@ namespace GleamBoutiqueProject.Controllers
         public IActionResult Cart()
         {
             string userEmail = HttpContext.Session.GetString("Email");
+            ViewBag.IsLoggedIn = !string.IsNullOrEmpty(userEmail);
 
             CartItemViewModel viewModel = new CartItemViewModel();
 
@@ -534,6 +538,39 @@ namespace GleamBoutiqueProject.Controllers
             // Assuming guestList is the list of guest cart items in your controller
             return guestList.ToList();
         }
+
+
+        public IActionResult BuyNow(string proid, int amount)
+        {
+
+            if (amount <= 0)
+            {
+                return BadRequest("Invalid quantity.");
+            }
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open(); 
+
+                // Retrieve the product details
+                var product = GetProduct(connection, proid); // Pass the open connection
+                if (product == null)
+                {
+                    return NotFound("Product not found.");
+                }
+
+                var cartItem = new CartItem(proid, amount, product.PName, product.OriginPrice, product.Sale_price != 0 ? product.Sale_price : product.OriginPrice, product.Amount);
+
+
+                //buynowList.Clear(); // Clear existing items for buy now scenario
+                buynowList.Add(cartItem);
+
+
+                // Redirect to Payment Page
+                return View("ProductDetails", product);
+            }
+        }
+
 
     }
 }

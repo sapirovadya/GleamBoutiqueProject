@@ -57,6 +57,16 @@
                     <li><a class="nav-link" href="../User/SignIn"><img src="~/images/user.svg"></a></li>
                     <li><a class="nav-link" href="../Shop/Cart"><img src="~/images/cart.svg"></a></li>
                 </ul>
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    @if (ViewBag.IsLoggedIn)
+                    {
+                        <li>
+                            <a href="/User/Logout" style="filter: invert(1);">
+                                <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top: 9px;">
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 
@@ -193,9 +203,8 @@
                     </p>
 
                     <ul class="list-unstyled custom-social">
-                        <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                        <li><a href="https://www.facebook.com/profile.php?id=61558503081378" target="_blank"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                        <li><a href="https://www.instagram.com/gleamboutiquejewelry/" target="_blank"><span class="fa fa-brands fa-instagram"></span></a></li>
                     </ul>
                 </div>
 
