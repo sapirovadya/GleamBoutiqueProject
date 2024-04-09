@@ -48,6 +48,16 @@
                     <li><a class="nav-link" href="../User/SignIn"><img src="~/images/user.svg"></a></li>
                     <li><a class="nav-link" href="../Shop/Cart"><img src="~/images/cart.svg"></a></li>
                 </ul>
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    @if (ViewBag.IsLoggedIn != null && ViewBag.IsLoggedIn)
+                    {
+                        <li>
+                            <a href="/User/Logout" style="filter: invert(1);">
+                                <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top: 9px;">
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 

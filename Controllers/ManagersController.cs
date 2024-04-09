@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using GleamBoutiqueProject.Filters;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -518,6 +519,50 @@ namespace GleamBoutiqueProject.Controllers
                     break;
             }
             return View("ManagerShop", productsList);
+        }
+        public IActionResult ProductDetailsManager(string id)
+        {
+            string userEmail = HttpContext.Session.GetString("Email");
+            Product product = null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery = "SELECT * FROM Product WHERE Pid = @Pid";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    // Parameterize the query to prevent SQL injection
+                    command.Parameters.AddWithValue("@Pid", id);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read()) // Assuming Pid is unique and there's only one product per Pid
+                    {
+                        product = new Product();
+                        product.Pid = reader.GetString(0);
+                        product.PName = reader.GetString(1);
+                        product.OriginPrice = reader.GetInt32(2);
+                        product.Amount = reader.GetInt32(3);
+                        product.Notify_Count = reader.GetInt32(4);
+                        product.category = reader.GetString(5);
+                        product.Material = reader.GetString(6);
+                        product.Sale_price = reader.GetInt32(7);
+                        product.karat = reader.GetInt32(8);
+                        // product.ProImage = reader.GetString(9); // Uncomment and handle if you're using product images
+                    }
+                    reader.Close();
+                }
+                connection.Close();
+            }
+
+            // Handle the case where no product is found
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.UserEmail = userEmail;
+            return View("ProductDetailsManager", product);
         }
 
 

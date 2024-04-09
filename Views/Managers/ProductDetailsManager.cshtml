@@ -32,24 +32,14 @@
                     <li class="nav-item ">
                         <a class="nav-link" href="/">Home</a>
                     </li>
-                    <li class="active"><a class="nav-link" href="../Shop/Shop">Shop</a></li>
+                    <li class="active"><a class="nav-link" href="../ManagerShop">Shop</a></li>
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                     <li><a class="nav-link" href="../User/SignIn"><img src="~/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="../Shop/Cart"><img src="~/images/cart.svg"></a></li>
                 </ul>
 
-                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    @if (ViewBag.IsLoggedIn != null && ViewBag.IsLoggedIn)
-                    {
-                        <li>
-                            <a href="/User/Logout" style="filter: invert(1);">
-                                <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top: 9px;">
-                            </a>
-                        </li>
-                    }
-                </ul>
+           
             </div>
         </div>
 
@@ -112,31 +102,7 @@
 
                         </div>
 
-                        <hr />
 
-                        <div class="row mb-4">
-                            <div class="col-md-4 col-6 mb-3">
-                                <label class="mb-2 d-block">Quantity</label>
-                                <div class="input-group mb-3" style="width: 140px;">
-                                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-minus" data-mdb-ripple-color="dark">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" class="form-control text-center border border-secondary" placeholder="0" aria-label="Example text with button addon"
-                                           aria-describedby="button-addon1" id="quantity-input" data-stock="@Model.Amount" />
-                                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-plus" data-mdb-ripple-color="dark">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <a id="buy-now-button" class="btn btn-warning shadow-0">Buy now</a>
-                                <a id="add-to-cart-button" class="btn btn-warning shadow-0">Add to cart</a>
-                            </div>
-                        </div>
-
-
-                        <hr />
 
                         @if (Model.Amount == 0)
                         {

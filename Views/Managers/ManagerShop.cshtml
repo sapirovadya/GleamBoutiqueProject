@@ -232,7 +232,7 @@
                             {
                                 <!-- Display all products -->
                                 <div class="col-12 col-md-4 col-lg-3 mb-5">
-                                    <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
+                                    <a class="product-item" href="@Url.Action("ProductDetailsManager", "Managers", new { id = pro.Pid })">
                                         <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail" style="height: 300px; width: auto;">
                                         <h3 class="product-title">@pro.PName</h3>
 

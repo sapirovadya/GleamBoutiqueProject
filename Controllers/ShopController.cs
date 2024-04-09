@@ -44,6 +44,7 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult Shop()
         {
+            buynowList.Clear();
             productsList = new List<Product>();
             //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -562,12 +563,12 @@ namespace GleamBoutiqueProject.Controllers
                 var cartItem = new CartItem(proid, amount, product.PName, product.OriginPrice, product.Sale_price != 0 ? product.Sale_price : product.OriginPrice, product.Amount);
 
 
-                //buynowList.Clear(); // Clear existing items for buy now scenario
+                buynowList.Clear(); // Clear existing items for buy now scenario
                 buynowList.Add(cartItem);
 
 
                 // Redirect to Payment Page
-                return View("ProductDetails", product);
+                return View("ProductDetails",product);
             }
         }
 

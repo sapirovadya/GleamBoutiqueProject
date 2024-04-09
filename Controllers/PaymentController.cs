@@ -10,6 +10,9 @@ using GleamBoutiqueProject.Models;
 using GleamBoutiqueProject.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
+using System.Security.Cryptography;
+using System.Reflection;
+using System.Transactions;
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -26,11 +29,6 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult Payment(OrderViewModel ord)
         {
-            if(ord != null)
-            {
-                return View(ord);
-            }
-
             string checkuser = HttpContext.Session.GetString("Email");
             ViewBag.IsLoggedIn = !string.IsNullOrEmpty(checkuser);
 
@@ -70,7 +68,7 @@ namespace GleamBoutiqueProject.Controllers
             }
             else
             {
-                Order.OrderList = GetCartItemsForUser(userEmail);
+                    Order.OrderList = GetCartItemsForUser(userEmail);
             }
             ViewBag.UserName = userName;
             ViewBag.UserEmail = userEmail;
@@ -103,14 +101,28 @@ namespace GleamBoutiqueProject.Controllers
 
             if (!string.IsNullOrEmpty(userEmail))
             {
-                model.OrderList = GetCartItemsForUser(userEmail); // For logged-in users
+                if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
+                {
+                    model.OrderList = ShopController.buynowList;
+                }
+                else
+                {
+                    model.OrderList = GetCartItemsForUser(userEmail); // For logged-in users
+                }
             }
             else
             {
-                var cartJson = HttpContext.Session.GetString("GuestCart");
-                if (!string.IsNullOrEmpty(cartJson))
+                if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
                 {
-                    model.OrderList = JsonSerializer.Deserialize<List<CartItem>>(cartJson); // For guests
+                    model.OrderList = ShopController.buynowList;
+                }
+                else
+                {
+                    var cartJson = HttpContext.Session.GetString("GuestCart");
+                    if (!string.IsNullOrEmpty(cartJson))
+                    {
+                        model.OrderList = JsonSerializer.Deserialize<List<CartItem>>(cartJson); // For guests
+                    }
                 }
             }
 
@@ -155,28 +167,38 @@ namespace GleamBoutiqueProject.Controllers
                         decimal totalPrice = model.OrderList.Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
 
                         string insertOrderSql = @"INSERT INTO [Order] (OrderId, EmailUser, OrderDate, TotalPrice) VALUES (@OrderId, @EmailUser, GETDATE(), @TotalPrice)";
-
                         var orderCommand = new SqlCommand(insertOrderSql, connection, transaction);
                         orderCommand.Parameters.AddWithValue("@OrderId", shipId);
                         orderCommand.Parameters.AddWithValue("@EmailUser", newPayment.Email);
                         orderCommand.Parameters.AddWithValue("@TotalPrice", totalPrice);
-
                         orderCommand.ExecuteNonQuery();
 
                         if (!string.IsNullOrEmpty(userEmail))
                         {
-                            // For logged-in users, delete cart items from the database
-                            string deleteCartSql = "DELETE FROM Cart WHERE UserEmail = @Email";
-                            SqlCommand deleteCartCmd = new SqlCommand(deleteCartSql, connection, transaction);
-                            deleteCartCmd.Parameters.AddWithValue("@Email", userEmail);
-                            deleteCartCmd.ExecuteNonQuery();
+                            if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
+                            {
+                                UpdateDataStock(connection, transaction, ShopController.buynowList);
+                            }
+                            else
+                            {
+                                UpdateDataStock(connection, transaction, model.OrderList);
+                                DeleteCartItems(connection, transaction, userEmail);
+                            }
                         }
                         else
                         {
-                            HttpContext.Session.Remove("GuestCart");
-                            ShopController.guestList.Clear();
+                            if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
+                            {
+                                UpdateDataStock(connection, transaction, ShopController.buynowList);
+                            }
+                            else
+                            {
+                                UpdateDataStock(connection, transaction, ShopController.guestList);
+                                HttpContext.Session.Remove("GuestCart");
+                                ShopController.guestList.Clear();
+                            }
                         }
-                        
+
                         transaction.Commit();
 
                         int ReceiptNumbertoThanks = ReceiptNumber;
@@ -281,7 +303,29 @@ namespace GleamBoutiqueProject.Controllers
                     order.OrderList = ShopController.buynowList;
                 }
 
-            return RedirectToAction("Payment",order);
+            return View("Payment",order);
+        }
+
+        private void UpdateDataStock(SqlConnection connection, SqlTransaction transaction, List<CartItem> Cart)
+        {
+            foreach (CartItem Item in Cart)
+            {
+                int newAmount = Item.ProStock - Item.ProAmount;
+                string updateQuery = "UPDATE Product SET Amount = @ProAmount WHERE Pid = @ProId";
+                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection, transaction))
+                {
+                    updateCommand.Parameters.AddWithValue("@ProAmount", newAmount);
+                    updateCommand.Parameters.AddWithValue("@ProId", Item.ProId);
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+        }
+        private void DeleteCartItems(SqlConnection connection, SqlTransaction transaction, string userEmail)
+        {
+            string deleteCartSql = "DELETE FROM Cart WHERE UserEmail = @Email";
+            SqlCommand deleteCartCmd = new SqlCommand(deleteCartSql, connection, transaction);
+            deleteCartCmd.Parameters.AddWithValue("@Email", userEmail);
+            deleteCartCmd.ExecuteNonQuery();
         }
 
     }
