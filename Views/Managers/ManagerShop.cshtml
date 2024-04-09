@@ -1,20 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-@*@model GleamBoutiqueProject.ViewModel.ProductViewModel*@
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 
 @model List<Product>
-<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -25,8 +12,6 @@
 
     <meta name="description" content="" />
     <meta name="keywords" content="bootstrap, bootstrap4" />
-
-    <!-- Bootstrap CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="/css/tiny-slider.css" rel="stylesheet">
@@ -34,20 +19,18 @@
     <title>Shop</title>
     <style>
         .hero {
-            padding: 1.5rem; /* Adjust the padding to make the div smaller */
-            /* You can also adjust other styles such as margins, width, height, etc. */
+            padding: 1.5rem; 
+           
         }
 
         .footer-section {
             padding: 1.5rem;
         }
 
-            /* Style for the footer text */
             .footer-section p {
                 font-size: 0.9rem;
             }
 
-        /* Style for the social icons */
         .custom-social {
             list-style: none;
         }
@@ -69,13 +52,10 @@
                 var amount = $(this).data('amount');
                 var stock = $(this).data('stock');
 
-                // Check if stock is zero
                 if (stock <= 0) {
                     alert('Sorry, the product is out of stock.');
-                    return; // Stop execution if out of stock
+                    return; 
                 }
-
-                // Proceed to add the product to the cart
                 addToCart(proid, amount, stock);
             });
 
@@ -85,14 +65,10 @@
                     type: 'POST',
                     data: { proid: proid, amount: amount, stock: stock },
                     success: function (result) {
-                        // Handle success response
                         console.log('Product added to cart');
-                        // Optionally, redirect or update the UI as needed
                     },
                     error: function (xhr, status, error) {
-                        // Handle error response
                         console.error('Failed to add product to cart');
-                        // Check if the error message is related to stock availability
                         if (xhr.responseJSON && xhr.responseJSON.errorMessage) {
                             alert(xhr.responseJSON.errorMessage); // Display error message to the user
                         }
@@ -175,37 +151,66 @@
             <div class="col-md-3">
                 <!-- Filter form here -->
                 <form action="FilterResults" method="GET">
-                    <label for="category">Category:</label><br>
-                    <input type="checkbox" id="necklace" name="categories" value="necklace">
-                    <label for="necklace">Necklaces</label><br>
-                    <input type="checkbox" id="bracelet" name="categories" value="bracelet">
-                    <label for="bracelet">Bracelets</label><br>
-                    <input type="checkbox" id="earrings" name="categories" value="earrings">
-                    <label for="earrings">Earrings</label><br>
-                    <input type="checkbox" id="ring" name="categories" value="ring">
-                    <label for="ring">Rings</label><br>
+                    <h4>Filter by:</h4>
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="necklace" name="categories" value="necklace">
+                            <label class="form-check-label" for="necklace">Necklaces</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bracelet" name="categories" value="bracelet">
+                            <label class="form-check-label" for="bracelet">Bracelets</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="earrings" name="categories" value="earrings">
+                            <label class="form-check-label" for="earrings">Earrings</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="ring" name="categories" value="ring">
+                            <label class="form-check-label" for="ring">Rings</label>
+                        </div>
+                    </div>
 
-                    <label for="material">Material:</label><br>
-                    <input type="checkbox" id="gold" name="materials" value="gold">
-                    <label for="gold">Gold</label><br>
-                    <input type="checkbox" id="silver" name="materials" value="silver">
-                    <label for="silver">Silver</label><br>
+                    <!-- Material -->
+                    <div class="mb-3">
+                        <label for="material" class="form-label">Material:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gold" name="materials" value="gold">
+                            <label class="form-check-label" for="gold">Gold</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="silver" name="materials" value="silver">
+                            <label class="form-check-label" for="silver">Silver</label>
+                        </div>
+                    </div>
 
-                    <!-- Assuming only one karat value can be selected; otherwise, adjust similarly -->
-                    <label for="karat">Karat:</label><br>
-                    <input type="checkbox" id="karat14" name="karats" value="14">
-                    <label for="karat14">14</label><br>
-                    <input type="checkbox" id="karat18" name="karats" value="18">
-                    <label for="karat18">18</label><br>
+                    <!-- Karat -->
+                    <div class="mb-3">
+                        <label for="karat" class="form-label">Karat:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="karat14" name="karats" value="14">
+                            <label class="form-check-label" for="karat14">14</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="karat18" name="karats" value="18">
+                            <label class="form-check-label" for="karat18">18</label>
+                        </div>
+                    </div>
 
-                    <!-- Assuming salePrice is a boolean indicating if the item is on sale -->
-                    <label for="salePrice">On Sale:</label><br>
-                    <input type="checkbox" id="salePrice" name="salePrice" value="1"><br>
+                    <!-- Sale Price -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="salePrice" name="salePrice" value="1">
+                            <label class="form-check-label" for="salePrice">On Sale</label>
+                        </div>
+                    </div>
 
-                    <button type="submit" class="btn btn-primary mt-3">Filter</button>
+                    <input type="hidden" id="sortHidden" name="sort" value="">
+                    <button class="btn btn-outline-primary" type="submit" id="button-search">Filter</button>
                 </form>
             </div>
-
 
             <div class="col-md-9">
 
@@ -228,7 +233,7 @@
                                 <!-- Display all products -->
                                 <div class="col-12 col-md-4 col-lg-3 mb-5">
                                     <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = pro.Pid })">
-                                        <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail">
+                                        <img src="/images/@(pro.PName).jpg" class="img-fluid product-thumbnail" style="height: 300px; width: auto;">
                                         <h3 class="product-title">@pro.PName</h3>
 
                                         @if (pro.Sale_price != 0)
@@ -254,34 +259,6 @@
         </div>
     </div>
 
-    <footer class="footer-section">
-        <div class="container relative">
-
-
-            <div class="row g-5 mb-5">
-                <div class="col-lg-4">
-                    <div class="mb-4 footer-logo-wrap"><a href="../Home/HomePage" class="footer-logo">GleamBoutique<span>.</span></a></div>
-                    <p class="mb-4">
-                        Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
-                    </p>
-
-                    <ul class="list-unstyled custom-social">
-                        <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                    </ul>
-                </div>
-
-
-
-            </div>
-
-        </div>
-    </footer>
-
-    <!-- End Footer Section -->
-
-
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/tiny-slider.js"></script>
     <script src="js/custom.js"></script>
@@ -290,7 +267,6 @@
             window.history.back();
         }</script>
     <script>$(document).ready(function () {
-            // Get the selected values from the query string
             const urlParams = new URLSearchParams(window.location.search);
             const categories = urlParams.getAll('categories');
             const materials = urlParams.getAll('materials');
@@ -298,7 +274,6 @@
             const salePrice = urlParams.get('salePrice');
             const sort = urlParams.get('sort');
 
-            // Set the selected options in the select box
             categories.forEach(category => {
                 $(`input[name="categories"][value="${category}"]`).prop('checked', true);
             });
@@ -315,9 +290,8 @@
                 $(`input[name="salePrice"]`).prop('checked', true);
             }
 
-            $('#sort').val(sort); // Set the selected sort option
+            $('#sort').val(sort); 
 
-            // Update the hidden input value when the select element changes
             $('#sort').change(function () {
                 $('#sort').val($(this).val());
             });
@@ -325,67 +299,54 @@
 
     <script>function sortProducts(selectElement) {
             var sortOption = selectElement.value;
-            window.location.href = '../Shop/sortProduct?sortOption=' + sortOption;
+            window.location.href = '/Managers/sortProduct?sortOption=' + sortOption;
         }</script>
     <script>document.addEventListener('DOMContentLoaded', function () {
-            // Function to update selected filters display
             function updateSelectedFiltersDisplay() {
                 const selectedFiltersList = document.getElementById('selectedFiltersList');
-                selectedFiltersList.innerHTML = ''; // Clear previous selections
+                selectedFiltersList.innerHTML = ''; 
 
-                // Get all checked checkboxes for categories, materials, and karats
                 const checkedCategories = document.querySelectorAll('input[name="categories"]:checked');
                 const checkedMaterials = document.querySelectorAll('input[name="materials"]:checked');
                 const checkedKarats = document.querySelectorAll('input[name="karats"]:checked');
                 const onSale = document.querySelector('input[name="salePrice"]:checked');
 
-                // Function to add filter to the display list
                 function addFilter(label) {
                     const listItem = document.createElement('li');
                     listItem.textContent = label;
                     selectedFiltersList.appendChild(listItem);
                 }
 
-                // Add checked categories to the display
                 checkedCategories.forEach(function (checkbox) {
                     addFilter(checkbox.nextElementSibling.textContent);
                 });
 
-                // Add checked materials to the display
                 checkedMaterials.forEach(function (checkbox) {
                     addFilter(checkbox.nextElementSibling.textContent);
                 });
 
-                // Add checked karats to the display
                 checkedKarats.forEach(function (checkbox) {
                     addFilter(checkbox.nextElementSibling.textContent);
                 });
 
-                // Add on sale filter to the display
                 if (onSale) {
                     addFilter(onSale.nextElementSibling.textContent);
                 }
             }
 
-            // Attach click event listeners to all checkboxes
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(function (checkbox) {
                 checkbox.addEventListener('click', updateSelectedFiltersDisplay);
             });
         });</script>
     <script>document.addEventListener('DOMContentLoaded', function () {
-            // Get the saved sort option from local storage
             const savedSortOption = localStorage.getItem('savedSortOption');
 
-            // If a sort option is saved, set it as the selected option
             if (savedSortOption) {
                 document.getElementById('sort').value = savedSortOption;
             }
 
-            // Get the saved filter options from local storage
             const savedFilters = JSON.parse(localStorage.getItem('savedFilters')) || {};
-
-            // Apply saved filter options
             Object.keys(savedFilters).forEach(function (key) {
                 const value = savedFilters[key];
                 const checkbox = document.querySelector(`input[name="${key}"][value="${value}"]`);
@@ -394,16 +355,13 @@
                 }
             });
 
-            // Attach change event listeners to filter checkboxes
             const filterCheckboxes = document.querySelectorAll('input[type="checkbox"]');
             filterCheckboxes.forEach(function (checkbox) {
                 checkbox.addEventListener('change', function () {
                     saveFilterOption(this.name, this.value, this.checked);
-                    // Optionally, trigger the form submission or filtering action here
                 });
             });
 
-            // Function to save the selected filter option to local storage
             function saveFilterOption(name, value, isChecked) {
                 let savedFilters = JSON.parse(localStorage.getItem('savedFilters')) || {};
                 if (isChecked) {
@@ -414,14 +372,41 @@
                 localStorage.setItem('savedFilters', JSON.stringify(savedFilters));
             }
 
-            // Function to save the selected sort option to local storage
             function saveSortOption(option) {
                 localStorage.setItem('savedSortOption', option);
             }
-    window.addEventListener('load', function () {
-        localStorage.removeItem('savedFilters');
-    });
+            window.addEventListener('load', function () {
+                localStorage.removeItem('savedFilters');
+            });
         });</script>
+
+    <script>
+        function saveFilterAndSortOptions(name, value, isChecked) {
+            let savedFilters = JSON.parse(localStorage.getItem('savedFilters')) || {};
+            if (isChecked) {
+                savedFilters[name] = value;
+            } else {
+                delete savedFilters[name];
+            }
+            localStorage.setItem('savedFilters', JSON.stringify(savedFilters));
+
+            const sortOption = document.getElementById('sort').value;
+            localStorage.setItem('savedSortOption', sortOption);
+        }
+        const filterCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+        filterCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                saveFilterAndSortOptions(this.name, this.value, this.checked);
+            });
+        });
+
+        function saveSortOption(option) {
+            localStorage.setItem('savedSortOption', option);
+        }
+        const savedSortOption = localStorage.getItem('savedSortOption');
+        if (savedSortOption) {
+            document.getElementById('sort').value = savedSortOption;
+        }</script>
 
 
 </body>

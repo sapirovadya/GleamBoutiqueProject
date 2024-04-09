@@ -1,6 +1,4 @@
-﻿@*@model GleamBoutiqueProject.ViewModel.ProductViewModel*@
-
-@model List<Product>
+﻿@model List<Product>
 
 @using Microsoft.AspNetCore.Http
 
@@ -90,8 +88,7 @@
 
         <div class="row">
             <div class="col-md-3">
-                <!-- Filter form here -->
-                <!-- Filter form here -->
+
                 <form action="FilterResults" method="GET">
                     <h4>Filter by:</h4>
 
@@ -211,7 +208,6 @@
                 </div>
             </div>
         </div>
-        <!-- End Footer Section -->
 
         <script>
     function addToCart(proid, stock) {
@@ -227,7 +223,8 @@
             processData: false,
             contentType: false,
             success: function (response) {
-                alert(response.successMessage); // Display success message
+                alert(response.successMessage);
+
             },
             error: function (response) {
                 alert(response.responseJSON.errorMessage);
@@ -237,7 +234,7 @@
         </script>
 
         <script>$(document).ready(function () {
-                // Get the selected values from the query string
+               
                 const urlParams = new URLSearchParams(window.location.search);
                 const categories = urlParams.getAll('categories');
                 const materials = urlParams.getAll('materials');
@@ -245,7 +242,6 @@
                 const salePrice = urlParams.get('salePrice');
                 const sort = urlParams.get('sort');
 
-                // Set the selected options in the select box
                 categories.forEach(category => {
                     $(`input[name="categories"][value="${category}"]`).prop('checked', true);
                 });
@@ -262,9 +258,8 @@
                     $(`input[name="salePrice"]`).prop('checked', true);
                 }
 
-                $('#sort').val(sort); // Set the selected sort option
+                $('#sort').val(sort); 
 
-                // Update the hidden input value when the select element changes
                 $('#sort').change(function () {
                     $('#sort').val($(this).val());
                 });

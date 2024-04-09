@@ -7,11 +7,8 @@ using GleamBoutiqueProject.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using GleamBoutiqueProject.ViewModel;
 using GleamBoutiqueProject.Filters;
 using System.Text;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GleamBoutiqueProject.Controllers
 {
@@ -32,16 +29,8 @@ namespace GleamBoutiqueProject.Controllers
             connectionString = _configuration.GetConnectionString("dbConnect");
         }
 
-
-        // GET: /<controller>/
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public IActionResult AddProducts(Product NewProduct)
         {
-            //Product NewProduct = new Product();  
             return View(NewProduct);
         }
 
@@ -57,7 +46,6 @@ namespace GleamBoutiqueProject.Controllers
 
                     using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                     {
-                        //Set the parameter values to the SQL
                         command.Parameters.AddWithValue("@Pid", NewOne.Pid);
                         command.Parameters.AddWithValue("@PName", NewOne.PName);
                         command.Parameters.AddWithValue("@OriginPrice", NewOne.OriginPrice);
@@ -75,7 +63,6 @@ namespace GleamBoutiqueProject.Controllers
 
                             return View("AddProducts", NewOne);
                     }
-                    connection.Close();
                 }
             }
             else
@@ -86,10 +73,6 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult RemoveProductsS()
         {
-            
-            
-
-            //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -97,7 +80,6 @@ namespace GleamBoutiqueProject.Controllers
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    //Read from the SQL table
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -111,7 +93,6 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Material = reader.GetString(6);
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
-                        //newProduct.ProImage = reader.GetString(9);
 
                         RemoveList.Add(newProduct);
                     }
@@ -150,10 +131,6 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult InventoryCheck()
         {
-            
-   
-
-            //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -161,7 +138,6 @@ namespace GleamBoutiqueProject.Controllers
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    //Read from the SQL table
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -175,7 +151,6 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Material = reader.GetString(6);
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
-                        //newProduct.ProImage = reader.GetString(9);
 
                         RemoveList.Add(newProduct);
                     }
@@ -196,7 +171,6 @@ namespace GleamBoutiqueProject.Controllers
 
                     foreach (var productId in selectedProducts.Keys)
                     {
-                        // Get the current amount from the database
                         string selectQuery = "SELECT Amount,Notify_Count FROM Product WHERE Pid = @ProductId";
 
                         int currentAmount, notifyNum = 0;
@@ -204,7 +178,6 @@ namespace GleamBoutiqueProject.Controllers
                         using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
                         {
                             selectCommand.Parameters.AddWithValue("@ProductId", productId);
-                            // Execute the command to retrieve the current amount
                             using (SqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                             {
                                 if (await reader.ReadAsync())
@@ -214,53 +187,42 @@ namespace GleamBoutiqueProject.Controllers
                                 }
                                 else
                                 {
-                                    // Handle the case where the product ID is not found
                                     continue;
                                 }
                             }
                         }
 
-                        // Check if the new amount is provided and not empty
                         if (selectedProducts[productId] >= 0)
                         {
-                            // Update the amount only if the text box is not empty
                             int newAmount = selectedProducts[productId] + currentAmount;
                             int NewNotify = Math.Max(0, notifyNum - selectedProducts[productId]);
 
-                            // Construct the SQL query to update the amount for the specified product ID
                             string updateQuery = "UPDATE Product SET Amount = @NewAmount, Notify_Count = @NewNotify WHERE Pid = @ProductId";
 
                             using (SqlCommand command = new SqlCommand(updateQuery, connection))
                             {
-                                // Set the parameters for the SQL query
                                 command.Parameters.AddWithValue("@NewAmount", newAmount);
                                 command.Parameters.AddWithValue("@ProductId", productId);
                                 command.Parameters.AddWithValue("@NewNotify", NewNotify);
-                                // Execute the SQL command to update the amount
                                 await command.ExecuteNonQueryAsync();
                             }
                         }
                         else
                         {
-                            // If the input is invalid, return with an error message
                             TempData["ErrorMessage"] = "Input must contain only numbers greater than or equal to 0";
                             return RedirectToAction("InventoryCheck");
                         }
                     }
                 }
 
-                // Redirect to the ManagerHome action of the Home controller after updating amounts
                 return RedirectToAction("ManagerHome", "Home");
             }
 
-            // If no products were selected or the dictionary is null, redirect to ManagerHome
             return RedirectToAction("InventoryCheck");
         }
 
         public IActionResult ProductLists()
         {
-
-            //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -268,7 +230,6 @@ namespace GleamBoutiqueProject.Controllers
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    //Read from the SQL table
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -282,7 +243,6 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Material = reader.GetString(6);
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
-                        //newProduct.ProImage = reader.GetString(9);
 
                         RemoveList.Add(newProduct);
                     }
@@ -295,12 +255,10 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult ProductsDetailsS(string id)
         {
-            // Retrieve the product details based on the provided ID
             var product = GetProductDetailsById(id);
 
             if (product == null)
             {
-                // Handle the case where the product is not found
                 return NotFound();
             }
 
@@ -311,17 +269,12 @@ namespace GleamBoutiqueProject.Controllers
         {
             Product product = null;
 
-            // Connection string to your database
-            //string connectionString = "your_connection_string_here";
-
-            // SQL query to retrieve product details by ID
             string sqlQuery = "SELECT * FROM Product WHERE Pid = @ProductId";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    // Add parameter for the product ID
                     command.Parameters.AddWithValue("@ProductId", id);
 
                     try
@@ -329,10 +282,8 @@ namespace GleamBoutiqueProject.Controllers
                         connection.Open();
                         SqlDataReader reader = command.ExecuteReader();
 
-                        // Check if any rows were returned
                         if (reader.Read())
                         {
-                            // Create a new Product object and populate it with data from the query result
                             product = new Product
                             {
                                 Pid = reader.GetString(0),
@@ -344,7 +295,6 @@ namespace GleamBoutiqueProject.Controllers
                                 Material = reader.GetString(6),
                                 Sale_price = reader.GetInt32(7),
                                 karat = reader.GetInt32(8)
-                                // Continue populating other properties as needed
                             };
                         }
 
@@ -352,7 +302,6 @@ namespace GleamBoutiqueProject.Controllers
                     }
                     catch (Exception ex)
                     {
-                        // Handle any exceptions
                         Console.WriteLine("Error: " + ex.Message);
                     }
                 }
@@ -388,12 +337,10 @@ namespace GleamBoutiqueProject.Controllers
 
                             if (rowsAffected > 0)
                             {
-                                // Redirect to ManagerHome if update successful
                                 return RedirectToAction("ManagerHome", "Home");
                             }
                             else
                             {
-                                // Handle case where no rows were affected
                                 ModelState.AddModelError("", "Product not found.");
                                 return View("ProductsDetailsS", updatedProduct);
                             }
@@ -401,7 +348,6 @@ namespace GleamBoutiqueProject.Controllers
                     }
                     catch (Exception ex)
                     {
-                        // Log exception and return error view
                         _logger.LogError($"Error updating product: {ex.Message}");
                         ModelState.AddModelError("", "An error occurred while updating the product.");
                         return View("ProductsDetailsS", updatedProduct);
@@ -410,18 +356,13 @@ namespace GleamBoutiqueProject.Controllers
             }
             else
             {
-                // If model state is not valid, return to ProductDetails view with validation errors
                 return View("ProductsDetailsS", updatedProduct);
             }
         }
         public IActionResult ManagerShop()
         {
-            //ProductViewModel proViewModel = new ProductViewModel();
-            //proViewModel.productsList = new List<Product>();
-            //proViewModel.cartProducts = new List<Product>();
             productsList = new List<Product>();
 
-            //SQL connection
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -429,7 +370,6 @@ namespace GleamBoutiqueProject.Controllers
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    //Read from the SQL table
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -459,15 +399,15 @@ namespace GleamBoutiqueProject.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+
                 string sqlQuery = "SELECT * FROM Product WHERE PName LIKE @proNameToSearch";
 
                 using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                 {
-                    // Set the parameter value
                     command.Parameters.AddWithValue("@proNameToSearch", "%" + searchKeyword + "%");
 
-                    // Read from the SQL table
                     SqlDataReader reader = command.ExecuteReader();
+                    List<Product> searchResults = new List<Product>(); // Create a list to store search results
                     while (reader.Read())
                     {
                         Product newProduct = new Product();
@@ -481,15 +421,15 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        productsList.Add(newProduct);
+                        searchResults.Add(newProduct); // Add each product to the search results list
                     }
                     reader.Close();
-                }
-                connection.Close();
-            }
 
-            return View("ManagerShop", productsList);
+                    return View("ManagerShop", searchResults);
+                }
+            }
         }
+
 
         public IActionResult FilterResults(List<string> categories, List<string> materials, List<int> karats, int? salePrice)
         {
@@ -500,7 +440,6 @@ namespace GleamBoutiqueProject.Controllers
                 connection.Open();
                 var sqlQuery = new StringBuilder("SELECT * FROM Product WHERE 1=1");
 
-                // Handling multiple categories
                 if (categories != null && categories.Any())
                 {
                     var categoryParams = categories.Select((category, index) => $"@category{index}").ToList();
@@ -530,7 +469,6 @@ namespace GleamBoutiqueProject.Controllers
 
                 using (var command = new SqlCommand(sqlQuery.ToString(), connection))
                 {
-                    // Adding parameters for categories
                     for (int i = 0; i < categories.Count; i++)
                         command.Parameters.AddWithValue($"@category{i}", categories[i]);
 
@@ -539,8 +477,6 @@ namespace GleamBoutiqueProject.Controllers
 
                     for (int i = 0; i < karats.Count; i++)
                         command.Parameters.AddWithValue($"@karat{i}", karats[i]);
-
-                    // Adding parameters for salePrice
                     if (salePrice.HasValue && salePrice != 0)
                         command.Parameters.AddWithValue("@salePrice", salePrice.Value);
 
@@ -560,7 +496,6 @@ namespace GleamBoutiqueProject.Controllers
                                 Sale_price = Convert.ToInt32(reader["Sale_price"]), // Assuming 'Sale_price' is stored as int
                                 karat = reader.IsDBNull(reader.GetOrdinal("karat")) ? 0 : reader.GetInt32(reader.GetOrdinal("karat")), // Assuming 'karat' is an int and can be null
                             };
-                            //proViewModel.productsList.Add(newProduct);
                             productsList.Add(newProduct);
                         }
                     }
@@ -574,11 +509,9 @@ namespace GleamBoutiqueProject.Controllers
             switch (sortOption)
             {
                 case "lowToHigh":
-                    //proViewModel.productsList = proViewModel.productsList.OrderBy(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     productsList = productsList.OrderBy(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     break;
                 case "highToLow":
-                    //proViewModel.productsList = proViewModel.productsList.OrderByDescending(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     productsList = productsList.OrderByDescending(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     break;
                 default:

@@ -173,7 +173,6 @@ namespace GleamBoutiqueProject.Controllers
             return View("shop", productsList);
         }
 
-
         public IActionResult SearchProduct(string searchKeyword)
         {
             // SQL connection
@@ -190,6 +189,7 @@ namespace GleamBoutiqueProject.Controllers
 
                     // Read from the SQL table
                     SqlDataReader reader = command.ExecuteReader();
+                    List<Product> searchResults = new List<Product>(); // Create a list to store search results
                     while (reader.Read())
                     {
                         Product newProduct = new Product();
@@ -203,15 +203,16 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        productsList.Add(newProduct);
+                        searchResults.Add(newProduct); // Add each product to the search results list
                     }
                     reader.Close();
-                }
-                connection.Close();
-            }
 
-            return View("shop", productsList);
+                    // Pass the search results list to the view
+                    return View("shop", searchResults);
+                }
+            }
         }
+
 
 
         public IActionResult AddToCart(string proid, int amount,int stock)
