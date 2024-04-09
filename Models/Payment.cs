@@ -10,6 +10,7 @@ namespace GleamBoutiqueProject.Models
 {
     public class Payment
     {
+        public Payment() { }
         // The credit card number must be provided and should be a valid credit card number.
         [Required(ErrorMessage = "Credit card number is required.")]
         [RegularExpression(@"^\d{16}$", ErrorMessage = "Credit card number must be 16 digits.")]

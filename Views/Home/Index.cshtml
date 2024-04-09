@@ -1,10 +1,4 @@
-﻿<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+﻿
 @model GleamBoutiqueProject.Models.User
 
 <!doctype html>
@@ -18,7 +12,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="bootstrap, bootstrap4" />
 
-    <!-- Bootstrap CSS -->
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="css/tiny-slider.css" rel="stylesheet">
@@ -48,14 +42,9 @@
 
 <body>
 
-    <!-- Start Header/Navigation -->
     <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
         <div class="container">
-            <!--<a class="navbar-brand" href="index.html">GleamBoutique<span>.</span></a>-->
-
-
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -75,6 +64,17 @@
                     <li><a class="nav-link" href="../User/SignIn"><img src="~/images/user.svg"></a></li>
                     <li><a class="nav-link" href="../Shop/Cart"><img src="~/images/cart.svg"></a></li>
                 </ul>
+
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    @if (ViewBag.IsLoggedIn)
+                    {
+                        <li>
+                            <a href="/User/Logout" style="filter: invert(1);">
+                                <img src="~/images/logout1.png" alt="Logout" style="width: 45px; height: 45px; padding-top: 9px;">
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 
@@ -86,7 +86,7 @@
             <div class="row justify-content-between">
                 <div class="col-lg-5">
                     <div class="intro-excerpt">
-                        <a href="Home/HomePage"><img src="images/logo.png" style="width: 250px; height: 150px;"> <span></span></a>
+                        <a><img src="images/logo.png" style="width: 170px; height: 120px;"> <span></span></a>
 
                         <h2>@ViewData["Message"]</h2>
                         <h1 style="color: #6b5646; margin-bottom: 0; font-size: 45px;">Gleam Boutique</h1>
@@ -104,44 +104,41 @@
                     <div class="imgs-grid" id="photosContainer">
                         <div class="grid grid-1"><img src="images/img-grid-1.jpg" alt="Untree.co"></div>
                         @*<div class="grid grid-2"><img src="images/img-grid-2.jpg" alt="Untree.co"></div>
-                        <div class="grid grid-3"><img src="images/img-grid-3.jpg" alt="Untree.co"></div>*@
+                          <div class="grid grid-3"><img src="images/img-grid-3.jpg" alt="Untree.co"></div>*@
                     </div>
                 </div>
 
 
             </div>
-            </div>
         </div>
+    </div>
 
-    <div class="product-section">
+    <div class="product-section" style="padding-top: 80px; padding-bottom: 50px;">
         <div class="container">
             <div class="row">
 
                 <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
                     <h2 class="mb-4 section-title">Crafted with excellent material.</h2>
-                    <p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique. </p>
+                    <p class="mb-4"><h6>Our collection showcases the gleam of gold, the sheen of silver, and the brilliance of select gemstones, defining luxury and finesse.</h6></p>
 
                 </div>
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                    <a class="product-item" href="@Url.Action("ProductDetails", "Shop", new { id = "#20012" })">
-                        <img src="/images/Oriya.jpg" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">Oriya</h3>
-                        <strong class="product-price">3250₪</strong>
-                    </a>
+                    <div class="product-item">
+                        <img src="~/images/gold1.jpg" class="img-fluid product-thumbnail">
+                        <strong class="product-price">GOLD</strong>
+                    </div>
                 </div>
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                    <a class="product-item" href="cart.html">
-                        <img src="/images/Sapir.jpg" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">Sapir</h3>
-                        <strong class="product-price">899₪</strong>
-                    </a>
+                    <div class="product-item" href="cart.html">
+                        <img src="~/images/diamonds.jpg" class="img-fluid product-thumbnail">
+                        <strong class="product-price">DIAMOND</strong>
+                    </div>
                 </div>
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                    <a class="product-item">
-                        <img src="/images/May.jpg" class="img-fluid product-thumbnail">
-                        <h3 class="product-title">May</h3>
-                        <strong class="product-price">490₪</strong>
-                        </a>
+                    <div class="product-item">
+                        <img src="~/images/silver.jpg" class="img-fluid product-thumbnail">
+                        <strong class="product-price">SILVER</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,7 +151,7 @@
                 <div class="row justify-content-between">
                     <div class="col-lg-6">
                         <h2 class="section-title">Why Choose Us</h2>
-                        <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
+                        <p>Choose us for a unique experience in elegance and design, where every piece of jewelry reflects our dedication to fine workmanship, enduring style, and absolute excellence.</p>
 
                         <div class="row my-5">
                             <div class="col-6 col-md-6">
@@ -163,7 +160,7 @@
                                         <img src="images/truck.svg" alt="Image" class="imf-fluid">
                                     </div>
                                     <h3>Fast &amp; Free Shipping</h3>
-                                    <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                                    <p>Enjoy the luxury of convenience with our Free Shipping on every order, delivering elegance right to your doorstep.</p>
                                 </div>
                             </div>
 
@@ -173,7 +170,7 @@
                                         <img src="images/bag.svg" alt="Image" class="imf-fluid">
                                     </div>
                                     <h3>Easy to Shop</h3>
-                                    <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.</p>
+                                    <p>Discover the ease of shopping with us, where finding the perfect piece of jewelry is simple, intuitive, and always satisfying.</p>
                                 </div>
                             </div>
 
@@ -183,7 +180,8 @@
                                         <img src="images/support.svg" alt="Image" class="imf-fluid">
                                     </div>
                                     <h3>24/7 Support</h3>
-                                    <p>Available for you at the number: +972-8-6519864</p>
+                                    <p><a>Available for you at the number:</a>
+                                    <br><a> +972-8-6519864</a></p>
                                 </div>
                             </div>
 
@@ -245,7 +243,7 @@
 
                                                 <div class="author-info">
                                                     <div class="author-pic">
-                                                        <img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                        <img src="~/images/MAYp.jpeg" alt="Maria Jones" class="img-fluid">
                                                     </div>
                                                     <h3 class="font-weight-bold">May zohar</h3>
                                                     <span class="position d-block mb-3">CEO, co-founder and website designer</span>
@@ -268,7 +266,7 @@
 
                                                 <div class="author-info">
                                                     <div class="author-pic">
-                                                        <img src="images/person-1.png" alt="Maria Jones" class="img-fluid">
+                                                        <img src="~/images/SAPIRp.jpeg" alt="Maria Jones" class="img-fluid">
                                                     </div>
                                                     <h3 class="font-weight-bold">Sapir ovadya</h3>
                                                     <span class="position d-block mb-3">CEO, co-founder and website designer</span>
@@ -312,21 +310,20 @@
     </div>
     <!-- End Testimonial Slider -->
     <!-- Start Footer Section -->
-    <footer class="footer-section">
+    <footer class="footer-section" style="padding-top: 50px; padding-bottom: 5px;">
         <div class="container relative">
 
 
             <div class="row g-5 mb-5">
                 <div class="col-lg-4">
-                    <div class="mb-4 footer-logo-wrap"><a href="../Home/HomePage" class="footer-logo">GleamBoutique<span>.</span></a></div>
+                    <div class="mb-4 footer-logo-wrap"><a href="/" class="footer-logo">GleamBoutique<span>.</span></a></div>
                     <p class="mb-4">
                         Discover unique handmade jewelry by Sapir, May, and Oriya, where passion meets creativity to reflect the beauty of nature and the artistry of the designers.
                     </p>
 
                     <ul class="list-unstyled custom-social">
-                        <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                        <li><a href="https://www.facebook.com/profile.php?id=61558503081378" target="_blank"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                        <li><a href="https://www.instagram.com/gleamboutiquejewelry/" target="_blank"><span class="fa fa-brands fa-instagram"></span></a></li>
                     </ul>
                 </div>
 

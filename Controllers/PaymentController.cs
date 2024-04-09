@@ -24,10 +24,16 @@ namespace GleamBoutiqueProject.Controllers
             connectionString = _configuration.GetConnectionString("dbConnect");
         }
 
-        public IActionResult Payment()
+        public IActionResult Payment(OrderViewModel ord)
         {
+            if(ord != null)
+            {
+                return View(ord);
+            }
 
             string checkuser = HttpContext.Session.GetString("Email");
+            ViewBag.IsLoggedIn = !string.IsNullOrEmpty(checkuser);
+
             if (!string.IsNullOrEmpty(checkuser))
             {
                 var cartItems = GetCartItemsForUser(checkuser);
@@ -75,6 +81,9 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult ThankYou(int receiptNumber)
         {
+            string checkuser = HttpContext.Session.GetString("Email");
+            ViewBag.IsLoggedIn = !string.IsNullOrEmpty(checkuser);
+
             var payment = GetPaymentByReceiptNumber(receiptNumber);
             if (payment == null)
             {
@@ -89,6 +98,9 @@ namespace GleamBoutiqueProject.Controllers
         public IActionResult MakePayment(OrderViewModel model)
         {
             string userEmail = HttpContext.Session.GetString("Email");
+            string userName = HttpContext.Session.GetString("UserName");
+            string userLastName = HttpContext.Session.GetString("LastUserName");
+
             if (!string.IsNullOrEmpty(userEmail))
             {
                 model.OrderList = GetCartItemsForUser(userEmail); // For logged-in users
@@ -101,6 +113,10 @@ namespace GleamBoutiqueProject.Controllers
                     model.OrderList = JsonSerializer.Deserialize<List<CartItem>>(cartJson); // For guests
                 }
             }
+
+            ViewBag.UserName = userName;
+            ViewBag.UserEmail = userEmail;
+            ViewBag.UserLastName = userLastName;
 
             Payment newPayment = model.OrderPayment;
             if (ModelState.IsValid)
@@ -166,7 +182,7 @@ namespace GleamBoutiqueProject.Controllers
                         int ReceiptNumbertoThanks = ReceiptNumber;
                         return RedirectToAction("ThankYou", new { receiptNumber = ReceiptNumbertoThanks });
 
-                        //return RedirectToAction("ThankYou",model);
+
                     }
                     catch (Exception ex)
                     {
@@ -245,6 +261,29 @@ namespace GleamBoutiqueProject.Controllers
             return payment;
 
         }
+
+
+        public IActionResult PayBuyNow()
+        {
+            var userEmail = HttpContext.Session.GetString("Email");
+            var userName = HttpContext.Session.GetString("UserName");
+            var lastName = HttpContext.Session.GetString("LastUserName");
+            ViewBag.UserName = userName;
+            ViewBag.UserEmail = userEmail;
+            ViewBag.UserLastName = lastName;
+
+            OrderViewModel order = new OrderViewModel();
+
+
+                //check if the buynowList has items.
+                if (ShopController.buynowList.Any())
+                {
+                    order.OrderList = ShopController.buynowList;
+                }
+
+            return RedirectToAction("Payment",order);
+        }
+
     }
 
 }

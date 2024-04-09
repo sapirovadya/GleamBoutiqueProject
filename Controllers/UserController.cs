@@ -218,39 +218,12 @@ namespace GleamBoutiqueProject.Controllers
             }
         }
 
-        //public IActionResult ShippingTracker(int orderId)
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult UserPage()
-        //{
-
-        //    var email = HttpContext.Session.GetString("Email");
-        //    if (string.IsNullOrEmpty(email))
-        //    {
-        //        return RedirectToAction("SignIn");
-        //    }
-
-
-
-
-        //        var user = new User
-        //        {
-        //            FirstName = HttpContext.Session.GetString("UserName"),
-        //            LastName = HttpContext.Session.GetString("LastUserName"),
-        //            Email = HttpContext.Session.GetString("Email"),
-        //            Password = HttpContext.Session.GetString("UserPassword")
-        //        };
-        //        return View(user); 
-
-
-        //}
-
         public IActionResult UserPage()
         {
 
-            var email = HttpContext.Session.GetString("Email");
+            var email = HttpContext.Session.GetString("Email");           
+            ViewBag.IsLoggedIn = !string.IsNullOrEmpty(email);
+
             if (string.IsNullOrEmpty(email))
             {
                 return RedirectToAction("SignIn");

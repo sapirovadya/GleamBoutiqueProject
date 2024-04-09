@@ -31,23 +31,31 @@ namespace GleamBoutiqueProject.Controllers
         [Route("")]
         public IActionResult HomePage(User NewUser)
         {
-            if (NewUser.Email != null)
+            var userEmail = HttpContext.Session.GetString("Email");
+            ViewBag.IsLoggedIn = !string.IsNullOrEmpty(userEmail);
+
+           
+            if (userEmail != null)
             {
                 // Set session variable with user's name
                 string name = HttpContext.Session.GetString("UserName");
-                ViewData["Message"] = $"Hello {name}!";
+                ViewData["Message"] = $"Welcome {name}!";
                 return View("index", NewUser);
             }
-            ViewData["Message"] = $"Hello Guest!";
+            else
+            {
+                ViewData["Message"] = $"Welcome Guest!";
+                return View("index", NewUser);
+            }
 
-            return View("index", NewUser);
+            
         }
 
         public IActionResult ManagerHome(User NewUser)
 
         {
             string name = HttpContext.Session.GetString("ManageUser");
-            ViewData["Message"] = $"Hello {name}!";
+            ViewData["Message"] = $"Welcome {name}!";
             return View(NewUser);
         }
 
@@ -58,6 +66,7 @@ namespace GleamBoutiqueProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
 
     }
 }
