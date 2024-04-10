@@ -248,30 +248,9 @@
 
                                     </div>
 
-                                    <div class="border p-3 mb-5">
-                                        <h3 class="h6 mb-0">
-                                            <a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal" id="paypalLink">
-                                                Paypal
-                                            </a>
-                                        </h3>
-
-                                        <div class="collapse" id="collapsepaypal">
-                                            <div class="py-2">
-                                                @*<p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>*@
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="input-group-append text-center">
                                         <input class="btn btn-black btn-sm" type="submit" value="Place Order" />
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
-                                    </div>  -->
-
-
-
-
 
                                 </div>
                             </div>
@@ -354,41 +333,6 @@
         });
     </script>
 
-
-    @*<script>
-        document.addEventListener('DOMContentLoaded', () => {
-                const creditCardFields = document.querySelectorAll('#creditCardNumber, #ExpiryDate, #SecurityNumber, #IdOwner, #NameOwner, label[for="creditCardNumber"], label[for="ExpiryDate"], label[for="SecurityNumber"], label[for="IdOwner"], label[for="NameOwner"]');
-
-                // Function to hide all credit card fields
-                function hideCreditCardFields() {
-                    creditCardFields.forEach(field => {
-                        field.style.display = 'none';
-                    });
-                }
-
-                // Initially hide credit card fields
-                hideCreditCardFields();
-
-                const creditCardLink = document.getElementById('creditCardLink');
-                creditCardLink.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent the default anchor action
-                    // Show credit card fields
-                    creditCardFields.forEach(field => {
-                        field.style.display = ''; // Revert to default display
-                    });
-                    // Update local storage to reflect the user's choice
-                    localStorage.setItem('paymentMethod', 'creditCard');
-                });
-
-                const paypalLink = document.getElementById('paypalLink');
-                paypalLink.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent the default anchor action
-                    // Hide credit card fields
-                    hideCreditCardFields();
-                    // Update local storage to reflect the user's choice
-                    localStorage.setItem('paymentMethod', 'paypal');
-                });
-            });</script>*@
 
 
 
