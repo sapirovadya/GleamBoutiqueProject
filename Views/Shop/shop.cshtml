@@ -162,7 +162,6 @@
                 </form>
             </div>
 
-
             <div class="col-md-9">
                 <!-- Sort by -->
                 <div class="row mb-3">
@@ -175,6 +174,21 @@
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <div>
+                    <!-- Price range -->
+                    <label for="sort" class="col-sm-2 col-form-label">Filter by price range:</label>
+
+                    <form action="PriceRangeFilter" method="get" onsubmit="return validateForm()">
+                        <div class="input-group">
+                            <input type="text" name="MinNum" id="MinNum" placeholder="Min" class="form-control" oninput="saveInputValue('MinNum')">
+                            <label style="margin: 0 10px;"> - </label> <!-- Adjust margin to create space -->
+                            <input type="text" name="MaxNum" id="MaxNum" placeholder="Max" class="form-control" oninput="saveInputValue('MaxNum')">
+                            <button class="btn btn-outline-primary" type="submit">Filter</button>
+                        </div>
+                    </form>
+
                 </div>
 
                 <div class="untree_co-section product-section before-footer-section">
@@ -243,8 +257,9 @@
     }
         </script>
 
-        <script>$(document).ready(function () {
-               
+        <script>
+    $(document).ready(function () {
+
                 const urlParams = new URLSearchParams(window.location.search);
                 const categories = urlParams.getAll('categories');
                 const materials = urlParams.getAll('materials');
@@ -268,18 +283,20 @@
                     $(`input[name="salePrice"]`).prop('checked', true);
                 }
 
-                $('#sort').val(sort); 
+                $('#sort').val(sort);
 
                 $('#sort').change(function () {
                     $('#sort').val($(this).val());
                 });
             });</script>
 
-        <script>function sortProducts(selectElement) {
+        <script>
+    function sortProducts(selectElement) {
                 var sortOption = selectElement.value;
                 window.location.href = '/Shop/sortProduct?sortOption=' + sortOption;
             }</script>
-        <script>document.addEventListener('DOMContentLoaded', function () {
+        <script>
+    document.addEventListener('DOMContentLoaded', function () {
                 // Function to update selected filters display
                 function updateSelectedFiltersDisplay() {
                     const selectedFiltersList = document.getElementById('selectedFiltersList');
@@ -325,7 +342,8 @@
                     checkbox.addEventListener('click', updateSelectedFiltersDisplay);
                 });
             });</script>
-        <script>document.addEventListener('DOMContentLoaded', function () {
+        <script>
+    document.addEventListener('DOMContentLoaded', function () {
                 // Get the saved sort option from local storage
                 const savedSortOption = localStorage.getItem('savedSortOption');
 
@@ -375,7 +393,8 @@
                 });
             });</script>
 
-        <script>// Function to save the selected filter option and sort option to local storage
+        <script>
+    // Function to save the selected filter option and sort option to local storage
             function saveFilterAndSortOptions(name, value, isChecked) {
                 let savedFilters = JSON.parse(localStorage.getItem('savedFilters')) || {};
                 if (isChecked) {
@@ -410,6 +429,32 @@
                 document.getElementById('sort').value = savedSortOption;
             }</script>
 
+        <script>
+            function validateForm() {
+                var minNum = document.getElementById("MinNum").value;
+                var maxNum = document.getElementById("MaxNum").value;
+
+                // Check if inputs are not empty
+                if (minNum.trim() === "" || maxNum.trim() === "") {
+                    alert("Please enter both minimum and maximum values.");
+                    return false;
+                }
+
+                // Check if inputs are numbers
+                if (isNaN(minNum) || isNaN(maxNum)) {
+                    alert("Please enter numeric values.");
+                    return false;
+                }
+
+                // Check if inputs are not negative
+                if (parseInt(minNum) < 0 || parseInt(maxNum) < 0) {
+                    alert("Please enter positive values.");
+                    return false;
+                }
+
+                return true; // Form is valid, submit the form
+            }
+        </script>
 
 
 </body>

@@ -1300,3 +1300,37 @@ textarea {
 }*/
 
 
+/* Style for the input boxes */
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+    .input-group input {
+        padding: 5px 10px; /* Adjust padding to make the input boxes smaller */
+        margin: 0 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 12px; /* Adjust font size for smaller input boxes */
+        width: 80px; /* Adjust width to make the input boxes smaller */
+    }
+
+    .input-group label {
+        margin: 0 5px;
+    }
+
+    .input-group button {
+        padding: 8px 12px;
+        margin-left: 5px;
+        border: 1px solid #007bff;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+
