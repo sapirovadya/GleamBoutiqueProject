@@ -224,6 +224,20 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <!-- Price range -->
+                    <label for="sort" class="col-sm-2 col-form-label">Filter by price range:</label>
+
+                    <form action="PriceRangeFilter" method="get" onsubmit="return validateForm()">
+                        <div class="input-group">
+                            <input type="text" name="MinNum" id="MinNum" placeholder="Min" class="form-control" oninput="saveInputValue('MinNum')">
+                            <label style="margin: 0 10px;"> - </label> <!-- Adjust margin to create space -->
+                            <input type="text" name="MaxNum" id="MaxNum" placeholder="Max" class="form-control" oninput="saveInputValue('MaxNum')">
+                            <button class="btn btn-outline-primary" type="submit">Filter</button>
+                        </div>
+                    </form>
+
+                </div>
                 <div class="untree_co-section product-section before-footer-section">
                     <div class="container">
                         <div class="row">
@@ -407,7 +421,30 @@
             document.getElementById('sort').value = savedSortOption;
         }</script>
 
+    <script>function validateForm() {
+            var minNum = document.getElementById("MinNum").value;
+            var maxNum = document.getElementById("MaxNum").value;
 
+            // Check if inputs are not empty
+            if (minNum.trim() === "" || maxNum.trim() === "") {
+                alert("Please enter both minimum and maximum values.");
+                return false;
+            }
+
+            // Check if inputs are numbers
+            if (isNaN(minNum) || isNaN(maxNum)) {
+                alert("Please enter numeric values.");
+                return false;
+            }
+
+            // Check if inputs are not negative
+            if (parseInt(minNum) < 0 || parseInt(maxNum) < 0) {
+                alert("Please enter positive values.");
+                return false;
+            }
+
+            return true; // Form is valid, submit the form
+        }</script>
 </body>
 
 </html>

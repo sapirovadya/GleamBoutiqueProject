@@ -574,7 +574,7 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult PriceRangeFilter(string MinNum, string MaxNum)
         {
-            //productsList = new List<Product>();
+            productsList = new List<Product>();
             int minPriceAsInt = int.Parse(MinNum);
             int maxPriceAsInt = int.Parse(MaxNum);
 
