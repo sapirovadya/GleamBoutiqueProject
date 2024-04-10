@@ -85,6 +85,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult RemoveProductsS()
         {
+            List<Product> RemoveList2 = new List<Product>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -106,13 +108,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        RemoveList.Add(newProduct);
+                        RemoveList2.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(RemoveList);
+            return View(RemoveList2);
         }
 
 
@@ -143,6 +145,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult InventoryCheck()
         {
+           List<Product> RemoveList1 = new List<Product>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -164,13 +168,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        RemoveList.Add(newProduct);
+                        RemoveList1.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(RemoveList);
+            return View(RemoveList1);
         }
 
         public async Task<IActionResult> UpdateAmount(Dictionary<string, int> selectedProducts)
@@ -235,6 +239,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult ProductLists()
         {
+            List<Product> RemoveList1 = new List<Product>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -256,13 +262,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        RemoveList.Add(newProduct);
+                        RemoveList1.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(RemoveList);
+            return View(RemoveList1);
         }
 
         public IActionResult ProductsDetailsS(string id)
