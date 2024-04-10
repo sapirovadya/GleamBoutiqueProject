@@ -119,23 +119,35 @@
                             <div class="form-group row">
                                 <div class="col-md-9">
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.Pid)</div>
-                                        <label for="Catalogy_number" class="text-black">Catalogy Number:</label>
+                                        @if (ViewData["formSubmitted"] as bool? == true)
+                                        {
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.Pid)</div>
+                                        }
+                                            <label for="Catalogy_number" class="text-black">Catalogy Number:</label>
                                         <input type="text" class="form-control" name="Pid" value="@Model.Pid">
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.PName)</div>
-                                        <label for="PName" class="text-black">Product Name:</label>
+                                        @if (ViewData["formSubmitted"] as bool? == true)
+                                        {
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.PName)</div>
+                                        }
+                                            <label for="PName" class="text-black">Product Name:</label>
                                         <input type="text" class="form-control" name="PName" value="@Model.PName">
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.OriginPrice)</div>
-                                        <label for="OriginPrice" class="text-black">Price: </label>
+                                        @if (ViewData["formSubmitted"] as bool? == true)
+                                        {
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.OriginPrice)</div>
+                                        }
+                                            <label for="OriginPrice" class="text-black">Price: </label>
                                         <input type="text" class="form-control" name="OriginPrice" value="@Model.OriginPrice">
                                     </div>
                                     <div>
-                                        <div style="color:red;">@Html.ValidationMessageFor(x => x.Amount)</div>
-                                        <label for="Amount" class="text-black">Units in Stock: <span class="text-danger"></span></label>
+                                        @if (ViewData["formSubmitted"] as bool? == true)
+                                        {
+                                            <div style="color:red;">@Html.ValidationMessageFor(x => x.Amount)</div>
+                                        }
+                                            <label for="Amount" class="text-black">Units in Stock: <span class="text-danger"></span></label>
                                         <input type="text" class="form-control" name="Amount" value="@Model.Amount">
                                     </div>
                                     <div>
@@ -150,8 +162,8 @@
                                     <div>
                                         <label for="Material" class="text-black">Material:</label>
                                         <select id="materialSelect" name="Material" class="form-control">
-                                            <option value="gold">Gold</option>
                                             <option value="silver">Silver</option>
+                                            <option value="gold">Gold</option>
                                         </select>
                                     </div>
 

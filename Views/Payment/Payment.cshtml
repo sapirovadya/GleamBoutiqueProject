@@ -93,19 +93,36 @@
                     <div class="col-md-6 mb-5 mb-md-0">
                         <h2 class="h3 mb-3 text-black">Billing Details</h2>
                         <div class="p-3 p-lg-5 border bg-white">
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.FirstName)</div>
-                                    <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_fname" name="OrderPayment.FirstName" value="@ViewBag.UserName" @(string.IsNullOrEmpty(ViewBag.UserName) ? "" : "readonly")>
+                            @if (!string.IsNullOrEmpty(ViewBag.UserName))
+                            {
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.FirstName)</div>
+                                        <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="c_fname" name="OrderPayment.FirstName" value="@ViewBag.UserName" @(string.IsNullOrEmpty(ViewBag.UserName) ? "" : "readonly")>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.LastName)</div>
+                                        <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="c_lname" name="OrderPayment.LastName" value="@ViewBag.UserLastName" @(string.IsNullOrEmpty(ViewBag.UserLastName) ? "" : "readonly")>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.LastName)</div>
-                                    <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_lname" name="OrderPayment.LastName" value="@ViewBag.UserLastName" @(string.IsNullOrEmpty(ViewBag.UserLastName) ? "" : "readonly")>
+                            }
+                            else
+                            {
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.FirstName)</div>
+                                        <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="c_fname" name="OrderPayment.FirstName" value="@(Model.OrderPayment?.FirstName)">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.LastName)</div>
+                                        <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="c_lname" name="OrderPayment.LastName" value="@(Model.OrderPayment?.LastName)")>
+                                    </div>
                                 </div>
-                            </div>
-
+                            }
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
@@ -128,21 +145,33 @@
                                 <div class="col-md-6">
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.PostalCode)</div>
                                     <label for="c_postal_zip" class="text-black">Postal code <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="@(Model.OrderPayment?.PostalCode)" id="c_postal_zip" name="OrderPayment.PostalCode"  maxlength="7">
+                                    <input type="text" class="form-control" value="@(Model.OrderPayment?.PostalCode)" id="c_postal_zip" name="OrderPayment.PostalCode" maxlength="7">
                                 </div>
                             </div>
 
                             <div class="form-group row mb-5">
-                                <div class="col-md-6">
-                                    <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Email)</div>
-                                    <label for="c_email_address" class="text-black">Email<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_email_address" name="OrderPayment.Email" value="@ViewBag.UserEmail" @(string.IsNullOrEmpty(ViewBag.UserEmail) ? "" : "readonly")>
+                                @if (!string.IsNullOrEmpty(ViewBag.UserName))
+                                {
+                                    <div class="col-md-6">
+                                        <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Email)</div>
+                                        <label for="c_email_address" class="text-black">Email<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="c_email_address" name="OrderPayment.Email" value="@ViewBag.UserEmail" @(string.IsNullOrEmpty(ViewBag.UserEmail) ? "" : "readonly")>
 
-                                </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-6">
+                                        <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Email)</div>
+                                        <label for="c_email_address" class="text-black">Email<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="c_email_address" name="OrderPayment.Email" value="@(Model.OrderPayment?.Email)">
+
+                                    </div>
+                                }
                                 <div class="col-md-6">
                                     <div style="color:red;" class="validation-message">@Html.ValidationMessageFor(x => x.OrderPayment.Phone)</div>
                                     <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="@(Model.OrderPayment?.Phone)" id="c_phone" name="OrderPayment.Phone"  maxlength="10">
+                                    <input type="text" class="form-control" value="@(Model.OrderPayment?.Phone)" id="c_phone" name="OrderPayment.Phone" maxlength="10">
                                 </div>
                             </div>
 
@@ -283,10 +312,8 @@
     <script src="/js/tiny-slider.js"></script>
     <script src="/js/custom.js"></script>
 
-
-
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
             const creditCardFields = document.querySelectorAll('#creditCardNumber, #ExpiryDate, #SecurityNumber, #IdOwner, #NameOwner, label[for="creditCardNumber"], label[for="ExpiryDate"], label[for="SecurityNumber"], label[for="IdOwner"], label[for="NameOwner"]');
 
             // Function to hide all credit card fields
@@ -296,34 +323,77 @@
                 });
             }
 
-            // Initially hide credit card fields
-            hideCreditCardFields();
+            // Function to show credit card fields
+            function showCreditCardFields() {
+                creditCardFields.forEach(field => {
+                    field.style.display = ''; // Revert to default display
+                });
+            }
+
+            // Check for validation errors related to credit card and adjust visibility accordingly
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Any(ms => ms.Key.StartsWith("OrderPayment.CreditCard")))
+            {
+                @:showCreditCardFields();
+            }
+            else
+            {
+                @:hideCreditCardFields();
+            }
 
             const creditCardLink = document.getElementById('creditCardLink');
             creditCardLink.addEventListener('click', (event) => {
                 event.preventDefault(); // Prevent the default anchor action
-                // Show credit card fields
-                creditCardFields.forEach(field => {
-                    field.style.display = ''; // Revert to default display
-                });
-                // Update local storage to reflect the user's choice
-                localStorage.setItem('paymentMethod', 'creditCard');
+                showCreditCardFields();
             });
 
             const paypalLink = document.getElementById('paypalLink');
             paypalLink.addEventListener('click', (event) => {
                 event.preventDefault(); // Prevent the default anchor action
-                // Hide credit card fields
                 hideCreditCardFields();
-                // Update local storage to reflect the user's choice
-                localStorage.setItem('paymentMethod', 'paypal');
             });
-        });</script>
+        });
+    </script>
+
+
+    @*<script>
+        document.addEventListener('DOMContentLoaded', () => {
+                const creditCardFields = document.querySelectorAll('#creditCardNumber, #ExpiryDate, #SecurityNumber, #IdOwner, #NameOwner, label[for="creditCardNumber"], label[for="ExpiryDate"], label[for="SecurityNumber"], label[for="IdOwner"], label[for="NameOwner"]');
+
+                // Function to hide all credit card fields
+                function hideCreditCardFields() {
+                    creditCardFields.forEach(field => {
+                        field.style.display = 'none';
+                    });
+                }
+
+                // Initially hide credit card fields
+                hideCreditCardFields();
+
+                const creditCardLink = document.getElementById('creditCardLink');
+                creditCardLink.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent the default anchor action
+                    // Show credit card fields
+                    creditCardFields.forEach(field => {
+                        field.style.display = ''; // Revert to default display
+                    });
+                    // Update local storage to reflect the user's choice
+                    localStorage.setItem('paymentMethod', 'creditCard');
+                });
+
+                const paypalLink = document.getElementById('paypalLink');
+                paypalLink.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent the default anchor action
+                    // Hide credit card fields
+                    hideCreditCardFields();
+                    // Update local storage to reflect the user's choice
+                    localStorage.setItem('paymentMethod', 'paypal');
+                });
+            });</script>*@
 
 
 
     <script>
-    document.getElementById('ExpiryDate').addEventListener('input', function (e) {
+        document.getElementById('ExpiryDate').addEventListener('input', function (e) {
             // Remove all slashes then insert one after the second character
             let value = this.value.replace(/\//g, '');
             if (value.length > 2) {

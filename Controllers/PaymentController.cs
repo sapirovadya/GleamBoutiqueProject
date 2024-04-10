@@ -273,8 +273,8 @@ namespace GleamBoutiqueProject.Controllers
                             {
                                 // Assign properties from reader
                                 Receipt = (int)reader["Receipt"],
-                                // Populate other properties as needed
-                                // Example: CreditCardNumber = reader["CreditCardNumber"].ToString(),
+                                shipId = (int)reader["shipId"],
+                                
                             };
                         }
                     }

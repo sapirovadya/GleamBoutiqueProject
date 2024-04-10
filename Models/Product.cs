@@ -27,12 +27,12 @@ namespace GleamBoutiqueProject.Models
 
         [Key]
         [Required(ErrorMessage = "Catalog number is required ")]
-        //[RegularExpression("^#200[a-zA-Z]{0,2}$", ErrorMessage = "Catalog number must start with #200")]
+        [RegularExpression("^#200\\d+$", ErrorMessage = "Catalog number must start with #200")]
         public string Pid { get; set; }
 
         [Required(ErrorMessage = "Product name is required")]
         [StringLength(12, MinimumLength = 2, ErrorMessage = "Product name must be between 2-12 letters")]
-        [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "First name should contain only letters")]
+        [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Product name should contain only letters")]
         public string PName { get; set; }
 
         [Required(ErrorMessage = "Product price is required")]
@@ -40,12 +40,12 @@ namespace GleamBoutiqueProject.Models
         public int OriginPrice { get; set; }
 
         [Required(ErrorMessage = "Product amount is required")]
-        [RegularExpression(@"^\d{1,3}$", ErrorMessage = "Amount must contain only 1-3 digits")]
+        [Range(1, 999, ErrorMessage = "Product amount must be between 1-999")]
         public int Amount { get; set; }
         public int Notify_Count { get; set; }
 
         [Required(ErrorMessage = "Product category is required")]
-        [StringLength(12, MinimumLength = 4, ErrorMessage = "Product name must be between 4-12 letters")]
+        [StringLength(12, MinimumLength = 4, ErrorMessage = "Category name must be between 4-12 letters")]
         [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Category name should contain only letters")]
         public string category { get; set; }
 

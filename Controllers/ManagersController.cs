@@ -37,8 +37,19 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult AddToData(Product NewOne)
         {
+            if (NewOne.Sale_price > NewOne.OriginPrice)
+            {
+                ModelState.AddModelError("Sale_price", "Sale price cannot be more than the original price.");
+            }
+
+
             if (ModelState.IsValid)
             {
+                if (NewOne.Material.ToLower() == "silver")
+                {
+                    NewOne.karat = 0;
+                }
+
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -61,13 +72,13 @@ namespace GleamBoutiqueProject.Controllers
                         if (rowsAffected > 0)
                             return RedirectToAction("ManagerHome", "Home");
                         else
-
                             return View("AddProducts", NewOne);
                     }
                 }
             }
             else
             {
+                ViewData["formSubmitted"] = true;
                 return View("AddProducts", NewOne);
             }
         }
