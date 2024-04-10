@@ -138,7 +138,6 @@ namespace GleamBoutiqueProject.Controllers
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@Email", myUser.Email);
                     command.Parameters.AddWithValue("@Password", myUser.Password);
-                    object mangPass = GetManagerPass(connection, myUser.Email);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -148,7 +147,7 @@ namespace GleamBoutiqueProject.Controllers
                             string password = reader.GetString(3);
                             if ((email == myUser.Email) && (password == myUser.Password))
                             {
-                                if (myUser.Email == "sapir@gmail.com" && myUser.Password == mangPass)
+                                if (myUser.Email == "sapir@gmail.com" && myUser.Password == "Ss123456")
                                 {
                                     HttpContext.Session.SetString("ManageUser", reader.GetString(0));
                                     connection.Close();
@@ -186,24 +185,7 @@ namespace GleamBoutiqueProject.Controllers
             return View("SignIn", myUser);
         }
 
-        private object GetManagerPass(SqlConnection connection, string userEmail)
-        {
-            
-            string selectQuery = "SELECT Password FROM [User] WHERE Email = @userEmail";
-            using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
-            {
-                selectCommand.Parameters.AddWithValue("@userEmail", userEmail);
-                object result = selectCommand.ExecuteScalar();
-
-                if (result != null)  //Manager found
-                    return result;
-                else
-                    return null; // Manager not found
-            }
-        }
-
-
-        public async Task<IActionResult> LogOut()
+       public async Task<IActionResult> LogOut()
         {
             try
             {
