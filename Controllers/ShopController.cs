@@ -162,11 +162,9 @@ namespace GleamBoutiqueProject.Controllers
             switch (sortOption)
             {
                 case "lowToHigh":
-                    //proViewModel.productsList = proViewModel.productsList.OrderBy(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     productsList = productsList.OrderBy(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     break;
                 case "highToLow":
-                    //proViewModel.productsList = proViewModel.productsList.OrderByDescending(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     productsList = productsList.OrderByDescending(p => p.Sale_price != 0 ? p.Sale_price : p.OriginPrice).ToList();
                     break;
                 default:
@@ -209,7 +207,6 @@ namespace GleamBoutiqueProject.Controllers
                     }
                     reader.Close();
 
-                    // Pass the search results list to the view
                     return View("shop", searchResults);
                 }
             }
@@ -381,7 +378,10 @@ namespace GleamBoutiqueProject.Controllers
             foreach (CartItem item in guestList)
             {
                 if (item.ProId == proid)
+                {
                     guestList.Remove(item);
+                    break;
+                }
             }
         }
 
@@ -574,7 +574,7 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult PriceRangeFilter(string MinNum, string MaxNum)
         {
-            productsList = new List<Product>();
+            //productsList = new List<Product>();
             int minPriceAsInt = int.Parse(MinNum);
             int maxPriceAsInt = int.Parse(MaxNum);
 

@@ -473,11 +473,10 @@ a {
 }
 
     .we-help-section .imgs-grid {
-        display: -ms-grid;
-        display: grid;
-        -ms-grid-columns: (1fr)[27];
-        grid-template-columns: repeat(27, 1fr);
-        position: relative;
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        padding: 7rem 0; /* Keep the existing padding */
     }
 
         .we-help-section .imgs-grid:before {

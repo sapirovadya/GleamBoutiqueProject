@@ -125,12 +125,8 @@ namespace GleamBoutiqueProject.Controllers
             }
         }
 
-
-
-        //// the best
         public IActionResult LogIn(User myUser)
         {
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -140,6 +136,7 @@ namespace GleamBoutiqueProject.Controllers
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@Email", myUser.Email);
                     command.Parameters.AddWithValue("@Password", myUser.Password);
+                    string mangPass = GetManagerPass(connection,myUser.Email);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -149,7 +146,7 @@ namespace GleamBoutiqueProject.Controllers
                             string password = reader.GetString(3);
                             if ((email == myUser.Email) && (password == myUser.Password))
                             {
-                                if (myUser.Email == "sapir@gmail.com" && myUser.Password == "Ss123456")
+                                if (myUser.Email == "sapir@gmail.com" && myUser.Password == mangPass)
                                 {
                                     HttpContext.Session.SetString("ManageUser", reader.GetString(0));
                                     connection.Close();
@@ -187,8 +184,20 @@ namespace GleamBoutiqueProject.Controllers
             return View("SignIn", myUser);
         }
 
+        private string GetManagerPass(SqlConnection connection, string userEmail)
+        {
+            string selectQuery = "SELECT Password FROM [User] WHERE Email = @userEmail";
+            using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@userEmail", userEmail);
+                string result = selectCommand.ExecuteScalar().ToString();
 
-
+                if (result != null)  //Manager found
+                    return result;
+                else
+                    return null; // Manager not found
+            }
+        }
 
 
         public async Task<IActionResult> LogOut()
