@@ -11,11 +11,6 @@ namespace GleamBoutiqueProject.Models
 
     public class User
     {
-
-        public User()
-        {
-        }
-
         public User(User user1)
         {
             this.FirstName = user1.FirstName;
@@ -24,6 +19,11 @@ namespace GleamBoutiqueProject.Models
             this.Password = user1.Password;
 
         }
+        public User()
+        {
+        }
+
+
 
         [Required(ErrorMessage = "First name is required")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "First name must be between 2-25 letters")]

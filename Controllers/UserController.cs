@@ -125,6 +125,8 @@ namespace GleamBoutiqueProject.Controllers
             }
         }
 
+
+
         public IActionResult LogIn(User myUser)
         {
             try
@@ -136,7 +138,7 @@ namespace GleamBoutiqueProject.Controllers
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@Email", myUser.Email);
                     command.Parameters.AddWithValue("@Password", myUser.Password);
-                    string mangPass = GetManagerPass(connection,myUser.Email);
+                    object mangPass = GetManagerPass(connection, myUser.Email);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -180,17 +182,18 @@ namespace GleamBoutiqueProject.Controllers
 
                 return View("SignIn", myUser);
             }
-            ModelState.AddModelError(string.Empty, "User does not exist");
+            ModelState.AddModelError(string.Empty, "Invalid email or password");
             return View("SignIn", myUser);
         }
 
-        private string GetManagerPass(SqlConnection connection, string userEmail)
+        private object GetManagerPass(SqlConnection connection, string userEmail)
         {
+            
             string selectQuery = "SELECT Password FROM [User] WHERE Email = @userEmail";
             using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
             {
                 selectCommand.Parameters.AddWithValue("@userEmail", userEmail);
-                string result = selectCommand.ExecuteScalar().ToString();
+                object result = selectCommand.ExecuteScalar();
 
                 if (result != null)  //Manager found
                     return result;
@@ -242,8 +245,9 @@ namespace GleamBoutiqueProject.Controllers
             {
                 // Assuming you have a method like GetOrdersForUser(email) that returns a List<Orders>
                 var orders = GetOrdersForUser(email);
+                var FirstNames = HttpContext.Session.GetString("UserName");
 
-                var viewModel = new UserAndOrderViewModel
+                var viewModelUser = new UserAndOrderViewModel
                 {
                     OrdersLists = orders,
                     userToUpdate = new User
@@ -255,13 +259,13 @@ namespace GleamBoutiqueProject.Controllers
                     }
                 };
 
-                return View(viewModel);
+                return View(viewModelUser);
             }
 
         }
 
         [HttpPost]
-        public IActionResult UpdateUserDetails(User updatedUser)
+        public IActionResult UpdateUserDetails(UserAndOrderViewModel updatedUser)
         {
             if (!ModelState.IsValid)
             {
@@ -277,20 +281,20 @@ namespace GleamBoutiqueProject.Controllers
                     string updateQuery = "UPDATE [User] SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Password = @Password WHERE Email = @OriginalEmail";
                     using (SqlCommand command = new SqlCommand(updateQuery, connection))
                     {
-                        command.Parameters.AddWithValue("@FirstName", updatedUser.FirstName);
-                        command.Parameters.AddWithValue("@LastName", updatedUser.LastName);
-                        command.Parameters.AddWithValue("@Email", updatedUser.Email);
-                        command.Parameters.AddWithValue("@Password", updatedUser.Password);
+                        command.Parameters.AddWithValue("@FirstName", updatedUser.userToUpdate.FirstName);
+                        command.Parameters.AddWithValue("@LastName", updatedUser.userToUpdate.LastName);
+                        command.Parameters.AddWithValue("@Email", updatedUser.userToUpdate.Email);
+                        command.Parameters.AddWithValue("@Password", updatedUser.userToUpdate.Password);
                         command.Parameters.AddWithValue("@OriginalEmail", HttpContext.Session.GetString("Email")); // Assuming you have the user's original email in session
 
                         int rowsAffected = command.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
 
-                            HttpContext.Session.SetString("Email", updatedUser.Email);
-                            HttpContext.Session.SetString("UserName", updatedUser.FirstName); // Update first name in session
-                            HttpContext.Session.SetString("LastUserName", updatedUser.LastName);
-                            HttpContext.Session.SetString("UserPassword", updatedUser.Password);
+                            HttpContext.Session.SetString("Email", updatedUser.userToUpdate.Email);
+                            HttpContext.Session.SetString("UserName", updatedUser.userToUpdate.FirstName); // Update first name in session
+                            HttpContext.Session.SetString("LastUserName", updatedUser.userToUpdate.LastName);
+                            HttpContext.Session.SetString("UserPassword", updatedUser.userToUpdate.Password);
                             return RedirectToAction("UserPage"); // Or wherever you want to redirect the user after successful update
                         }
                         else

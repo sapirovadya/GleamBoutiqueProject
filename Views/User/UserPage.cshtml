@@ -80,25 +80,32 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <form method="post" action="@Url.Action("UpdateUserDetails", "User")">
+                        @Html.AntiForgeryToken()
+
                         <div class="mb-3">
                             <span class="text-danger" asp-validation-for="userToUpdate.FirstName"></span>
                             <label for="firstName" class="form-label text-black">First Name:</label>
-                            <input type="text" class="form-control" id="firstName" asp-for="userToUpdate.FirstName">
+                            <input type="text" class="form-control" id="FirstName" asp-for="userToUpdate.FirstName">
                         </div>
                         <div class="mb-3">
                             <span class="text-danger" asp-validation-for="userToUpdate.LastName"></span>
                             <label for="lastName" class="form-label text-black">Last Name:</label>
-                            <input type="text" class="form-control" id="lastName" asp-for="userToUpdate.LastName">
+                            <input type="text" class="form-control" id="LastName" asp-for="userToUpdate.LastName">
                         </div>
                         <div class="mb-3">
-                            <span class="text-danger" asp-validation-for="userToUpdate.Email"></span>
-                            <label for="email" class="form-label text-black">Email:</label>
-                            <input type="email" class="form-control" id="email" asp-for="userToUpdate.Email">
+                            <label for="Email" class="form-label text-black">Email:</label>
+                            <input type="email" class="form-control" id="Email" asp-for="userToUpdate.Email" readonly>
                         </div>
+
+                        @*<div class="mb-3">
+            <span class="text-danger" asp-validation-for="userToUpdate.Email"></span>
+            <label for="email" class="form-label text-black">Email:</label>
+            <input type="email" class="form-control" id="Email" asp-for="userToUpdate.Email">
+        </div>*@
                         <div class="mb-3">
                             <span class="text-danger" asp-validation-for="userToUpdate.Password"></span>
                             <label for="password" class="form-label text-black">password:</label>
-                            <input type="password" class="form-control" id="assword" asp-for="userToUpdate.Password">
+                            <input type="password" class="form-control" id="Password" asp-for="userToUpdate.Password">
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
