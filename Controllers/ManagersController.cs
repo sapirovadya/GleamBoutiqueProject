@@ -85,6 +85,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult RemoveProductsS()
         {
+            List<Product> RemoveList2 = new List<Product>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -106,13 +108,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        RemoveList.Add(newProduct);
+                        RemoveList2.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(RemoveList);
+            return View(RemoveList2);
         }
 
 
@@ -143,6 +145,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult InventoryCheck()
         {
+           List<Product> RemoveList1 = new List<Product>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -164,13 +168,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        RemoveList.Add(newProduct);
+                        RemoveList1.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(RemoveList);
+            return View(RemoveList1);
         }
 
         public async Task<IActionResult> UpdateAmount(Dictionary<string, int> selectedProducts)
@@ -235,6 +239,8 @@ namespace GleamBoutiqueProject.Controllers
 
         public IActionResult ProductLists()
         {
+            List<Product> RemoveList1 = new List<Product>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -256,13 +262,13 @@ namespace GleamBoutiqueProject.Controllers
                         newProduct.Sale_price = reader.GetInt32(7);
                         newProduct.karat = reader.GetInt32(8);
 
-                        RemoveList.Add(newProduct);
+                        RemoveList1.Add(newProduct);
                     }
                     reader.Close();
                 }
                 connection.Close();
             }
-            return View(RemoveList);
+            return View(RemoveList1);
         }
 
         public IActionResult ProductsDetailsS(string id)
@@ -574,6 +580,47 @@ namespace GleamBoutiqueProject.Controllers
 
             ViewBag.UserEmail = userEmail;
             return View("ProductDetailsManager", product);
+        }
+        public IActionResult PriceRangeFilter(string MinNum, string MaxNum)
+        {
+            productsList = new List<Product>();
+            int minPriceAsInt = int.Parse(MinNum);
+            int maxPriceAsInt = int.Parse(MaxNum);
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sqlQuery = @"SELECT * FROM Product
+        WHERE (Sale_Price != 0 AND Sale_Price >= @MinPrice AND Sale_Price <= @MaxPrice)
+        OR (Sale_Price = 0 AND OriginPrice >= @MinPrice AND OriginPrice <= @MaxPrice)";
+
+                using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@MinPrice", minPriceAsInt);
+                    command.Parameters.AddWithValue("@MaxPrice", maxPriceAsInt);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Product newProduct = new Product();
+                        newProduct.Pid = reader.GetString(0);
+                        newProduct.PName = reader.GetString(1);
+                        newProduct.OriginPrice = reader.GetInt32(2);
+                        newProduct.Amount = reader.GetInt32(3);
+                        newProduct.Notify_Count = reader.GetInt32(4);
+                        newProduct.category = reader.GetString(5);
+                        newProduct.Material = reader.GetString(6);
+                        newProduct.Sale_price = reader.GetInt32(7);
+                        newProduct.karat = reader.GetInt32(8);
+
+                        productsList.Add(newProduct);
+                    }
+                    reader.Close();
+                }
+                connection.Close();
+            }
+            return View("ManagerShop", productsList);
         }
 
 

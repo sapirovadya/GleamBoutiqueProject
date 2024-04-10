@@ -32,12 +32,12 @@
                     <li class="nav-item ">
                         <a class="nav-link" href="/">Home</a>
                     </li>
-                    <li class="active"><a class="nav-link" href="../Shop/Shop">Shop</a></li>
+                    <li class="active"><a class="nav-link" href="/Shop/Shop">Shop</a></li>
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="../User/SignIn"><img src="~/images/user.svg"></a></li>
-                    <li><a class="nav-link" href="../Shop/Cart"><img src="~/images/cart.svg"></a></li>
+                    <li><a class="nav-link" href="/User/SignIn"><img src="~/images/user.svg"></a></li>
+                    <li><a class="nav-link" href="/Shop/Cart"><img src="~/images/cart.svg"></a></li>
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -62,13 +62,13 @@
         <div class="container">
             <div class="row gx-5">
                 <aside class="col-lg-6">
-                    <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                    <div class="mb-3 d-flex justify-content-center">
                         <a data-fslightbox="mygalley" class="rounded-4" data-type="image">
-                            <img style="width: 100%; height: 100%; object-fit: cover;" class="rounded-4" src="/images/@(Model.PName).jpg" />
+                            <img style="width: 100%; height: 600px; object-fit: cover; border: none; background-color: transparent;" src="/images/@(Model.PName).jpg" />
                         </a>
                     </div>
-              
                 </aside>
+
                 <main class="col-lg-6">
                     <div class="ps-lg-3">
                         <h4 class="title text-dark">
