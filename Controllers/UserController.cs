@@ -185,7 +185,11 @@ namespace GleamBoutiqueProject.Controllers
             return View("SignIn", myUser);
         }
 
+<<<<<<< HEAD
         public async Task<IActionResult> LogOut()
+=======
+       public async Task<IActionResult> LogOut()
+>>>>>>> newMay
         {
             try
             {
