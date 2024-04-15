@@ -130,88 +130,99 @@ namespace GleamBoutiqueProject.Controllers
             ViewBag.UserEmail = userEmail;
             ViewBag.UserLastName = userLastName;
 
+
             Payment newPayment = model.OrderPayment;
+
             if (ModelState.IsValid)
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                if (newPayment.IsExpiryDateValid())
                 {
-                    connection.Open();
-                    var transaction = connection.BeginTransaction();
-                    try
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
                     {
-                        int ReceiptNumber = NewReceiptNumber(connection, transaction);
-                        
-                        string insertPaymentSql = @"INSERT INTO Payment (CreditCardNumber, ExpiryDate, CVV, ID, FullName, FirstName, LastName, Email, City, Street, Apartment, PostalCode, Phone, Receipt)
-                    VALUES (@CreditCardNumber, @ExpiryDate, @CVV, @ID, @FullName, @FirstName, @LastName, @Email, @City, @Street, @Apartment, @PostalCode, @Phone, @Receipt);
-                    SELECT CAST(SCOPE_IDENTITY() as int);";
-
-                        var paymentCommand = new SqlCommand(insertPaymentSql, connection, transaction);
-
-                        paymentCommand.Parameters.AddWithValue("@CreditCardNumber", newPayment.CreditCardNumber);
-                        DateTime expiryDate = newPayment.ConvertToDateTime(newPayment.ExpiryDate);
-                        paymentCommand.Parameters.AddWithValue("@ExpiryDate", expiryDate);
-                        paymentCommand.Parameters.AddWithValue("@CVV", newPayment.CVV);
-                        paymentCommand.Parameters.AddWithValue("@ID", newPayment.ID);
-                        paymentCommand.Parameters.AddWithValue("@FullName", newPayment.FullName);
-                        paymentCommand.Parameters.AddWithValue("@FirstName", newPayment.FirstName);
-                        paymentCommand.Parameters.AddWithValue("@LastName", newPayment.LastName);
-                        paymentCommand.Parameters.AddWithValue("@Email", newPayment.Email);
-                        paymentCommand.Parameters.AddWithValue("@City", newPayment.City);
-                        paymentCommand.Parameters.AddWithValue("@Street", newPayment.Street);
-                        paymentCommand.Parameters.AddWithValue("@Apartment", newPayment.Apartment);
-                        paymentCommand.Parameters.AddWithValue("@PostalCode", newPayment.PostalCode);
-                        paymentCommand.Parameters.AddWithValue("@Phone", newPayment.Phone);
-                        paymentCommand.Parameters.AddWithValue("@Receipt", ReceiptNumber);
-
-                        int shipId = (int)paymentCommand.ExecuteScalar(); 
-                        decimal totalPrice = model.OrderList.Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
-
-                        string insertOrderSql = @"INSERT INTO [Order] (OrderId, EmailUser, OrderDate, TotalPrice) VALUES (@OrderId, @EmailUser, GETDATE(), @TotalPrice)";
-                        var orderCommand = new SqlCommand(insertOrderSql, connection, transaction);
-                        orderCommand.Parameters.AddWithValue("@OrderId", shipId);
-                        orderCommand.Parameters.AddWithValue("@EmailUser", newPayment.Email);
-                        orderCommand.Parameters.AddWithValue("@TotalPrice", totalPrice);
-                        orderCommand.ExecuteNonQuery();
-
-                        if (!string.IsNullOrEmpty(userEmail))
+                        connection.Open();
+                        var transaction = connection.BeginTransaction();
+                        try
                         {
-                            if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
+                            int ReceiptNumber = NewReceiptNumber(connection, transaction);
+
+                            string insertPaymentSql = @"INSERT INTO Payment (CreditCardNumber, ExpiryDate, CVV, ID, FullName, FirstName, LastName, Email, City, Street, Apartment, PostalCode, Phone, Receipt)
+                        VALUES (@CreditCardNumber, @ExpiryDate, @CVV, @ID, @FullName, @FirstName, @LastName, @Email, @City, @Street, @Apartment, @PostalCode, @Phone, @Receipt);
+                        SELECT CAST(SCOPE_IDENTITY() as int);";
+
+                            var paymentCommand = new SqlCommand(insertPaymentSql, connection, transaction);
+
+                            paymentCommand.Parameters.AddWithValue("@CreditCardNumber", newPayment.CreditCardNumber);
+                            DateTime expiryDate = newPayment.ConvertToDateTime(newPayment.ExpiryDate);
+                            paymentCommand.Parameters.AddWithValue("@ExpiryDate", expiryDate);
+                            paymentCommand.Parameters.AddWithValue("@CVV", newPayment.CVV);
+                            paymentCommand.Parameters.AddWithValue("@ID", newPayment.ID);
+                            paymentCommand.Parameters.AddWithValue("@FullName", newPayment.FullName);
+                            paymentCommand.Parameters.AddWithValue("@FirstName", newPayment.FirstName);
+                            paymentCommand.Parameters.AddWithValue("@LastName", newPayment.LastName);
+                            paymentCommand.Parameters.AddWithValue("@Email", newPayment.Email);
+                            paymentCommand.Parameters.AddWithValue("@City", newPayment.City);
+                            paymentCommand.Parameters.AddWithValue("@Street", newPayment.Street);
+                            paymentCommand.Parameters.AddWithValue("@Apartment", newPayment.Apartment);
+                            paymentCommand.Parameters.AddWithValue("@PostalCode", newPayment.PostalCode);
+                            paymentCommand.Parameters.AddWithValue("@Phone", newPayment.Phone);
+                            paymentCommand.Parameters.AddWithValue("@Receipt", ReceiptNumber);
+
+                            int shipId = (int)paymentCommand.ExecuteScalar();
+                            decimal totalPrice = model.OrderList.Sum(item => (item.SalePrice != 0 ? item.SalePrice : item.OriginPrice) * item.ProAmount);
+
+                            string insertOrderSql = @"INSERT INTO [Order] (OrderId, EmailUser, OrderDate, TotalPrice) VALUES (@OrderId, @EmailUser, GETDATE(), @TotalPrice)";
+                            var orderCommand = new SqlCommand(insertOrderSql, connection, transaction);
+                            orderCommand.Parameters.AddWithValue("@OrderId", shipId);
+                            orderCommand.Parameters.AddWithValue("@EmailUser", newPayment.Email);
+                            orderCommand.Parameters.AddWithValue("@TotalPrice", totalPrice);
+                            orderCommand.ExecuteNonQuery();
+
+                            if (!string.IsNullOrEmpty(userEmail))
                             {
-                                UpdateDataStock(connection, transaction, ShopController.buynowList);
+                                if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
+                                {
+                                    UpdateDataStock(connection, transaction, ShopController.buynowList);
+                                }
+                                else
+                                {
+                                    UpdateDataStock(connection, transaction, model.OrderList);
+                                    DeleteCartItems(connection, transaction, userEmail);
+                                }
                             }
                             else
                             {
-                                UpdateDataStock(connection, transaction, model.OrderList);
-                                DeleteCartItems(connection, transaction, userEmail);
+                                if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
+                                {
+                                    UpdateDataStock(connection, transaction, ShopController.buynowList);
+                                }
+                                else
+                                {
+                                    UpdateDataStock(connection, transaction, ShopController.guestList);
+                                    HttpContext.Session.Remove("GuestCart");
+                                    ShopController.guestList.Clear();
+                                }
                             }
+
+                            transaction.Commit();
+
+                            int ReceiptNumbertoThanks = ReceiptNumber;
+                            return RedirectToAction("ThankYou", new { receiptNumber = ReceiptNumbertoThanks });
+
+
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            if (ShopController.buynowList != null && ShopController.buynowList.Count > 0)
-                            {
-                                UpdateDataStock(connection, transaction, ShopController.buynowList);
-                            }
-                            else
-                            {
-                                UpdateDataStock(connection, transaction, ShopController.guestList);
-                                HttpContext.Session.Remove("GuestCart");
-                                ShopController.guestList.Clear();
-                            }
+                            transaction.Rollback();
+                            ModelState.AddModelError(string.Empty, "An error occurred saving the order.");
+                            return View("Payment", model);
                         }
-
-                        transaction.Commit();
-
-                        int ReceiptNumbertoThanks = ReceiptNumber;
-                        return RedirectToAction("ThankYou", new { receiptNumber = ReceiptNumbertoThanks });
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        ModelState.AddModelError(string.Empty, "An error occurred saving the order.");
-                        return View("Payment", model);
-                    }
+                     }
+                }
+                else
+                {
+                    ModelState.AddModelError("OrderPayment.ExpiryDate", "The expiry date is not valid.");
+                    return View("Payment", model);
                 }
             }
             else
